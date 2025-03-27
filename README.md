@@ -1,54 +1,47 @@
-# React + TypeScript + Vite
+# Updated list app from prior redux tutorial
+## Using TypeScript, Vite and Redux
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Features: 
 
-Currently, two official plugins are available:
+#### Home Page: 
+- [ ] Horizontal naviation between daily calculators 
+- [ ] Displays the daily calculators
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+#### Admin Page: 
+- [ ] Import & Export functions 
+- [ ] Delete function for localStorage
 
-## Expanding the ESLint configuration
+#### Total Score Page: 
+- [ ] Display overview of total score
+- [ ] Display overview of each daily score
+- [ ] Compare with previous events
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+#### Previous Event Score Page: 
+- [ ] Set up previous events
+- [ ] Allow for first to tenth or first and tenth place scores
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+#### About Page: 
+- [ ] Explain how data is gathered and kept 
+- [ ] Disclaimers 
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+#### Error Page: 
+- [ ] Custom error page with theme styling
+- [ ] Link to home page
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+#### Nav Bar: 
+- [ ] Custom button with transitions 
+  -  [ ] Toggles hidden horizontal menu
+-[ ] Link to home page on header title 
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+#### Daily Calculators: 
+- [ ] Navigation buttons between the previous and next days 
+- [ ] Input fields for each 
+
+#### Misc:
+- [ ] Persist list using localStorage
+- [ ] PWA for offline support
+- [ ] Custom font locally avaiable 
+- [ ] Local SVG code for icons in separate components
+- [ ] Theme variables for colours
+- [ ] Custom icon & splash screen
+ 
