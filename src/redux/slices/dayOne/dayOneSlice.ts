@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { ScoreData, TribeLevelMultiplierData, StateData } from './dayOne.types'
-import { DAY_KEYS, TRIBE_LEVEL_MULTIPLIERS, updateFieldDelegated } from '@/utils'
+import { StateData } from './dayOne.types'
+import { DAY_KEYS, TRIBE_LEVEL_MULTIPLIERS, updateFieldDelegated, loadData, saveData } from '@/utils'
 
 
-const initialState: StateData = {
+const initialState: StateData = loadData<StateData>(DAY_KEYS.DAY_ONE) ?? {
     tribeLevelMultiplier: Object.values(TRIBE_LEVEL_MULTIPLIERS)[0], 
     stamina: '',
     tribesHunted: 0,
@@ -21,6 +21,15 @@ const dayOneSlice = createSlice({
     initialState,
     reducers: {
         updateField: (state, action) => updateFieldDelegated(state, action),
-
+        calculateDailyScore: (state) => {
+            
+        },
+        resetState: () => {
+            saveData(DAY_KEYS.DAY_ONE, initialState);
+            return initialState;
+          }
     }
 })
+
+export const { updateField, calculateDailyScore, resetState } = dayOneSlice.actions;
+export default dayOneSlice.reducer;

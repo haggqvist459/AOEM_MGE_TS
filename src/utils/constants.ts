@@ -1,4 +1,3 @@
-export const LOCALSTORAGE_KEY = 'MGE_CALC' as const
 
 
 export const ROUTES = {

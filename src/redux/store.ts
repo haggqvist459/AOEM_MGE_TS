@@ -1,5 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
+import { saveData } from "@/utils";
+
 
 export const store = configureStore({
     reducer: {
@@ -8,10 +10,17 @@ export const store = configureStore({
     
   });
   
-//   // Save to localStorage on any state change
-//   store.subscribe(() => {
-//     saveData(store.getState().list);
-//   });
+  store.subscribe(() => {
+    const state = store.getState();
+  
+    saveData('dayOne', state.dayOne);
+    saveData('dayTwo', state.dayTwo);
+    saveData('dayThree', state.dayThree);
+    saveData('dayFour', state.dayFour);
+    saveData('dayFive', state.dayFive);
+    saveData('daySix', state.daySix);
+    saveData('daySeven', state.daySeven);
+  });
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
