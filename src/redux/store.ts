@@ -1,26 +1,22 @@
 import { configureStore } from "@reduxjs/toolkit";
-
-import { saveData } from "@/utils";
+import { dayOneReducer } from '@/redux/slices';
+import { saveData, DAY_KEYS } from "@/utils";
 
 
 export const store = configureStore({
-    reducer: {
-      
-    },
-    
+  reducer: {
+    [DAY_KEYS.DAY_ONE]: dayOneReducer,
+  },
+
+});
+
+store.subscribe(() => {
+  const state = store.getState();
+
+  Object.values(DAY_KEYS).forEach((key) => {
+    saveData(key, state[key]);
   });
-  
-  store.subscribe(() => {
-    const state = store.getState();
-  
-    saveData('dayOne', state.dayOne);
-    saveData('dayTwo', state.dayTwo);
-    saveData('dayThree', state.dayThree);
-    saveData('dayFour', state.dayFour);
-    saveData('dayFive', state.dayFive);
-    saveData('daySix', state.daySix);
-    saveData('daySeven', state.daySeven);
-  });
+});
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch

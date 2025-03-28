@@ -11,7 +11,7 @@ const Header = () => {
     <header className='bg-primary'>
       <div className='flex items-center justify-between px-5'>
         <NavLink className='py-3' to={ROUTES.HOME}>
-          <div className='flex flex-col text-blue-50 font-rubik'>
+          <div className='flex flex-col text-blue-50'>
             <span className='text-2xl md:text-3xl font-bold'>AoEM M.G.E</span>
             <span className='text-xl md:text-2xl font-bold'>Calculator</span>
           </div>

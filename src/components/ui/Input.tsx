@@ -1,0 +1,53 @@
+import { InfoButton } from '@/components'
+
+type Props = {
+  id: string
+  label?: string
+  value: string
+  placeholder: string
+  onChange: (e: React.ChangeEvent<HTMLInputElement> ) => void
+  onBlur: () => void
+  inputType?: string
+  infoMessage?: string
+  required?: boolean
+  allowDecimals?: boolean
+}
+
+const Input = ({
+  label,
+  value,
+  placeholder,
+  id,
+  inputType = 'number',
+  infoMessage = '',
+  required = true,
+  allowDecimals = false,
+  onChange,
+  onBlur
+}: Props) => {
+  return (
+    <div className="flex flex-col">
+      {label && (
+        <div className="flex space-x-1">
+          <label htmlFor={id} className="input-label">{label}</label>
+          {infoMessage && <InfoButton message={infoMessage} />}
+        </div>
+      )}
+      <input 
+        className='input-text no-spinner'
+        id={id}
+        placeholder={placeholder}
+        inputMode={inputType === 'number' ? (allowDecimals ? 'decimal' : 'numeric') : undefined}
+        value={value}
+        type={inputType}
+        step={allowDecimals ? "any" : "1"}
+        required={required}
+        onChange={onChange}
+        onBlur={onBlur}
+      />
+
+    </div>
+  )
+}
+
+export default Input;

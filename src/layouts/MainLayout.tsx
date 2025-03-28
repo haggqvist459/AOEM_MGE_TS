@@ -9,7 +9,7 @@ const MainLayout = () => {
       <div className="flex-grow">
         <Outlet />
       </div>
-      <div className="sticky bottom-0 z-10 pb-[env(safe-area-inset-bottom)]">
+      <div className="bg-primary sticky bottom-0">
         <Footer />
       </div>
     </div>
@@ -17,3 +17,8 @@ const MainLayout = () => {
 }
 
 export default MainLayout;
+
+/*
+footer padding:
+pb-[env(safe-area-inset-bottom)]
+*/

@@ -25,8 +25,8 @@ const NavMenu = ({ isExpanded }: Props) => {
        ${isExpanded ? "translate-y-0 " : "-translate-y-full "}`}>
         {menuItems}
       </div>
-      <div className="pointer-events-none absolute top-0 bottom-0 left-0 w-10 bg-gradient-to-r from-blue-950/80 to-transparent block md:block"></div>
-      <div className="pointer-events-none absolute top-0 bottom-0 right-0 w-10 bg-gradient-to-l from-blue-950/80 to-transparent block md:block"></div>
+      <div className="pointer-events-none absolute top-0 bottom-0 left-0 w-10 bg-gradient-to-r from-blue-950/80 to-transparent block"></div>
+      <div className="pointer-events-none absolute top-0 bottom-0 right-0 w-10 bg-gradient-to-l from-blue-950/80 to-transparent block"></div>
 
     </div>
   )

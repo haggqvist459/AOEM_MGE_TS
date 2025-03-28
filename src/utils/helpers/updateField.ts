@@ -1,10 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
+import { FieldUpdatePayload } from '@/types';
 
-interface UpdateFieldPayload {
-    field: string;
-    value: string;
-    unit?: string;
-}
 
 // <T extends Record<string, any>>
 // This means: "T is a generic type that must be an object with string keys and any values"
@@ -12,7 +8,7 @@ interface UpdateFieldPayload {
 // This lets TypeScript infer the actual state type when the function is called from a specific slice
 export const updateFieldDelegated = <T extends Record<string, any>>(
     state: T,
-    action: PayloadAction<UpdateFieldPayload>
+    action: PayloadAction<FieldUpdatePayload>
 ) => {
     const { field, unit, value } = action.payload;
 
