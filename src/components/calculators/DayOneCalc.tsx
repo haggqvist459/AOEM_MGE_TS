@@ -1,6 +1,15 @@
 import { useDailyCalculator } from '@/hooks/useDailyCalculator';
 import { resetState, updateField, calculateDailyScore } from '@/redux/slices/dayOne'
+import { TRIBE_LEVEL_MULTIPLIERS } from '@/utils';
 import { CalculatorContainer, CalculatorHeader, SubHeader, Input, Output, RowWrapper } from '@/components'
+import { Dropdown, DropdownOption } from '@/components/ui/dropdown';
+
+const dropdownOptions: DropdownOption[] = Object.entries(TRIBE_LEVEL_MULTIPLIERS).map(
+  ([key, value]) => ({
+    label: key,
+    value
+  })
+)
 
 // Props needed for day switching later
 type Props = {}
@@ -34,16 +43,24 @@ const DayOneCalc = (props: Props) => {
       <CalculatorHeader title='Day One' handleClick={() => resetCalculator()} />
       <div className='flex flex-col md:flex-row'>
         <div className='calculator-input'>
-          <SubHeader title='Tribe Hunting' />
-          <Input
-            id='stamina'
-            placeholder='Include all daily boosts'
-            label='Stamina:'
-            value={localState.stamina}
-            onChange={(e) => handleLocalChange('stamina', e.target.value)}
-            onBlur={() => handleBlur('stamina')}
-          />
-
+          <div className='mb-2'>
+            <SubHeader title='Tribe Hunting' />
+            <Input
+              id='stamina'
+              placeholder='Include all daily boosts'
+              label='Stamina:'
+              value={localState.stamina}
+              onChange={(e) => handleLocalChange('stamina', e.target.value)}
+              onBlur={() => handleBlur('stamina')}
+            />
+            <Dropdown
+              id='tribeLevelMultiplier'
+              label='Select tribe level:'
+              options={dropdownOptions}
+              value={localState.tribeLevelMultiplier}
+              onChange={(e) => handleInstantDispatch?.('tribeLevelMultiplier', e.target.value)}
+            />
+          </div>
           <SubHeader title='Previous Event Score' />
           <RowWrapper>
             <Input
@@ -66,7 +83,11 @@ const DayOneCalc = (props: Props) => {
         </div>
         <div className='calculator-output'>
           <SubHeader title='Score' />
-          <Output label='Test' value={localState.stamina} />
+          <RowWrapper>
+            <Output label='Daily score:' value={localState.score.tribe} />
+            <Output label='Tribes hunted:' value={localState.tribesHunted} />
+          </RowWrapper>
+          <SubHeader title='Previous Event Score' />
           <RowWrapper>
             <Output label='First' value={localState.previousEvent.first} />
             <Output label='Tenth' value={localState.previousEvent.tenth} />

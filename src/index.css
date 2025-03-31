@@ -61,14 +61,14 @@ textarea {
   }
 
   .input-text {
-    @apply border rounded border-neutral-600 w-full px-1
+    @apply border rounded border-neutral-600 text-neutral-800 w-full px-1
   }
 
   .score-label {
     @apply text-base font-medium text-primary
   }
   .score-text {
-    @apply text-base text-neutral-700
+    @apply text-base text-neutral-800
   }
 
   .calculator-input {
