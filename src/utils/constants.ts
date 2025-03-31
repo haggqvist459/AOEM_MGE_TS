@@ -59,34 +59,34 @@ export const DAY_TITLES = {
 
 
 export const TROOP_POWER_MULTIPLIER = {
-    'Tier 7': 6,
-    'Tier 6': 4.2,
-    'Tier 5': 2.9,
-    'Tier 4': 2.2,
-    'Tier 3': 1.7,
-    'Tier 2': 1.3,
-    'Tier 1': 1,
+    'Tier 7': "6",
+    'Tier 6': "4.2",
+    'Tier 5': "2.9",
+    'Tier 4': "2.2",
+    'Tier 3': "1.7",
+    'Tier 2': "1.3",
+    'Tier 1': "1",
 } as const 
 
 export const TRIBE_LEVEL_MULTIPLIERS = {
-    'Level 29-30': 300,
-    'Level 25-28': 260,
-    'Level 21-24': 220,
-    'Level 17-20': 180,
-    'Level 13-16': 150,
-    'Level 9-12': 100,
-    'Level 5-8': 80,
-    'Level 1-4': 50,
+    'Level 29-30': "300",
+    'Level 25-28': "260",
+    'Level 21-24': "220",
+    'Level 17-20': "180",
+    'Level 13-16': "150",
+    'Level 9-12': "100",
+    'Level 5-8': "80",
+    'Level 1-4': "50",
 } as const
 
 export const TROOP_TIER_MULTIPLIERS = {
-    'Tier 7': 100,
-    'Tier 6': 50,
-    'Tier 5': 20,
-    'Tier 4': 10,
-    'Tier 3': 5,
-    'Tier 2': 3,
-    'Tier 1': 2,
+    'Tier 7': "100",
+    'Tier 6': "50",
+    'Tier 5': "20",
+    'Tier 4': "10",
+    'Tier 3': "5",
+    'Tier 2': "3",
+    'Tier 1': "2",
 } as const
 
 export const RESOURCE_MULTIPLIERS = {

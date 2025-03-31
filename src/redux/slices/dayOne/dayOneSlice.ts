@@ -24,6 +24,7 @@ const dayOneSlice = createSlice({
     updateField: (state, action) => updateFieldDelegated(state, action),
     calculateDailyScore: (state) => {
       const stamina = toNumber(state.stamina)
+      const tribeLevelMultiplier = toNumber(state.tribeLevelMultiplier)
 
       if (stamina <= 0) {
         return; // Skip score calculation for empty or negative stamina values
@@ -32,14 +33,27 @@ const dayOneSlice = createSlice({
       // remove all the leftover stamina that can not be used to hunt tribes
       const validatedStamina = stamina - (stamina % POINTS_AND_MULTIPLIERS.STAMINA_PER_TRIBE);
       // calculate the number of hunted tribes
-      state.tribesHunted = validatedStamina /  POINTS_AND_MULTIPLIERS.STAMINA_PER_TRIBE;
+      state.tribesHunted = validatedStamina / POINTS_AND_MULTIPLIERS.STAMINA_PER_TRIBE;
       // calculate the score
-      state.score.tribe = state.tribesHunted * state.tribeLevelMultiplier
-      
+      state.score.tribe = state.tribesHunted * tribeLevelMultiplier
+
     },
     resetState: () => {
-      saveData(DAY_KEYS.DAY_ONE, initialState);
-      return initialState;
+      const reset = {
+        tribeLevelMultiplier: Object.values(TRIBE_LEVEL_MULTIPLIERS)[0],
+        stamina: '',
+        tribesHunted: 0,
+        score: {
+          tribe: 0
+        },
+        previousEvent: {
+          first: '',
+          tenth: ''
+        }
+      }
+
+      saveData(DAY_KEYS.DAY_ONE, reset);
+      return reset;
     }
   }
 })
