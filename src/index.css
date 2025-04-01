@@ -64,6 +64,9 @@ textarea {
     @apply border rounded border-neutral-600 text-neutral-800 w-full px-1
   }
 
+  .dropdown-text {
+    @apply border rounded border-neutral-600 text-neutral-800 w-full px-1 appearance-none shadow-sm
+  }
   .score-label {
     @apply text-base font-medium text-primary
   }

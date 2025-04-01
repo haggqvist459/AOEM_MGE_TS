@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { StateData } from './dayOne.types'
+import { DayOneStateData } from './dayOne.types'
 import { DAY_KEYS, TRIBE_LEVEL_MULTIPLIERS, POINTS_AND_MULTIPLIERS } from '@/utils'
 import { updateFieldDelegated, loadData, saveData, toNumber } from '@/utils'
 
 
-const initialState: StateData = loadData<StateData>(DAY_KEYS.DAY_ONE) ?? {
+const initialState: DayOneStateData = loadData<DayOneStateData>(DAY_KEYS.DAY_ONE) ?? {
   tribeLevelMultiplier: Object.values(TRIBE_LEVEL_MULTIPLIERS)[0],
   stamina: '',
   tribesHunted: 0,

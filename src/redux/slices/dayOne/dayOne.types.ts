@@ -1,13 +1,11 @@
 import { PreviousEventData } from '@/types';
 
-export type ScoreData = {
-    tribe: number
-}
-
-export type StateData = {
+export type DayOneStateData = {
     stamina: string, 
     tribeLevelMultiplier: string,
     tribesHunted: number
     previousEvent: PreviousEventData,
-    score: ScoreData
+    score: {
+      tribe: number
+    }
 }
