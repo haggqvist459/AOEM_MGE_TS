@@ -25,7 +25,7 @@ const DayOneCalc = (props: Props) => {
   } = useDailyCalculator({
     selector: (state) => state.dayOne,
     updateField: updateField,
-    calculateScore: calculateDailyScore,
+    calculateScore: () => calculateDailyScore(),
     resetState: resetState,
     useInstantDispatch: true
   });

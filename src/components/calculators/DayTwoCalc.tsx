@@ -1,8 +1,14 @@
 import { useDailyCalculator } from "@/hooks";
 import { resetState, updateField, calculateDailyScore } from '@/redux/slices/dayTwo'
-import { CalculatorContainer, CalculatorHeader, SubHeader, Input, Output, RowWrapper } from '@/components'
+import {
+  CalculatorContainer, CalculatorHeader, SubHeader, Input, Output,
+  RowWrapper, InfoButton, TimeSelector
+} from '@/components'
 
-const DayTwoCalc = () => {
+// Props needed for day switching later
+type Props = {}
+
+const DayTwoCalc = (props: Props) => {
 
   const {
     localState,
@@ -12,7 +18,7 @@ const DayTwoCalc = () => {
   } = useDailyCalculator({
     selector: (state) => state.dayTwo,
     updateField: updateField,
-    calculateScore: calculateDailyScore,
+    calculateScore: (field) => calculateDailyScore(field),
     resetState: resetState,
   })
 
@@ -26,13 +32,121 @@ const DayTwoCalc = () => {
       <CalculatorHeader title="Day Two" handleClick={() => resetCalculator()} />
       <div className='flex flex-col md:flex-row'>
         <div className="calculator-input">
-          <div>
+          <div className="flex space-x-1">
             <SubHeader title="Medals" />
+            <InfoButton message={'As medals are consumed in batches based on individual hero ranks, these scores are rough estimates.'} />
           </div>
-
+          <RowWrapper>
+            <Input
+              id="legendaryMedals"
+              placeholder="0"
+              label="Legendary"
+              value={localState.legendaryMedals}
+              onChange={(e) => handleLocalChange('legendaryMedals', e.target.value)}
+              onBlur={() => handleBlur('legendaryMedals')}
+            />
+            <Input
+              id="epicMedals"
+              placeholder="0"
+              label="Epic"
+              value={localState.epicMedals}
+              onChange={(e) => handleLocalChange('epicMedals', e.target.value)}
+              onBlur={() => handleBlur('epicMedals')}
+            />
+          </RowWrapper>
+          <div className="flex space-x-1">
+            <SubHeader title="Scrolls" />
+            <InfoButton message={'As scrolls are consumed in batches based on individual skill ranks, these scores are rough estimates.'} />
+          </div>
+          <RowWrapper>
+            <Input
+              id="legendaryScrolls"
+              placeholder="0"
+              label="Legendary"
+              value={localState.legendaryScrolls}
+              onChange={(e) => handleLocalChange('legendaryScrolls', e.target.value)}
+              onBlur={() => handleBlur('legendaryScrolls')}
+            />
+            <Input
+              id="epicScrolls"
+              placeholder="0"
+              label="Epic"
+              value={localState.epicScrolls}
+              onChange={(e) => handleLocalChange('epicScrolls', e.target.value)}
+              onBlur={() => handleBlur('epicScrolls')}
+            />
+          </RowWrapper>
+          <div className="flex space-x-1">
+            <SubHeader title="Blueprints" />
+            <InfoButton message={'For pre-forged, input the number of completed but not claimed blueprints before the day starts.'} />
+          </div>
+          <RowWrapper>
+            <Input
+              id="legendaryBlueprints"
+              placeholder="0"
+              label="Legendary"
+              value={localState.legendaryBlueprints}
+              onChange={(e) => handleLocalChange('legendaryBlueprints', e.target.value)}
+              onBlur={() => handleBlur('legendaryBlueprints')}
+            />
+            <Input
+              id="preforgedBlueprints"
+              placeholder="0"
+              label="Pre-forged"
+              value={localState.preforgedBlueprints}
+              onChange={(e) => handleLocalChange('preforgedBlueprints', e.target.value)}
+              onBlur={() => handleBlur('preforgedBlueprints')}
+            />
+          </RowWrapper>
+          <SubHeader title="Forging" />
+          <TimeSelector
+            title="Time to complete"
+            field="forgingTime"
+            showSeconds={true}
+            timeValue={localState.forgingTime}
+            onChange={handleLocalChange}
+            onBlur={handleBlur}
+          />
+          <TimeSelector
+            title="Forging speed-up"
+            field="forgingSpeedup"
+            timeValue={localState.forgingSpeedup}
+            onChange={handleLocalChange}
+            onBlur={handleBlur}
+          />
+          <SubHeader title='Previous Event Score' />
+          <RowWrapper>
+            <Input
+              id='previous.first'
+              label='First'
+              placeholder='0'
+              value={localState.previousEvent.first}
+              onChange={(e) => handleLocalChange('previousEvent', e.target.value, 'first')}
+              onBlur={() => handleBlur('previousEvent', 'first')}
+            />
+            <Input
+              id='previous.tenth'
+              label='Tenth'
+              placeholder='0'
+              value={localState.previousEvent.tenth}
+              onChange={(e) => handleLocalChange('previousEvent', e.target.value, 'tenth')}
+              onBlur={() => handleBlur('previousEvent', 'tenth')}
+            />
+          </RowWrapper>
         </div>
         <div className="calculator-output">
           <SubHeader title="Score" />
+          <Output label="Total daily score: " value={localState.totalDailyScore} />
+          <RowWrapper>
+            <Output label="Forging: " value={localState.score.forging} />
+            <Output label="Scrolls: " value={localState.score.scrolls} />
+            <Output label="Medals: " value={localState.score.medals} />
+          </RowWrapper>
+          <SubHeader title='Previous Event Score' />
+          <RowWrapper>
+            <Output label='First' value={localState.previousEvent.first} />
+            <Output label='Tenth' value={localState.previousEvent.tenth} />
+          </RowWrapper>
         </div>
       </div>
     </CalculatorContainer>

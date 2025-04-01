@@ -4,7 +4,7 @@ import { Header, Footer } from '@/components'
 
 const MainLayout = () => {
   return (
-    <div className="bg-neutral-200 h-[100dvh] flex flex-col relative">
+    <div className="bg-neutral-200 min-h-screen flex flex-col relative">
       <Header />
       <div className="flex-grow">
         <Outlet />

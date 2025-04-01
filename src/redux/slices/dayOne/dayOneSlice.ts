@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { DayOneStateData } from './dayOne.types'
 import { DAY_KEYS, TRIBE_LEVEL_MULTIPLIERS, POINTS_AND_MULTIPLIERS } from '@/utils'
 import { updateFieldDelegated, loadData, saveData, toNumber } from '@/utils'
@@ -23,6 +23,7 @@ const dayOneSlice = createSlice({
   reducers: {
     updateField: (state, action) => updateFieldDelegated(state, action),
     calculateDailyScore: (state) => {
+    
       const stamina = toNumber(state.stamina)
       const tribeLevelMultiplier = toNumber(state.tribeLevelMultiplier)
 

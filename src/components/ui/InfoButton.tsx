@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Info } from '@/components/icons'
 
 type Props = {
-  message: string
+  message: string,
 }
 
 const InfoButton = ({ message }: Props) => {

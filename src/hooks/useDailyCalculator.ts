@@ -8,7 +8,7 @@ import { FieldUpdatePayload } from '@/types'
 type UseDailyCalculatorProps<T> = {
   selector: (state: RootState) => T
   updateField: (payload: FieldUpdatePayload) => void
-  calculateScore: () => void
+  calculateScore: (field?: string) => void
   resetState: () => void
   useInstantDispatch?: boolean
 }
@@ -48,7 +48,7 @@ export const useDailyCalculator = <T>({
       : (localState as any)[field]
 
     dispatch(updateField({ field, value, unit }))
-    dispatch(calculateScore())
+    dispatch(calculateScore(field))
   }
 
   const handleInstantDispatch = useInstantDispatch
@@ -57,7 +57,7 @@ export const useDailyCalculator = <T>({
       dispatch(calculateScore())
     }
   : undefined
-
+ 
   const reset = () => {
     dispatch(resetState())
   }
