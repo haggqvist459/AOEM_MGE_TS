@@ -1,5 +1,5 @@
 import { useDailyCalculator } from '@/hooks/useDailyCalculator';
-import { resetState, updateField, calculateDailyScore } from '@/redux/slices/dayOne'
+import { resetStateDayOne, updateFieldDayOne, calculateDailyScoreDayOne } from '@/redux/slices/dayOne'
 import { TRIBE_LEVEL_MULTIPLIERS } from '@/utils';
 import { CalculatorContainer, CalculatorHeader, SubHeader, Input, Output, RowWrapper } from '@/components'
 import { Dropdown, DropdownOption } from '@/components/ui/dropdown';
@@ -24,9 +24,9 @@ const DayOneCalc = (props: Props) => {
     handleInstantDispatch,
   } = useDailyCalculator({
     selector: (state) => state.dayOne,
-    updateField: updateField,
-    calculateScore: () => calculateDailyScore(),
-    resetState: resetState,
+    updateField: updateFieldDayOne,
+    calculateScore: () => calculateDailyScoreDayOne(),
+    resetState: resetStateDayOne,
     useInstantDispatch: true
   });
 

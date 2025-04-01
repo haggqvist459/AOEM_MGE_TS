@@ -1,5 +1,5 @@
 import { useDailyCalculator } from "@/hooks";
-import { resetState, updateField, calculateDailyScore } from '@/redux/slices/dayTwo'
+import { resetStateDayTwo, updateFieldDayTwo, calculateDailyScoreDayTwo } from '@/redux/slices/dayTwo'
 import {
   CalculatorContainer, CalculatorHeader, SubHeader, Input, Output,
   RowWrapper, InfoButton, TimeSelector
@@ -17,9 +17,9 @@ const DayTwoCalc = (props: Props) => {
     reset,
   } = useDailyCalculator({
     selector: (state) => state.dayTwo,
-    updateField: updateField,
-    calculateScore: (field) => calculateDailyScore(field),
-    resetState: resetState,
+    updateField: updateFieldDayTwo,
+    calculateScore: (field) => calculateDailyScoreDayTwo(field),
+    resetState: resetStateDayTwo,
   })
 
   const resetCalculator = () => {
