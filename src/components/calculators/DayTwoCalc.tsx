@@ -1,5 +1,5 @@
 import { useDailyCalculator } from "@/hooks";
-import { resetStateDayTwo, updateFieldDayTwo, calculateDailyScoreDayTwo } from '@/redux/slices/dayTwo'
+import { resetStateDayTwo, updateFieldDayTwo, calculateDailyScoreDayTwo } from '@/redux'
 import {
   CalculatorContainer, CalculatorHeader, SubHeader, Input, Output,
   RowWrapper, InfoButton, TimeSelector

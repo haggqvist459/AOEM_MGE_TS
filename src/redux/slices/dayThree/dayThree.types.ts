@@ -1,5 +1,12 @@
 import { PreviousEventData } from "@/types";
 
+
+export type UpdateMarchPayload = {
+  id: string
+  field: keyof GatherMarchData
+  value: string | boolean
+}
+
 export type GatherMarchData = {
   id: string
   name: string
@@ -14,7 +21,7 @@ export type DayThreeStateData = {
   marches: GatherMarchData[]
   richFieldId: string
   allianceCenterId: string
-  nextMarchId: string
+  nextMarchId: number
   empireCoins: string
   score: {
     gathering: number

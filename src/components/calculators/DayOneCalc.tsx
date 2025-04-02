@@ -1,5 +1,5 @@
 import { useDailyCalculator } from '@/hooks/useDailyCalculator';
-import { resetStateDayOne, updateFieldDayOne, calculateDailyScoreDayOne } from '@/redux/slices/dayOne'
+import { resetStateDayOne, updateFieldDayOne, calculateDailyScoreDayOne } from '@/redux'
 import { TRIBE_LEVEL_MULTIPLIERS } from '@/utils';
 import { CalculatorContainer, CalculatorHeader, SubHeader, Input, Output, RowWrapper } from '@/components'
 import { Dropdown, DropdownOption } from '@/components/ui/dropdown';

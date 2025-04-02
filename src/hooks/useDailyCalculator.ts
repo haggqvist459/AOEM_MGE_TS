@@ -11,6 +11,7 @@ type UseDailyCalculatorProps<T> = {
   calculateScore: (field?: string) => void
   resetState: () => void
   useInstantDispatch?: boolean
+  exposeSetLocalState?: boolean
 }
 
 
@@ -20,6 +21,7 @@ export const useDailyCalculator = <T>({
   calculateScore,
   resetState,
   useInstantDispatch = false,
+  exposeSetLocalState = false
 }: UseDailyCalculatorProps<T>) => {
   const dispatch = useAppDispatch()
   const dailyData = useAppSelector(selector)
@@ -68,5 +70,6 @@ export const useDailyCalculator = <T>({
     handleBlur,
     handleInstantDispatch,
     reset,
+    ...(exposeSetLocalState ? { setLocalState } : {}),
   }
 }
