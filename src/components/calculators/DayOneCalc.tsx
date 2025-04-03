@@ -1,7 +1,8 @@
+import { useState } from 'react'
 import { useDailyCalculator } from '@/hooks/useDailyCalculator';
 import { resetStateDayOne, updateFieldDayOne, calculateDailyScoreDayOne } from '@/redux'
 import { TRIBE_LEVEL_MULTIPLIERS } from '@/utils';
-import { CalculatorContainer, CalculatorHeader, SubHeader, Input, Output, RowWrapper } from '@/components'
+import { CalculatorContainer, CalculatorHeader, SubHeader, Input, Output, RowWrapper, Modal } from '@/components'
 import { Dropdown, DropdownOption } from '@/components/ui/dropdown';
 
 const dropdownOptions: DropdownOption[] = Object.entries(TRIBE_LEVEL_MULTIPLIERS).map(
@@ -30,17 +31,16 @@ const DayOneCalc = (props: Props) => {
     useInstantDispatch: true
   });
 
-
+  const [modalOpen, setModalOpen] = useState(false)
 
   const resetCalculator = () => {
-
-    // include modal toggle here later
     reset()
+    setModalOpen(false)
   }
-
+  
   return (
     <CalculatorContainer>
-      <CalculatorHeader title='Day One' handleClick={() => resetCalculator()} />
+      <CalculatorHeader title='Day One' handleClick={() => setModalOpen(true)} />
       <div className='flex flex-col md:flex-row'>
         <div className='calculator-input'>
           <div className='mb-2'>
@@ -94,6 +94,12 @@ const DayOneCalc = (props: Props) => {
           </RowWrapper>
         </div>
       </div>
+      <Modal
+        isOpen={modalOpen}
+        title="Reset Calculator"
+        description="Reset all values back to 0? This action can not be undone."
+        onCancel={() => setModalOpen(false)}
+        onConfirm={resetCalculator} />
     </CalculatorContainer>
   )
 }

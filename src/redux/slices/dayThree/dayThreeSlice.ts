@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { DayThreeStateData, UpdateMarchPayload, GatherMarchData } from './dayThree.types'
-import { DAY_KEYS, saveData, loadData, updateFieldDelegated, toNumber } from "@/utils";
+import { DayThreeStateData, UpdateTroopPayload } from './dayThree.types'
+import { saveData, loadData, updateFieldDelegated, toNumber, } from "@/utils";
+import { DAY_KEYS, POINTS_AND_MULTIPLIERS, RESOURCE_MULTIPLIERS, } from '@/utils';
 
 const initialState: DayThreeStateData = loadData<DayThreeStateData>(DAY_KEYS.DAY_THREE) ?? {
-  marches: [
+  troops: [
     {
       id: '1',
-      name: 'March 1',
+      name: 'Troop 1',
       fullAtReset: false,
       loadBonus: '',
       loadCapacity: '',
@@ -14,7 +15,7 @@ const initialState: DayThreeStateData = loadData<DayThreeStateData>(DAY_KEYS.DAY
       score: 0
     }
   ],
-  nextMarchId: 2,
+  nextTroopId: 2,
   allianceCenterId: '0',
   richFieldId: '0',
   empireCoins: '',
@@ -34,38 +35,85 @@ const dayThreeSlice = createSlice({
   initialState,
   reducers: {
     updateField: (state, action) => updateFieldDelegated(state, action),
-    updateMarchField(state, action: PayloadAction<{ id: string; field: string; value: string | boolean }>) {
+    updateTroopField(state, action: PayloadAction<UpdateTroopPayload>) {
       const { id, field, value } = action.payload;
-      const marchIndex = state.marches.findIndex(m => m.id === id);
-      if (marchIndex === -1) return;
-    
-      const march = state.marches[marchIndex];
-      if (!(field in march)) return;
-    
-      (march as any)[field] = value;
+      const troopIndex = state.troops.findIndex(m => m.id === id);
+      if (troopIndex === -1) return;
+
+      const troop = state.troops[troopIndex];
+      if (!(field in troop)) return;
+
+      (troop as any)[field] = value;
     },
     calculateDailyScore: (state, action: PayloadAction<string | undefined>) => {
       const id = action.payload;
+      console.log("calculateDailyScore id: ", id)
 
-      // find the index of the march to calculate
-      const marchIndex = state.marches.findIndex(march => march.id === id);
-      if (marchIndex === -1) {
-        console.error(`Invalid march ID: ${id}`);
+      // default dropdown value, no calculation should be performed. 
+      if (id === '0') return
+      if (id === 'previousEvent') return;
+      if (id === 'empireCoins') {
+        console.log("empireCoins calculation ")
+        state.score.spins = 0;
+        const empireCoins = toNumber(state.empireCoins);
+        const fiveSpinCount = Math.floor(empireCoins / POINTS_AND_MULTIPLIERS.FIVE_SPIN_COST);
+        const remainingCoins = empireCoins % POINTS_AND_MULTIPLIERS.FIVE_SPIN_COST;
+        const singleSpinCount = Math.floor(remainingCoins / POINTS_AND_MULTIPLIERS.SINGLE_SPIN_COST);
+        console.log("empireCoins calculation values, empireCoins: ", empireCoins, ' fiveSpinCount: ', fiveSpinCount, ' remainingCoins: ', remainingCoins, ' singleSpinCount: ', singleSpinCount)
+        state.score.spins = (fiveSpinCount * POINTS_AND_MULTIPLIERS.ADVENT_SCORE * 5) + (singleSpinCount * POINTS_AND_MULTIPLIERS.ADVENT_SCORE);
+        state.totalDailyScore = state.score.spins + state.score.gathering
         return;
       }
 
-      // do nothing on id 0
+      // find the index of the troop to calculate
+      const troopIndex = state.troops.findIndex(troop => troop.id === id);
+      const troop = state.troops[troopIndex];
 
-      // calculate spin score on id=999
+      const completedTurns = toNumber(troop.completedTurns)
+      const loadCapacity = toNumber(troop.loadCapacity)
+      const loadBonus = toNumber(troop.loadBonus)
+      let gatheredResources = 0
 
-      // calculate the score for the march with provided id 
+      if (completedTurns === 0 || loadCapacity === 0) {
+        console.warn(`Missing values for troop ${id}. Skipping score calculation.`);
+      }
+
+      if (state.allianceCenterId === id) {
+        // Base score calculation on alliance center collection
+        gatheredResources = completedTurns * loadCapacity
+      } else if (state.richFieldId === id) {
+        // Base score calculation on rich field collection 
+        const cappedYield = Math.min(loadCapacity, RESOURCE_MULTIPLIERS.RICH);
+        gatheredResources = cappedYield * completedTurns;
+      } else {
+        // Troops are gathering at a regular field. 
+        gatheredResources = completedTurns * RESOURCE_MULTIPLIERS.REGULAR
+      }
+
+      // full at reset? 
+      if (troop.fullAtReset) {
+        gatheredResources += loadCapacity
+      }
+      // load bonus multiplier
+      if (loadBonus > 0) {
+        const loadMultiplier = 1 + (loadBonus / 100);
+        gatheredResources *= loadMultiplier;
+      }
+      troop.score = gatheredResources / POINTS_AND_MULTIPLIERS.RESOURCE_DIVIDER;
+
+
+      // Accumulate the scores from each troop
+      state.score.gathering = state.troops.reduce((total, troop) => total + troop.score, 0);
+      // Update totalDailyScore to reflect both gathering and spins scores
+      state.totalDailyScore = state.score.gathering + state.score.spins;
+
     },
-    addMarch: (state) => {
-      if (state.marches.length >= 5) return
+    addTroop: (state) => {
+      if (state.troops.length >= 5) return
 
-      const newMarch = {
-        id: state.nextMarchId.toString(),
-        name: `March ${state.nextMarchId}`,
+      const newtroop = {
+        id: state.nextTroopId.toString(),
+        name: `Troop ${state.nextTroopId}`,
         fullAtReset: false,
         loadBonus: '',
         loadCapacity: '',
@@ -73,20 +121,20 @@ const dayThreeSlice = createSlice({
         score: 0
       }
 
-      state.marches.push(newMarch);
-      state.nextMarchId += 1;
+      state.troops.push(newtroop);
+      state.nextTroopId += 1;
 
     },
-    removeMarch: (state, action: PayloadAction<string>) => {
+    removeTroop: (state, action: PayloadAction<string>) => {
       const id = action.payload;
-      state.marches = state.marches.filter(march => march.id !== id);
+      state.troops = state.troops.filter(troop => troop.id !== id);
     },
     resetState: () => {
-      const reset = {
-        marches: [
+      const reset: DayThreeStateData = {
+        troops: [
           {
             id: '1',
-            name: 'March 1',
+            name: 'Troop 1',
             fullAtReset: false,
             loadBonus: '',
             loadCapacity: '',
@@ -94,7 +142,7 @@ const dayThreeSlice = createSlice({
             score: 0
           }
         ],
-        nextMarchId: 2,
+        nextTroopId: 2,
         allianceCenterId: '0',
         richFieldId: '0',
         empireCoins: '',
@@ -116,5 +164,5 @@ const dayThreeSlice = createSlice({
 })
 
 
-export const { updateField, calculateDailyScore, resetState, addMarch, removeMarch, updateMarchField } = dayThreeSlice.actions;
+export const { updateField, calculateDailyScore, resetState, addTroop, removeTroop, updateTroopField } = dayThreeSlice.actions;
 export default dayThreeSlice.reducer;

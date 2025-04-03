@@ -1,5 +1,5 @@
 import { RowWrapper } from "../layout";
-import { Input, SubHeader } from '../ui';
+import { Input } from '../ui';
 import { TimeData } from "@/types";
 
 type Props = {
@@ -23,7 +23,6 @@ const TimeSelector = ({
 
   return (
     <div>
-      {/* <SubHeader title={title} /> */}
       <span className="input-label">{title}</span>
       <RowWrapper>
         <Input

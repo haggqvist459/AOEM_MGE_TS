@@ -39,10 +39,10 @@ textarea {
   --color-primary: #172554;
 
   /* Default theme secondary color */
-  --color-secondary: #1E3A8A;
+  --color-secondary: #A3A3A3;
 
   /* Default theme tertiary, color */
-  --color-tertiary: #A3A3A3;
+  --color-tertiary: #1E3A8A;
 
 }
 
@@ -75,11 +75,11 @@ textarea {
   }
 
   .calculator-input {
-    @apply w-full md:w-1/2 md:border-r border-neutral-400 md:pr-2
+    @apply w-full md:w-1/2 md:border-r border-secondary md:pr-2
   }
 
   .calculator-output {
-    @apply w-full md:w-1/2 md:pl-2 border-t border-neutral-400 md:border-0 mt-1 md:mt-0
+    @apply w-full md:w-1/2 md:pl-2 border-t border-secondary md:border-0 mt-1 md:mt-0
   }
 }
 

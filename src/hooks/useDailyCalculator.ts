@@ -53,13 +53,11 @@ export const useDailyCalculator = <T>({
     dispatch(calculateScore(field))
   }
 
-  const handleInstantDispatch = useInstantDispatch
-  ? (field: string, value: string) => {
-      dispatch(updateField({ field, value }))
-      dispatch(calculateScore())
-    }
-  : undefined
- 
+  const handleInstantDispatch = (field: string, value: string) => {
+    dispatch(updateField({ field, value }))
+    dispatch(calculateScore()) 
+  }
+
   const reset = () => {
     dispatch(resetState())
   }
@@ -70,6 +68,7 @@ export const useDailyCalculator = <T>({
     handleBlur,
     handleInstantDispatch,
     reset,
+    ...(useInstantDispatch ? { handleInstantDispatch } : {}),
     ...(exposeSetLocalState ? { setLocalState } : {}),
   }
 }

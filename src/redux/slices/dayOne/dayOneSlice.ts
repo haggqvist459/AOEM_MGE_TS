@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import { DayOneStateData } from './dayOne.types'
 import { DAY_KEYS, TRIBE_LEVEL_MULTIPLIERS, POINTS_AND_MULTIPLIERS } from '@/utils'
 import { updateFieldDelegated, loadData, saveData, toNumber } from '@/utils'

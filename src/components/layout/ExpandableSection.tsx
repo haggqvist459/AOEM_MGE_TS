@@ -11,7 +11,7 @@ const ExpandableSection = ({
 
 }: Props) => {
   return (
-    <div className={`pb-2 transition-all duration-300 ease-in-out overflow-hidden ${isExpanded ? `${height} opacity-100 translate-y-0` : "max-h-0 opacity-0 -translate-y-3"}`}>
+    <div className={`pb-2 transition-all duration-300 ease-in-out overflow-hidden ${isExpanded ? `${height} opacity-100 translate-y-0` : "max-h-0 opacity-0 -translate-y-3 pointer-events-none"}`}>
       {children}
     </div>
   )

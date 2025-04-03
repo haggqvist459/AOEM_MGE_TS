@@ -5,7 +5,7 @@ type Props = {
   label?: string
   value: string
   placeholder: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement> ) => void
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   onBlur: () => void
   inputType?: string
   infoMessage?: string
@@ -30,10 +30,12 @@ const Input = ({
       {label && (
         <div className="flex space-x-1">
           <label htmlFor={id} className="input-label">{label}</label>
-          {infoMessage && <InfoButton message={infoMessage} />}
+          <div className='relative top-[2px]'>
+            {infoMessage && <InfoButton message={infoMessage} />}
+          </div>
         </div>
       )}
-      <input 
+      <input
         className='input-text no-spinner'
         id={id}
         placeholder={placeholder}

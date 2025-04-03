@@ -1,8 +1,9 @@
+import { useState } from 'react'
 import { useDailyCalculator } from "@/hooks";
 import { resetStateDayTwo, updateFieldDayTwo, calculateDailyScoreDayTwo } from '@/redux'
 import {
   CalculatorContainer, CalculatorHeader, SubHeader, Input, Output,
-  RowWrapper, InfoButton, TimeSelector
+  RowWrapper, InfoButton, TimeSelector, Modal
 } from '@/components'
 
 // Props needed for day switching later
@@ -22,14 +23,15 @@ const DayTwoCalc = (props: Props) => {
     resetState: resetStateDayTwo,
   })
 
-  const resetCalculator = () => {
+  const [modalOpen, setModalOpen] = useState(false)
 
-    // include modal toggle here later
+  const resetCalculator = () => {
     reset()
+    setModalOpen(false)
   }
   return (
     <CalculatorContainer>
-      <CalculatorHeader title="Day Two" handleClick={() => resetCalculator()} />
+      <CalculatorHeader title="Day Two" handleClick={() => setModalOpen(true)} />
       <div className='flex flex-col md:flex-row'>
         <div className="calculator-input">
           <div className="flex space-x-1">
@@ -149,6 +151,12 @@ const DayTwoCalc = (props: Props) => {
           </RowWrapper>
         </div>
       </div>
+      <Modal
+        isOpen={modalOpen}
+        title="Reset Calculator"
+        description="Reset all values back to 0? This action can not be undone."
+        onCancel={() => setModalOpen(false)}
+        onConfirm={resetCalculator} />
     </CalculatorContainer>
   );
 }
