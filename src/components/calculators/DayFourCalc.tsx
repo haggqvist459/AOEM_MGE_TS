@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAppDispatch, calculateDailyScoreDayFour, updateFieldDayFour, resetStateDayFour } from "@/redux";
+import { calculateDailyScoreDayFour, updateFieldDayFour, resetStateDayFour } from "@/redux";
 import { useDailyCalculator } from "@/hooks";
 import { CalculatorContainer, CalculatorHeader, SubHeader, RowWrapper, Input, Output, Modal, InfoButton, TimeSelector } from "@/components";
 
