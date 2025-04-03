@@ -79,17 +79,19 @@ const dayTwoSlice = createSlice({
           state.score.forging = 0
 
           if (preforgedBlueprints > 0) {
-            if (preforgedBlueprints > 5){
+            if (preforgedBlueprints > 5) {
               preforgedBlueprints = 5 // only 5 queues available in the game
               state.preforgedBlueprints = '5' // update the state to show the user the new value.  
             }
             state.score.forging += preforgedBlueprints * POINTS_AND_MULTIPLIERS.LEGENDARY_BLUEPRINT;
           }
-          if(forgingSpeedup > forgingTime && legendaryBlueprints > 0 && forgingTime > 0) {
+          if (forgingSpeedup > forgingTime && legendaryBlueprints > 0 && forgingTime > 0) {
             let completedBlueprints = Math.min(legendaryBlueprints, Math.floor(forgingSpeedup / forgingTime));
             state.score.forging += completedBlueprints * POINTS_AND_MULTIPLIERS.LEGENDARY_BLUEPRINT;
             state.completedBlueprints = completedBlueprints;
-          } 
+          }
+          break;
+        case 'previousEvent':
           break;
         default:
           console.log("Error, incorrect field supplied to score calculation: ", field);

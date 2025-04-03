@@ -31,16 +31,16 @@ const DayOneCalc = (props: Props) => {
     useInstantDispatch: true
   });
 
-  const [modalOpen, setModalOpen] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   const resetCalculator = () => {
     reset()
-    setModalOpen(false)
+    setShowModal(false)
   }
   
   return (
     <CalculatorContainer>
-      <CalculatorHeader title='Day One' handleClick={() => setModalOpen(true)} />
+      <CalculatorHeader title='Day One' handleClick={() => setShowModal(true)} />
       <div className='flex flex-col md:flex-row'>
         <div className='calculator-input'>
           <div className='mb-2'>
@@ -95,10 +95,10 @@ const DayOneCalc = (props: Props) => {
         </div>
       </div>
       <Modal
-        isOpen={modalOpen}
+        isOpen={showModal}
         title="Reset Calculator"
         description="Reset all values back to 0? This action can not be undone."
-        onCancel={() => setModalOpen(false)}
+        onCancel={() => setShowModal(false)}
         onConfirm={resetCalculator} />
     </CalculatorContainer>
   )

@@ -1,17 +1,18 @@
-import { useState } from 'react' 
-import { DayOneCalc, DayThreeCalc, DayTwoCalc } from '@/components/calculators';
+import { useState } from 'react'
+import { DayOneCalc, DayThreeCalc, DayTwoCalc, DayFourCalc } from '@/components/calculators';
 
 type Props = {}
 
 const HomePage = (props: Props) => {
 
- const [state, setState] = useState(null)
+  const [state, setState] = useState(null)
 
   return (
     <div>
-        <DayThreeCalc />
-        <DayTwoCalc />
-        <DayOneCalc />
+      <DayFourCalc />
+      <DayThreeCalc />
+      <DayTwoCalc />
+      <DayOneCalc />
     </div>
   )
 }

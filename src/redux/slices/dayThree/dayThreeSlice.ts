@@ -47,7 +47,6 @@ const dayThreeSlice = createSlice({
     },
     calculateDailyScore: (state, action: PayloadAction<string | undefined>) => {
       const id = action.payload;
-      console.log("calculateDailyScore id: ", id)
 
       // default dropdown value, no calculation should be performed. 
       if (id === '0') return
