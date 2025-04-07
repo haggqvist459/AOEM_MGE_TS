@@ -4,7 +4,7 @@ import { PreviousEventData } from "@/types";
 export type UpdateTroopPayload = {
   id: string
   field: string
-  value: string | boolean
+  value: string | boolean | number
 }
 
 export type GatherTroopData = {

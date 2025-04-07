@@ -79,6 +79,7 @@ export const TRIBE_LEVEL_MULTIPLIERS = {
     'Level 1-4': "50",
 } as const
 
+
 export const TROOP_TIER_MULTIPLIERS = {
     'Tier 7': "100",
     'Tier 6': "50",
@@ -87,6 +88,14 @@ export const TROOP_TIER_MULTIPLIERS = {
     'Tier 3': "5",
     'Tier 2': "3",
     'Tier 1': "2",
+} as const
+
+
+export const TROOP_TYPES = {
+  Archers: null,
+  Cavalry: null,
+  Swordsmen: null,
+  Pikemen: null,
 } as const
 
 export const RESOURCE_MULTIPLIERS = {

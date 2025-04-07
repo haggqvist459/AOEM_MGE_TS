@@ -1,16 +1,11 @@
 import { useState } from 'react'
 import { useDailyCalculator } from '@/hooks/useDailyCalculator';
-import { resetStateDayOne, updateFieldDayOne, calculateDailyScoreDayOne } from '@/redux'
-import { TRIBE_LEVEL_MULTIPLIERS } from '@/utils';
+import { resetStateDayOne, updateFieldDayOne, calculateDailyScoreDayOne, DayOneStateData } from '@/redux'
+import { TRIBE_LEVEL_MULTIPLIERS, toNumber } from '@/utils';
 import { CalculatorContainer, CalculatorHeader, SubHeader, Input, Output, RowWrapper, Modal } from '@/components'
-import { Dropdown, DropdownOption } from '@/components/ui/dropdown';
+import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown';
 
-const dropdownOptions: DropdownOption[] = Object.entries(TRIBE_LEVEL_MULTIPLIERS).map(
-  ([key, value]) => ({
-    label: key,
-    value
-  })
-)
+const dropdownOptions = mapToDropdownOptions(TRIBE_LEVEL_MULTIPLIERS)
 
 // Props needed for day switching later
 type Props = {}
@@ -23,7 +18,7 @@ const DayOneCalc = (props: Props) => {
     handleBlur,
     reset,
     handleInstantDispatch,
-  } = useDailyCalculator({
+  } = useDailyCalculator<DayOneStateData>({
     selector: (state) => state.dayOne,
     updateField: updateFieldDayOne,
     calculateScore: () => calculateDailyScoreDayOne(),
@@ -89,8 +84,8 @@ const DayOneCalc = (props: Props) => {
           </RowWrapper>
           <SubHeader title='Previous Event Score' />
           <RowWrapper>
-            <Output label='First' value={localState.previousEvent.first} />
-            <Output label='Tenth' value={localState.previousEvent.tenth} />
+            <Output label='First' value={toNumber(localState.previousEvent.first)} />
+            <Output label='Tenth' value={toNumber(localState.previousEvent.tenth)} />
           </RowWrapper>
         </div>
       </div>

@@ -53,7 +53,7 @@ textarea {
   }
 
   .sub-header {
-    @apply  text-lg lg:text-xl font-semibold text-primary
+    @apply  text-lg lg:text-xl font-semibold text-primary mt-2
   }
 
   .input-label {

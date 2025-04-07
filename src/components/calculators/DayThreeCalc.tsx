@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import { useAppDispatch } from "@/redux";
 import { useDailyCalculator } from "@/hooks";
+import { useAppDispatch, DayThreeStateData } from "@/redux";
+import { toNumber } from '@/utils';
 import { updateFieldDayThree, resetStateDayThree, calculateDailyScoreDayThree, updateTroopField, addTroop, removeTroop, GatherTroopData } from "@/redux"
 import { CalculatorContainer, CalculatorHeader, SubHeader, RowWrapper, Input, Output, GatherTroop, Modal } from "@/components";
 import { Dropdown, DropdownOption } from '@/components/ui/dropdown'
@@ -16,7 +17,7 @@ const DayThreeCalc = (props: Props) => {
     handleBlur,
     reset,
     setLocalState,
-  } = useDailyCalculator({
+  } = useDailyCalculator<DayThreeStateData>({
     selector: state => state.dayThree,
     updateField: updateFieldDayThree,
     calculateScore: (field) => calculateDailyScoreDayThree(field),
@@ -74,7 +75,7 @@ const DayThreeCalc = (props: Props) => {
     console.log("handletroopBlur values, id: ", id, ' field: ', field);
     const troop = localState.troops.find((troop: GatherTroopData) => troop.id === id);
     if (!troop) return;
-    dispatch(updateTroopField({ id, field, value: troop[field] }));
+    dispatch(updateTroopField({ id, field, value: troop[field as keyof GatherTroopData] }));
     dispatch(calculateDailyScoreDayThree(id))
   }
 
@@ -178,8 +179,8 @@ const DayThreeCalc = (props: Props) => {
           </RowWrapper>
           <SubHeader title='Previous Event Score' />
           <RowWrapper>
-            <Output label='First' value={localState.previousEvent.first} />
-            <Output label='Tenth' value={localState.previousEvent.tenth} />
+            <Output label='First' value={toNumber(localState.previousEvent.first)} />
+            <Output label='Tenth' value={toNumber(localState.previousEvent.tenth)} />
           </RowWrapper>
         </div>
       </div>

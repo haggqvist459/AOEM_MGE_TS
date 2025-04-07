@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useDailyCalculator } from "@/hooks";
-import { resetStateDayTwo, updateFieldDayTwo, calculateDailyScoreDayTwo } from '@/redux'
+import { resetStateDayTwo, updateFieldDayTwo, calculateDailyScoreDayTwo, DayTwoStateData } from '@/redux'
+import { toNumber } from '@/utils'
 import {
   CalculatorContainer, CalculatorHeader, SubHeader, Input, Output,
   RowWrapper, InfoButton, TimeSelector, Modal
@@ -16,7 +17,7 @@ const DayTwoCalc = (props: Props) => {
     handleLocalChange,
     handleBlur,
     reset,
-  } = useDailyCalculator({
+  } = useDailyCalculator<DayTwoStateData>({
     selector: (state) => state.dayTwo,
     updateField: updateFieldDayTwo,
     calculateScore: (field) => calculateDailyScoreDayTwo(field),
@@ -146,8 +147,8 @@ const DayTwoCalc = (props: Props) => {
           </RowWrapper>
           <SubHeader title='Previous Event Score' />
           <RowWrapper>
-            <Output label='First' value={localState.previousEvent.first} />
-            <Output label='Tenth' value={localState.previousEvent.tenth} />
+            <Output label='First' value={toNumber(localState.previousEvent.first)} />
+            <Output label='Tenth' value={toNumber(localState.previousEvent.tenth)} />
           </RowWrapper>
         </div>
       </div>
