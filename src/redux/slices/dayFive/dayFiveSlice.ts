@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DayFiveStateData, TroopType, TroopTypeData, UpdateTroopTypePayload } from "./dayFive.types";
-import { saveData, loadData, toNumber, updateFieldDelegated, toSeconds, toMinutes, TROOP_TIER_MULTIPLIERS } from "@/utils";
+import { saveData, loadData, toNumber, updateFieldDelegated, toSeconds, TROOP_TIER_MULTIPLIERS } from "@/utils";
 import { DAY_KEYS, POINTS_AND_MULTIPLIERS, TROOP_TYPES } from "@/utils";
-
+import { TimeData } from "@/types";
 
 const targetTierDefault = TROOP_TIER_MULTIPLIERS['Tier 7'];
 const baseTierDefault = TROOP_TIER_MULTIPLIERS['Tier 6'];
@@ -14,14 +14,13 @@ const initialState: DayFiveStateData = loadData<DayFiveStateData>(DAY_KEYS.DAY_F
       baseTier: baseTierDefault,
       availableTroops: '',
       troopsPerBatch: '',
-      trainingTime: {
+      promotionTime: {
         days: '',
         hours: '',
         minutes: '',
         seconds: '',
       },
       troopTotalScore: 0,
-      promotableBatches: 0,
       maxPromotableBatches: 0,
     };
     return acc;
@@ -61,11 +60,23 @@ const dayFiveSlice = createSlice({
   reducers: {
     updateField: (state, action) => updateFieldDelegated(state, action),
     updateTroopTypeField: (state, action: PayloadAction<UpdateTroopTypePayload>) => {
-      const { troopType, field, value } = action.payload
-      console.log("updateTroopField payload, troopType: ", troopType, ', field: ', field, ' , value: ', value)
-      
+      const { troopType, field, value, unit } = action.payload
+
+      if (unit) {
+        (state.troops[troopType][field] as TimeData)[unit] = value as string
+      } else {
+        (state.troops[troopType][field] as any) = value 
+      }
     },
-    calculateDailyScore: (state, action: PayloadAction<string | undefined>) => {
+    calculateDailyScore: (state) => {
+        let trainingSpeedupSeconds = toSeconds(state.initialTrainingSpeedup)
+        
+        // only calculate the score if there is speed up
+        if (trainingSpeedupSeconds >= 0){
+
+        }
+        // if there's remaining training speedup after promotion, calculate training score
+        const trainingTimeSeconds = toSeconds(state.trainedTroopsTrainingTime)
 
     },
     resetState: () => {
@@ -76,14 +87,13 @@ const dayFiveSlice = createSlice({
             baseTier: baseTierDefault,
             availableTroops: '',
             troopsPerBatch: '',
-            trainingTime: {
+            promotionTime: {
               days: '',
               hours: '',
               minutes: '',
               seconds: '',
             },
             troopTotalScore: 0,
-            promotableBatches: 0,
             maxPromotableBatches: 0,
           };
           return acc;

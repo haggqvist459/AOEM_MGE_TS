@@ -18,7 +18,6 @@ const TimeSelector = ({
   showSeconds = false,
   onChange,
   onBlur
-
 }: Props) => {
 
   return (

@@ -5,5 +5,4 @@ export * from './helpers';
 export * from './backup';
 export * from './constants';
 export * from './localStorage';
-export * from './types';
 

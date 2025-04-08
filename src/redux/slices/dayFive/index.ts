@@ -8,3 +8,4 @@ export {
 
 
 export * from './dayFive.types';
+export * from './dayFive.utils'

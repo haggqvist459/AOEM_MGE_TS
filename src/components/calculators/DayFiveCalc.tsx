@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useDailyCalculator } from "@/hooks";
 import { TROOP_TIER_MULTIPLIERS, toNumber } from '@/utils';
+import { TimeData } from '@/types';
 import {
   updateFieldDayFive, calculateDailyScoreDayFive, resetStateDayFive,
-  DayFiveStateData, TroopType, TroopTypeData, useAppDispatch, updateTroopTypeField
+  DayFiveStateData, TroopType, TroopTypeData, useAppDispatch, updateTroopTypeField,
 } from '@/redux'
 import {
   CalculatorHeader, CalculatorContainer, ExpandableHeader, ExpandableSection,
@@ -27,7 +28,7 @@ const DayFiveCalc = (props: Props) => {
   } = useDailyCalculator<DayFiveStateData>({
     selector: state => state.dayFive,
     updateField: updateFieldDayFive,
-    calculateScore: (field) => calculateDailyScoreDayFive(field),
+    calculateScore: () => calculateDailyScoreDayFive(),
     resetState: resetStateDayFive,
     useInstantDispatch: true,
     exposeSetLocalState: true
@@ -35,6 +36,8 @@ const DayFiveCalc = (props: Props) => {
 
 
   const [showModal, setShowModal] = useState(false)
+  const [trainingExpanded, setTrainingExpanded] = useState(false)
+
   const dispatch = useAppDispatch();
 
   const resetCalculator = () => {
@@ -42,28 +45,37 @@ const DayFiveCalc = (props: Props) => {
     setShowModal(false);
   }
 
-  const handleTroopLocalChange = (troopType: TroopType, field: string, value: string) => {
+  const handleTroopLocalChange = (troopType: TroopType, field: keyof TroopTypeData, value: string, unit?: keyof TimeData) => {
     setLocalState?.((prev: typeof localState) => ({
       ...prev,
       troops: {
         ...prev.troops,
         [troopType]: {
           ...prev.troops[troopType],
-          [field]: value,
-        }
-      }
+          [field]: unit
+            ? {
+              ...(prev.troops[troopType][field] as TimeData),
+              [unit]: value,
+            }
+            : value,
+        },
+      },
     }))
   }
 
-  const handleTroopBlur = (troopType: TroopType, field: keyof TroopTypeData,) => {
-    const value = localState.troops[troopType][field as keyof TroopTypeData]
-    dispatch(updateTroopTypeField({troopType, field, value }))
-    dispatch(calculateDailyScoreDayFive(troopType))
+  const handleTroopBlur = (troopType: TroopType, field: keyof TroopTypeData, unit?: keyof TimeData) => {
+    const value = unit
+      ? (localState.troops[troopType][field] as TimeData)[unit]
+      : localState.troops[troopType][field]
+
+
+    dispatch(updateTroopTypeField({ troopType, field, value: value as string | TimeData, unit }))
+    dispatch(calculateDailyScoreDayFive())
   }
 
   const handleTroopInstantDispatch = (troopType: TroopType, field: keyof TroopTypeData, value: string) => {
-    dispatch(updateTroopTypeField({troopType, field, value }))
-    dispatch(calculateDailyScoreDayFive(troopType))
+    dispatch(updateTroopTypeField({ troopType, field, value }))
+    dispatch(calculateDailyScoreDayFive())
   }
 
 
@@ -80,6 +92,34 @@ const DayFiveCalc = (props: Props) => {
             onChange={handleLocalChange}
             onBlur={handleBlur}
           />
+          <ExpandableHeader title='Training' isExpanded={trainingExpanded} toggleExpansion={() => setTrainingExpanded(prev => !prev)} />
+          <ExpandableSection isExpanded={trainingExpanded}>
+            <RowWrapper>
+              <Dropdown
+                id='troopTraining'
+                label='Target tier'
+                value={localState.trainedTroopTier}
+                options={trainingDropdownOptions}
+                onChange={(e) => handleInstantDispatch('trainedTroopTier', e.target.value)}
+              />
+              <Input
+                id='trainedTroopsPerBatch'
+                placeholder='0'
+                label='Troops per batch'
+                value={localState.trainedTroopsPerBatch}
+                onChange={(e) => handleLocalChange('trainedTroopsPerBatch', e.target.value)}
+                onBlur={() => handleBlur('trainedTroopsPerBatch')}
+              />
+            </RowWrapper>
+            <TimeSelector
+              title='Training time'
+              timeValue={localState.trainedTroopsTrainingTime}
+              field='trainedTroopsTrainingTime'
+              onChange={handleLocalChange}
+              onBlur={handleBlur}
+              showSeconds={true}
+            />
+          </ExpandableSection>
           <div className='flex space-x-1'>
             <SubHeader title='Promotion' />
             <InfoButton message='Input numbers from your Stable, Archery Range etc. Speed-ups will be evenly split. Troop types with empty fields will be ignored, and leftover speed-ups will be allocated for training' />
@@ -94,35 +134,38 @@ const DayFiveCalc = (props: Props) => {
               onInstantDispatch={handleTroopInstantDispatch}
             />
           ))}
-          <SubHeader title='Training' />
+          <SubHeader title='Previous Event Score' />
           <RowWrapper>
-            <Dropdown
-              id='troopTraining'
-              label='Target tier'
-              value={localState.trainedTroopTier}
-              options={trainingDropdownOptions}
-              onChange={(e) => handleInstantDispatch('trainedTroopTier', e.target.value)}
+            <Input
+              id='previous.first'
+              label='First'
+              placeholder='0'
+              value={localState.previousEvent.first}
+              onChange={(e) => handleLocalChange('previousEvent', e.target.value, 'first')}
+              onBlur={() => handleBlur('previousEvent', 'first')}
             />
             <Input
-              id='trainedTroopsPerBatch'
+              id='previous.tenth'
+              label='Tenth'
               placeholder='0'
-              label='Troops per batch'
-              value={localState.trainedTroopsPerBatch}
-              onChange={(e) => handleLocalChange('trainedTroopsPerBatch', e.target.value)}
-              onBlur={() => handleBlur('trainedTroopsPerBatch')}
+              value={localState.previousEvent.tenth}
+              onChange={(e) => handleLocalChange('previousEvent', e.target.value, 'tenth')}
+              onBlur={() => handleBlur('previousEvent', 'tenth')}
             />
           </RowWrapper>
-          <TimeSelector
-            title='Training time'
-            timeValue={localState.trainedTroopsTrainingTime}
-            field='trainedTroopsTrainingTime'
-            onChange={handleLocalChange}
-            onBlur={handleBlur}
-            showSeconds={true}
-          />
         </div>
         <div className='calculator-output'>
-
+          <SubHeader title="Score" />
+          <Output label="Total daily score" value={localState.totalDailyScore} />
+          <RowWrapper>
+            <Output label="Promotion" value={localState.score.promotion} />
+            <Output label="Training" value={localState.score.training} />
+          </RowWrapper>
+          <SubHeader title='Previous Event Score' />
+          <RowWrapper>
+            <Output label='First' value={toNumber(localState.previousEvent.first)} />
+            <Output label='Tenth' value={toNumber(localState.previousEvent.tenth)} />
+          </RowWrapper>
         </div>
       </div>
       <Modal

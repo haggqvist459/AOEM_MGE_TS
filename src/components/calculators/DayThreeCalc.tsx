@@ -172,7 +172,7 @@ const DayThreeCalc = (props: Props) => {
         </div>
         <div className='calculator-output'>
           <SubHeader title="Score" />
-          <Output label="Total daily score: " value={localState.totalDailyScore} />
+          <Output label="Total daily score" value={localState.totalDailyScore} />
           <RowWrapper>
             <Output label='Gathering' value={localState.score.gathering} />
             <Output label='Spins' value={localState.score.spins} />

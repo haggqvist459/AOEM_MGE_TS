@@ -120,7 +120,7 @@ const DayFourCalc = (props: Props) => {
         <div className='calculator-output'>
           <SubHeader title="Score" />
           <RowWrapper>
-            <Output label="Total daily score: " value={localState.totalDailyScore} />
+            <Output label="Total daily score" value={localState.totalDailyScore} />
             <Output label='Ring upgrades' value={localState.score.rings} />
           </RowWrapper>
           <SubHeader title='Speed-up score' />

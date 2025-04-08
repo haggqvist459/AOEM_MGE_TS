@@ -139,11 +139,11 @@ const DayTwoCalc = (props: Props) => {
         </div>
         <div className="calculator-output">
           <SubHeader title="Score" />
-          <Output label="Total daily score: " value={localState.totalDailyScore} />
+          <Output label="Total daily score" value={localState.totalDailyScore} />
           <RowWrapper>
-            <Output label="Forging: " value={localState.score.forging} />
-            <Output label="Scrolls: " value={localState.score.scrolls} />
-            <Output label="Medals: " value={localState.score.medals} />
+            <Output label="Forging" value={localState.score.forging} />
+            <Output label="Scrolls" value={localState.score.scrolls} />
+            <Output label="Medals" value={localState.score.medals} />
           </RowWrapper>
           <SubHeader title='Previous Event Score' />
           <RowWrapper>
