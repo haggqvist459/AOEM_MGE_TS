@@ -22,9 +22,7 @@ const GatherTroop = ({
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="pb-1 mb-1 border-b border-neutral-400">
-      <ExpandableHeader title={troopData.name} isExpanded={isExpanded} toggleExpansion={() => setIsExpanded(prev => !prev)} />
-      <ExpandableSection isExpanded={isExpanded}>
+      <ExpandableSection title={troopData.name} isExpanded={isExpanded} toggleExpansion={() => setIsExpanded(prev => !prev)} >
         <Input
           id={`${troopData.id}-name`}
           placeholder="Harald III"
@@ -72,7 +70,6 @@ const GatherTroop = ({
           </div>
         </div>
       </ExpandableSection>
-    </div>
   )
 }
 

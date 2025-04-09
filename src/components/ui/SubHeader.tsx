@@ -4,9 +4,9 @@ type Props = {
 
 const SubHeader = ({ title }: Props) => {
   return (
-    <div className="sub-header">
+    <h3 className="sub-header">
       {title}
-    </div>
+    </h3>
   )
 }
 

@@ -7,7 +7,7 @@ import {
   DayFiveStateData, TroopType, TroopTypeData, useAppDispatch, updateTroopTypeField,
 } from '@/redux'
 import {
-  CalculatorHeader, CalculatorContainer, ExpandableHeader, ExpandableSection,
+  CalculatorHeader, CalculatorContainer, ExpandableSection,
   Modal, Input, Output, SubHeader, TimeSelector, InfoButton, RowWrapper, Troop,
 } from '@/components';
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown'
@@ -92,8 +92,21 @@ const DayFiveCalc = (props: Props) => {
             onChange={handleLocalChange}
             onBlur={handleBlur}
           />
-          <ExpandableHeader title='Training' isExpanded={trainingExpanded} toggleExpansion={() => setTrainingExpanded(prev => !prev)} />
-          <ExpandableSection isExpanded={trainingExpanded}>
+          <div className='flex space-x-1'>
+            <SubHeader title='Promotion' />
+            <InfoButton message='Input numbers from your Stable, Archery Range etc. Speed-ups will be evenly split. Troop types with empty fields will be ignored, and leftover speed-ups will be allocated for training' />
+          </div>
+          {(Object.entries(localState.troops) as [TroopType, TroopTypeData][]).map(([troopType, troopData]) => (
+            <Troop
+              key={troopType}
+              troopType={troopType}
+              troopTypeData={troopData}
+              onChange={handleTroopLocalChange}
+              onBlur={handleTroopBlur}
+              onInstantDispatch={handleTroopInstantDispatch}
+            />
+          ))}
+          <ExpandableSection title='Training' isExpanded={trainingExpanded}  toggleExpansion={() => setTrainingExpanded(prev => !prev)}>
             <RowWrapper>
               <Dropdown
                 id='troopTraining'
@@ -120,20 +133,6 @@ const DayFiveCalc = (props: Props) => {
               showSeconds={true}
             />
           </ExpandableSection>
-          <div className='flex space-x-1'>
-            <SubHeader title='Promotion' />
-            <InfoButton message='Input numbers from your Stable, Archery Range etc. Speed-ups will be evenly split. Troop types with empty fields will be ignored, and leftover speed-ups will be allocated for training' />
-          </div>
-          {(Object.entries(localState.troops) as [TroopType, TroopTypeData][]).map(([troopType, troopData]) => (
-            <Troop
-              key={troopType}
-              troopType={troopType}
-              troopTypeData={troopData}
-              onChange={handleTroopLocalChange}
-              onBlur={handleTroopBlur}
-              onInstantDispatch={handleTroopInstantDispatch}
-            />
-          ))}
           <SubHeader title='Previous Event Score' />
           <RowWrapper>
             <Input
@@ -160,6 +159,23 @@ const DayFiveCalc = (props: Props) => {
           <RowWrapper>
             <Output label="Promotion" value={localState.score.promotion} />
             <Output label="Training" value={localState.score.training} />
+          </RowWrapper>
+          <SubHeader title='Troop data' />
+          <RowWrapper>
+            <Output label='Archer' value={localState.troops['Archers'].troopTotalScore} />
+            <Output label='Cavalry' value={localState.troops['Cavalry'].troopTotalScore} />
+          </RowWrapper>
+          <RowWrapper>
+            <Output label='Archer Batches' value={localState.troops['Archers'].maxPromotableBatches} />
+            <Output label='Cavalry Batches' value={localState.troops['Cavalry'].maxPromotableBatches} />
+          </RowWrapper>
+          <RowWrapper>
+            <Output label='Pikemen' value={localState.troops['Pikemen'].troopTotalScore} />
+            <Output label='Swordsmen' value={localState.troops['Swordsmen'].troopTotalScore} />
+          </RowWrapper>
+          <RowWrapper>
+            <Output label='Pikemen Batches' value={localState.troops['Pikemen'].maxPromotableBatches} />
+            <Output label='Swordsmen Batches' value={localState.troops['Swordsmen'].maxPromotableBatches} />
           </RowWrapper>
           <SubHeader title='Previous Event Score' />
           <RowWrapper>

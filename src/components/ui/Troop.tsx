@@ -25,9 +25,7 @@ const Troop = ({
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="pb-1 mb-1 border-b border-neutral-400">
-      <ExpandableHeader title={troopType} isExpanded={isExpanded} toggleExpansion={() => setIsExpanded(prev => !prev)} />
-      <ExpandableSection isExpanded={isExpanded}>
+      <ExpandableSection title={troopType} isExpanded={isExpanded} toggleExpansion={() => setIsExpanded(prev => !prev)} >
         <RowWrapper>
           <Dropdown
             id={`${troopType}-baseTier`}
@@ -71,7 +69,6 @@ const Troop = ({
           showSeconds={true}
         />
       </ExpandableSection>
-    </div>
   )
 }
 

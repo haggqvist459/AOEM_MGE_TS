@@ -1,11 +1,14 @@
 import { TimeData } from "@/types";
-import { TROOP_TYPES, toNumber, toSeconds } from "@/utils";
+import { TROOP_TYPES, fromSeconds, toNumber, toSeconds } from "@/utils";
 import { TroopType, TroopTypeData } from "@/redux";
 
 
+export const calculateTrainingScore = () => {
+  
+}
 
 
-export const calculatePromotionScore = (troops: TroopTypeData[], availableTrainingSpeedup: number) => {
+export const calculatePromotionScore = (troops: TroopTypeData[], availableTrainingSpeedup: number): number => {
 
 
   // Reset the values for batch numbers and score to prevent accidantally counting stale values
@@ -22,8 +25,18 @@ export const calculatePromotionScore = (troops: TroopTypeData[], availableTraini
   // Remove all the troops with lower tier targets. 
   validTroops = removeLowTierTroops(validTroops)
 
+  // console.log("calculatePromotionScore; validTroops: ", JSON.parse(JSON.stringify(validTroops)))
   // calculate the promotable batches and return the remaining speedup
   let remainingTrainingSpeedup = calculatePromotableBatches(validTroops, availableTrainingSpeedup);
+
+  // Calculate the score
+  validTroops.forEach(troop => {
+    const scorePerTroop = toNumber(troop.targetTier) - toNumber(troop.baseTier)
+    const totalTroopsPromoted = troop.maxPromotableBatches * toNumber(troop.troopsPerBatch)
+    troop.troopTotalScore = scorePerTroop * totalTroopsPromoted
+  })
+
+  return remainingTrainingSpeedup
   
 }
 
@@ -45,6 +58,7 @@ const calculatePromotableBatches = (troops: TroopTypeData[], availableTrainingSp
   let remainingSpeedup = availableTrainingSpeedup
   let promotableTroops = troops.slice()
 
+  // Distribute the speedup across the troops in a round-robin manner, want evenly promoted troops
   while (promotableTroops.length > 0) {
     promotableTroops = promotableTroops.filter(troop => {
       const promotionTime = toSeconds(troop.promotionTime)
@@ -60,7 +74,7 @@ const calculatePromotableBatches = (troops: TroopTypeData[], availableTrainingSp
         return true
       }
 
-      return hasTroopsLeft
+      return hasTroopsLeft && hasSpeedupLeft
     })
   }
 

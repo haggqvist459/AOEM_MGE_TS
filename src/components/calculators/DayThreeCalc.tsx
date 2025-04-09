@@ -109,6 +109,7 @@ const DayThreeCalc = (props: Props) => {
       <CalculatorHeader title="Day Three" handleClick={() => setShowModal(true)} />
       <div className='flex flex-col md:flex-row'>
         <div className='calculator-input'>
+          <SubHeader title='Gathering'/>
           {localState.troops.map((troop: GatherTroopData, index: number) => (
             <GatherTroop
               key={index}
@@ -142,6 +143,7 @@ const DayThreeCalc = (props: Props) => {
               onChange={(e) => dropdownDispatch('allianceCenterId', e.target.value)}
             />
           </RowWrapper>
+          <SubHeader title='Advent wheel'/>
           <Input
             id='empireCoins'
             placeholder="0"

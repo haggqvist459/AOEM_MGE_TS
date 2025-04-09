@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { DayFiveStateData, TroopType, TroopTypeData, UpdateTroopTypePayload } from "./dayFive.types";
+import { DayFiveStateData, TroopType, TroopTypeData, UpdateTroopTypePayload, calculatePromotionScore } from "../dayFive";
 import { saveData, loadData, toNumber, updateFieldDelegated, toSeconds, TROOP_TIER_MULTIPLIERS } from "@/utils";
 import { DAY_KEYS, POINTS_AND_MULTIPLIERS, TROOP_TYPES } from "@/utils";
 import { TimeData } from "@/types";
@@ -70,14 +70,16 @@ const dayFiveSlice = createSlice({
     },
     calculateDailyScore: (state) => {
         let trainingSpeedupSeconds = toSeconds(state.initialTrainingSpeedup)
-        
+        let remainingTrainingSpeedup = 0
         // only calculate the score if there is speed up
         if (trainingSpeedupSeconds >= 0){
-
+          remainingTrainingSpeedup = calculatePromotionScore(Object.values(state.troops), trainingSpeedupSeconds)
         }
         // if there's remaining training speedup after promotion, calculate training score
         const trainingTimeSeconds = toSeconds(state.trainedTroopsTrainingTime)
-
+        if (remainingTrainingSpeedup > trainingTimeSeconds){
+          
+        }
     },
     resetState: () => {
       const reset = {
