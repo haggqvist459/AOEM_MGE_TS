@@ -3,8 +3,14 @@ import { TROOP_TYPES, fromSeconds, toNumber, toSeconds } from "@/utils";
 import { TroopType, TroopTypeData } from "@/redux";
 
 
-export const calculateTrainingScore = () => {
-  
+export const calculateTrainingScore = (trainingTime: number, remainingSpeedup: number, troopsPerBatch: number, troopTier: number): number => {
+
+  // console.log("calculateTrainingScore values, trainingTime: ", trainingTime, ', remainingSpeedup: ', remainingSpeedup, ', troopsPerBatch: ', troopsPerBatch, ', troopTier: ', troopTier)
+  // Calculate the number of batches given the remaining speedup available
+  let totalBatches = Math.floor(remainingSpeedup / trainingTime)
+  // Multiply troops per batch with the number of batches, and the score multiplier 
+
+  return totalBatches * troopsPerBatch * troopTier
 }
 
 

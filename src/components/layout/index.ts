@@ -1,5 +1,4 @@
 export { default as CalculatorContainer } from './CalculatorContainer'
-export { default as ExpandableHeader } from './ExpandableHeader';
 export { default as ExpandableSection } from './ExpandableSection';
 export { default as Footer } from './Footer'
 export { default as Header } from './Header'
