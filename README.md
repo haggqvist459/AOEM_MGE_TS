@@ -35,7 +35,10 @@
 
 #### Daily Calculators: 
 - [ ] Navigation buttons between the previous and next days 
-- [ ] Input fields for each 
+- [x] Common hook for local and redux state updates
+- [x] Modal pop up with confirmation prior to state reset
+
+
 
 #### Misc:
 - [ ] Persist list using localStorage
@@ -44,4 +47,4 @@
 - [ ] Local SVG code for icons in separate components
 - [ ] Theme variables for colours
 - [ ] Custom icon & splash screen
- 
+- [ ] Stricter typing for day one dropdown options 

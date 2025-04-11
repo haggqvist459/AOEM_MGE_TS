@@ -1,9 +1,9 @@
 import { PreviousEventData } from "@/types";
-import { TROOP_TIER_MULTIPLIERS } from "@/utils";
+import { TROOP_POWER_MULTIPLIER } from "@/utils";
 
 export type DaySixStateData = {
   troopsTotal: string
-  troopTier: typeof TROOP_TIER_MULTIPLIERS[keyof typeof TROOP_TIER_MULTIPLIERS]
+  troopTier: typeof TROOP_POWER_MULTIPLIER[keyof typeof TROOP_POWER_MULTIPLIER]
   researchPower: string
   buildingPower: {
     firstQueue: string

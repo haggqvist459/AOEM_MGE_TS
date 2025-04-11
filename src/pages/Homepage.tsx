@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { DayOneCalc, DayThreeCalc, DayTwoCalc, DayFourCalc, DayFiveCalc, DaySixCalc } from '@/components/calculators';
+import { DayOneCalc, DayThreeCalc, DayTwoCalc, DayFourCalc, DayFiveCalc, DaySixCalc, DaySevenCalc } from '@/components/calculators';
 
 type Props = {}
 
@@ -9,6 +9,7 @@ const HomePage = (props: Props) => {
 
   return (
     <div>
+      <DaySevenCalc />
       <DaySixCalc />
       <DayFiveCalc />
       <DayFourCalc />

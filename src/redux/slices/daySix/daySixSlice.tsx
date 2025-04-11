@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { saveData, loadData, toNumber, updateFieldDelegated } from "@/utils";
-import { DAY_KEYS, POINTS_AND_MULTIPLIERS, TROOP_TIER_MULTIPLIERS } from "@/utils";
+import { DAY_KEYS, POINTS_AND_MULTIPLIERS, TROOP_POWER_MULTIPLIER } from "@/utils";
 import { DaySixStateData } from "../daySix";
 
-const targetTierDefault = TROOP_TIER_MULTIPLIERS['Tier 7'];
+const targetTierDefault = TROOP_POWER_MULTIPLIER['Tier 7'];
 
 const initialState: DaySixStateData = loadData<DaySixStateData>(DAY_KEYS.DAY_SIX) ?? {
   troopsTotal: '',
