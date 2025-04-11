@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { useDailyCalculator } from '@/hooks'
-import { toNumber } from '@/utils'
+import { toNumber, TROOP_POWER_MULTIPLIER } from '@/utils'
 import { ResetStateDaysix, updateFieldDaySix, calculateDailyScoreDaySix, DaySixStateData } from '@/redux'
 import { CalculatorHeader, CalculatorContainer, RowWrapper, SubHeader, InfoButton, Input, Output, Modal } from '@/components'
+import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown'
+
+const dropdownOptions = mapToDropdownOptions(TROOP_POWER_MULTIPLIER)
 
 type Props = {}
 
@@ -13,11 +16,13 @@ const DaySixCalc = (props: Props) => {
     handleLocalChange,
     handleBlur,
     reset,
+    handleInstantDispatch
   } = useDailyCalculator<DaySixStateData>({
     selector: state => state.daySix,
     updateField: updateFieldDaySix,
     calculateScore: (field) => calculateDailyScoreDaySix(field),
     resetState: ResetStateDaysix,
+    useInstantDispatch: true
   })
 
   const [showModal, setShowModal] = useState(false)
@@ -43,6 +48,54 @@ const DaySixCalc = (props: Props) => {
             onChange={(e) => handleLocalChange('researchPower', e.target.value)}
             onBlur={() => handleBlur('researchPower')}
           />
+          <div className='flex space-x-1'>
+            <SubHeader title='Building' />
+            <InfoButton message='Input the power gains from the buildings you estimate to complete' />
+          </div>
+          <RowWrapper>
+            <Input
+              id='firstQueue'
+              placeholder='0'
+              value={localState.buildingPower.firstQueue}
+              onChange={(e) => handleLocalChange('buildingPower', e.target.value, 'firstQueue')}
+              onBlur={() => handleBlur('buildingPower', 'firstQueue')}
+            />
+            <Input
+              id='secondQueue'
+              placeholder='0'
+              value={localState.buildingPower.secondQueue}
+              onChange={(e) => handleLocalChange('buildingPower', e.target.value, 'secondQueue')}
+              onBlur={() => handleBlur('buildingPower', 'secondQueue')}
+            />
+            <Input
+              id='thirdQueue'
+              placeholder='0'
+              value={localState.buildingPower.thirdQueue}
+              onChange={(e) => handleLocalChange('buildingPower', e.target.value, 'thirdQueue')}
+              onBlur={() => handleBlur('buildingPower', 'thirdQueue')}
+            />
+          </RowWrapper>
+          <div className='flex space-x-1'>
+            <SubHeader title='Troops' />
+            <InfoButton message='Add the total number of troops together from all training queues' />
+          </div>
+          <RowWrapper>
+            <Input
+              id='troopsTotal'
+              label='Expected total'
+              placeholder='0'
+              value={localState.troopsTotal}
+              onChange={(e) => handleLocalChange('troopsTotal', e.target.value)}
+              onBlur={() => handleBlur('troopsTotal')}
+            />
+            <Dropdown 
+              label='Target tier'
+              id='troopTier'
+              options={dropdownOptions}
+              value={localState.troopTier}
+              onChange={(e) => handleInstantDispatch('troopTier', e.target.value)}
+            />
+          </RowWrapper>
           <SubHeader title='Previous Event Score' />
           <RowWrapper>
             <Input

@@ -1,15 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { saveData, loadData, toNumber, updateFieldDelegated, toSeconds } from "@/utils";
+import { saveData, loadData, toNumber, updateFieldDelegated } from "@/utils";
 import { DAY_KEYS, POINTS_AND_MULTIPLIERS, TROOP_TIER_MULTIPLIERS } from "@/utils";
 import { DaySixStateData } from "../daySix";
 
 const targetTierDefault = TROOP_TIER_MULTIPLIERS['Tier 7'];
 
 const initialState: DaySixStateData = loadData<DaySixStateData>(DAY_KEYS.DAY_SIX) ?? {
-  troopPower: {
-    troopsTotal: '',
-    troopTier: targetTierDefault
-  },
+  troopsTotal: '',
+  troopTier: targetTierDefault,
   buildingPower: {
     firstQueue: '',
     secondQueue: '',
@@ -37,12 +35,14 @@ const daySixSlice = createSlice({
       const field = action.payload
 
       switch (field) {
-        case 'troopPower':
-          state.score.troop = 0
-
+        case 'troopsTotal':
+        case 'troopTier':
+          state.score.troop = toNumber(state.troopsTotal) * toNumber(state.troopTier) * POINTS_AND_MULTIPLIERS.POWER_TRAINING
           break;
         case 'buildingPower':
-          state.score.building = 0
+          state.score.building = Object.values(state.buildingPower).reduce((total, power) => {
+            return total + toNumber(power)
+          }, 0) * POINTS_AND_MULTIPLIERS.POWER_BUILDING
           break;
         case 'researchPower':
           state.score.research = toNumber(state.researchPower) * POINTS_AND_MULTIPLIERS.POWER_RESEARCH
@@ -60,10 +60,8 @@ const daySixSlice = createSlice({
     },
     resetState: () => {
       const reset = {
-        troopPower: {
-          troopsTotal: '',
-          troopTier: targetTierDefault
-        },
+        troopsTotal: '',
+        troopTier: targetTierDefault,
         buildingPower: {
           firstQueue: '',
           secondQueue: '',

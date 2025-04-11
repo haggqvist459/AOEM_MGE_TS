@@ -1,14 +1,9 @@
 import { PreviousEventData } from "@/types";
 import { TROOP_TIER_MULTIPLIERS } from "@/utils";
 
-
-export type TroopPowerData = {
+export type DaySixStateData = {
   troopsTotal: string
   troopTier: typeof TROOP_TIER_MULTIPLIERS[keyof typeof TROOP_TIER_MULTIPLIERS]
-}
-
-export type DaySixStateData = {
-  troopPower: TroopPowerData,
   researchPower: string
   buildingPower: {
     firstQueue: string
