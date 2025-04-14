@@ -28,9 +28,9 @@ const DaySevenCalc = (props: Props) => {
 
   const [expandedSection, setExpandedSection] = useState({
     tribe: false,
-    medals: true,
-    rings: true,
-    powerGain: true,
+    medals: false,
+    rings: false,
+    powerGain: false,
   })
   const [showModal, setShowModal] = useState(false)
   const toggleSection = (section: keyof typeof expandedSection) => {
@@ -67,11 +67,10 @@ const DaySevenCalc = (props: Props) => {
             </RowWrapper>
           </ExpandableSection>
           <ExpandableSection title='Medals & Scrolls' isExpanded={expandedSection.medals} toggleExpansion={() => toggleSection('medals')}>
-            <span className='text-base font-semibold text-primary'>Medals</span>
             <RowWrapper>
               <Input
                 id='legendaryMedals'
-                label='Legendary'
+                label='Legendary medals'
                 placeholder='0'
                 value={localState.legendaryMedals}
                 onChange={(e) => handleLocalChange('legendaryMedals', e.target.value)}
@@ -79,18 +78,17 @@ const DaySevenCalc = (props: Props) => {
               />
               <Input
                 id='epicMedals'
-                label='Epic'
+                label='Epic medals'
                 placeholder='0'
                 value={localState.epicMedals}
                 onChange={(e) => handleLocalChange('epicMedals', e.target.value)}
                 onBlur={() => handleBlur('epicMedals')}
               />
             </RowWrapper>
-            <span className='text-base font-semibold text-primary'>Scrolls</span>
             <RowWrapper>
               <Input
                 id='legendaryScrolls'
-                label='Legendary'
+                label='Legendary scrolls'
                 placeholder='0'
                 value={localState.legendaryScrolls}
                 onChange={(e) => handleLocalChange('legendaryScrolls', e.target.value)}
@@ -98,13 +96,55 @@ const DaySevenCalc = (props: Props) => {
               />
               <Input
                 id='epicScrolls'
-                label='Epic'
+                label='Epic scrolls'
                 placeholder='0'
                 value={localState.epicScrolls}
                 onChange={(e) => handleLocalChange('epicScrolls', e.target.value)}
                 onBlur={() => handleBlur('epicScrolls')}
               />
             </RowWrapper>
+          </ExpandableSection>
+          <ExpandableSection title='Rings' isExpanded={expandedSection.rings} toggleExpansion={() => toggleSection('rings')}>
+            <RowWrapper>
+              <Input
+                id='hammers'
+                label='Hammers'
+                placeholder='0'
+                value={localState.hammers}
+                onChange={(e) => handleLocalChange('hammers', e.target.value)}
+                onBlur={() => handleBlur('hammers')}
+              />
+              <Input
+                id='fineGold'
+                label='Fine gold'
+                placeholder='0'
+                value={localState.fineGold}
+                onChange={(e) => handleLocalChange('fineGold', e.target.value)}
+                onBlur={() => handleBlur('fineGold')}
+              />
+            </RowWrapper>
+            <RowWrapper>
+              <Input
+                id='silverSand'
+                label='Silver sand'
+                placeholder='0'
+                value={localState.silverSand}
+                onChange={(e) => handleLocalChange('silverSand', e.target.value)}
+                onBlur={() => handleBlur('silverSand')}
+              />
+              <Input
+                id='copperSand'
+                label='Copper sand'
+                placeholder='0'
+                value={localState.copperSand}
+                onChange={(e) => handleLocalChange('copperSand', e.target.value)}
+                onBlur={() => handleBlur('copperSand')}
+              />
+            </RowWrapper>
+          </ExpandableSection>
+          <ExpandableSection title='Power gain' isExpanded={expandedSection.powerGain} toggleExpansion={() => toggleSection('powerGain')}>
+            <SubHeader title='Research'/>
+            
           </ExpandableSection>
           <SubHeader title='Previous Event Score' />
           <RowWrapper>
