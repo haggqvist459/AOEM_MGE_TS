@@ -68,8 +68,6 @@ const dayFourSlice = createSlice({
             state.score.rings += fineGold * POINTS_AND_MULTIPLIERS.FINE_GOLD;
           }
           break;
-
-          break;
         case 'universalSpeedup':
           const universalSpeedupMin = toMinutes(state.universalSpeedup);
           state.score.universal = universalSpeedupMin * POINTS_AND_MULTIPLIERS.SPEEDUP_UNIVERSAL;

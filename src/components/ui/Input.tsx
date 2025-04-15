@@ -27,9 +27,9 @@ const Input = ({
 }: Props) => {
   return (
     <div className="flex flex-col">
-      {label && (
+      {label !== undefined && (
         <div className="flex space-x-1">
-          <label htmlFor={id} className="input-label">{label}</label>
+          <label htmlFor={id} className="input-label">{label || '\u00A0'}</label>
           <div className='relative top-[2px]'>
             {infoMessage && <InfoButton message={infoMessage} />}
           </div>

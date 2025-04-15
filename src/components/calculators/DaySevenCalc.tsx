@@ -143,8 +143,57 @@ const DaySevenCalc = (props: Props) => {
             </RowWrapper>
           </ExpandableSection>
           <ExpandableSection title='Power gain' isExpanded={expandedSection.powerGain} toggleExpansion={() => toggleSection('powerGain')}>
-            <SubHeader title='Research'/>
-            
+            <Input
+              id='researchPower'
+              placeholder='0'
+              label='Research'
+              value={localState.researchPower}
+              onChange={(e) => handleLocalChange('researchPower', e.target.value)}
+              onBlur={() => handleBlur('researchPower')}
+            />
+            <RowWrapper>
+              <Input
+                id='buildingPower.firstQueue'
+                placeholder='0'
+                label='Building'
+                value={localState.buildingPower.firstQueue}
+                onChange={(e) => handleLocalChange('buildingPower', e.target.value, 'firstQueue')}
+                onBlur={() => handleBlur('buildingPower', 'firstQueue')}
+              />
+              <Input
+                id='buildingPower.secondQueue'
+                placeholder='0'
+                label=''
+                value={localState.buildingPower.secondQueue}
+                onChange={(e) => handleLocalChange('buildingPower', e.target.value, 'secondQueue')}
+                onBlur={() => handleBlur('buildingPower', 'secondQueue')}
+              />
+              <Input
+                id='buildingPower.thirdQueue'
+                placeholder='0'
+                label=''
+                value={localState.buildingPower.thirdQueue}
+                onChange={(e) => handleLocalChange('buildingPower', e.target.value, 'thirdQueue')}
+                onBlur={() => handleBlur('buildingPower', 'thirdQueue')}
+              />
+            </RowWrapper>
+            <RowWrapper>
+              <Input
+                id='troopsTotal'
+                placeholder='0'
+                label='Troop total'
+                value={localState.troopsTotal}
+                onChange={(e) => handleLocalChange('troopsTotal', e.target.value)}
+                onBlur={() => handleBlur('troopsTotal')}
+              />
+              <Dropdown
+                label='Target tier'
+                id='troopTier'
+                options={troopTierDropdownOptions}
+                value={localState.troopTier}
+                onChange={(e) => handleInstantDispatch('troopTier', e.target.value)}
+              />
+            </RowWrapper>
           </ExpandableSection>
           <SubHeader title='Previous Event Score' />
           <RowWrapper>
@@ -167,6 +216,23 @@ const DaySevenCalc = (props: Props) => {
           </RowWrapper>
         </div>
         <div className='calculator-output'>
+          <SubHeader title="Score" />
+          <RowWrapper>
+            <Output label="Total daily score" value={localState.totalDailyScore} />
+            <Output label="Troops" value={localState.score.troops} />
+          </RowWrapper>
+          <RowWrapper>
+            <Output label="Research" value={localState.score.research} />
+            <Output label="Building" value={localState.score.building} />
+          </RowWrapper>
+          <RowWrapper>
+            <Output label="Medals" value={localState.score.medals} />
+            <Output label="Scrolls" value={localState.score.scrolls} />
+          </RowWrapper>
+          <RowWrapper>
+            <Output label="Rings" value={localState.score.rings} />
+            <Output label="Tribes" value={localState.score.tribes} />
+          </RowWrapper>
           <SubHeader title='Previous Event Score' />
           <RowWrapper>
             <Output label='First' value={toNumber(localState.previousEvent.first)} />
