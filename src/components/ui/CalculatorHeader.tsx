@@ -2,7 +2,7 @@ import { Trashcan } from "../icons";
 type Props = {
     title: string,
     showTrash?: boolean,
-    handleClick: () => void
+    handleClick?: () => void
 }
 
 const CalculatorHeader = ({ title, showTrash = true, handleClick }: Props) => {
