@@ -23,8 +23,9 @@ export const saveData = <T>(key: string, data: T): void => {
   }
 };
 
+
 // Delete all the data in localstorage. 
-export const deleteData = () => {
+export const deleteData = ():void => {
   try {
     localStorage.clear()
   } catch (err) {
