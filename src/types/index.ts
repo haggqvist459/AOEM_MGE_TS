@@ -1,3 +1,3 @@
-export * from './score.types';
-export * from './score.time';
+export * from './types.score';
+export * from './types.time';
 export * from './shared';
