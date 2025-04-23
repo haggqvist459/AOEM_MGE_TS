@@ -2,12 +2,16 @@ import { useState } from 'react'
 import { calculateDailyScoreDayFour, updateFieldDayFour, resetStateDayFour, DayFourStateData } from "@/redux";
 import { useDailyCalculator } from "@/hooks";
 import { toNumber } from '@/utils';
-import { CalculatorContainer, CalculatorHeader, SubHeader, RowWrapper, Input, Output, Modal, InfoButton, TimeSelector } from "@/components";
+import { DayKey } from '@/types';
+import { CalculatorContainer, CalculatorHeader, CalculatorButtons, SubHeader, RowWrapper, Input, Output, Modal, InfoButton, TimeSelector } from "@/components";
 
-type Props = {}
+type Props = {
+  activeDay: DayKey;
+  setActiveDay: React.Dispatch<React.SetStateAction<DayKey>>;
+}
 
 
-const DayFourCalc = (props: Props) => {
+const DayFourCalc = ({ activeDay, setActiveDay}: Props) => {
 
   const {
     localState,
@@ -136,6 +140,7 @@ const DayFourCalc = (props: Props) => {
           </RowWrapper>
         </div>
       </div>
+      <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay} />
       <Modal
         isOpen={showModal}
         title="Reset Calculator"

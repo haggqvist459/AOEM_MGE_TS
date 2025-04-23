@@ -1,22 +1,26 @@
 import { useState } from 'react'
 import { useDailyCalculator } from "@/hooks";
 import { TROOP_TIER_MULTIPLIERS, toNumber } from '@/utils';
-import { TimeData } from '@/types';
+import { TimeData, DayKey } from '@/types';
+
 import {
   updateFieldDayFive, calculateDailyScoreDayFive, resetStateDayFive,
   DayFiveStateData, TroopType, TroopTypeData, useAppDispatch, updateTroopTypeField,
 } from '@/redux'
 import {
-  CalculatorHeader, CalculatorContainer, ExpandableSection,
+  CalculatorHeader, CalculatorContainer, CalculatorButtons, ExpandableSection,
   Modal, Input, Output, SubHeader, TimeSelector, InfoButton, RowWrapper, Troop,
 } from '@/components';
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown'
 
 const trainingDropdownOptions = mapToDropdownOptions(TROOP_TIER_MULTIPLIERS)
 
-type Props = {}
+type Props = {
+  activeDay: DayKey;
+  setActiveDay: React.Dispatch<React.SetStateAction<DayKey>>;
+}
 
-const DayFiveCalc = (props: Props) => {
+const DayFiveCalc = ({ activeDay, setActiveDay}: Props) => {
 
   const {
     localState,
@@ -184,6 +188,7 @@ const DayFiveCalc = (props: Props) => {
           </RowWrapper>
         </div>
       </div>
+      <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay} />
       <Modal
         isOpen={showModal}
         title="Reset Calculator"

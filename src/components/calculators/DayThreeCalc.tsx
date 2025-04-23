@@ -2,14 +2,18 @@ import { useState, useEffect } from 'react'
 import { useDailyCalculator } from "@/hooks";
 import { useAppDispatch, DayThreeStateData } from "@/redux";
 import { toNumber } from '@/utils';
+import { DayKey } from '@/types';
 import { updateFieldDayThree, resetStateDayThree, calculateDailyScoreDayThree, updateTroopField, addTroop, removeTroop, GatherTroopData } from "@/redux"
-import { CalculatorContainer, CalculatorHeader, SubHeader, RowWrapper, Input, Output, GatherTroop, Modal } from "@/components";
+import { CalculatorContainer, CalculatorButtons, CalculatorHeader, SubHeader, RowWrapper, Input, Output, GatherTroop, Modal } from "@/components";
 import { Dropdown, DropdownOption } from '@/components/ui/dropdown'
 
-// props needed for calculator navigation later
-type Props = {}
 
-const DayThreeCalc = (props: Props) => {
+type Props = {
+  activeDay: DayKey;
+  setActiveDay: React.Dispatch<React.SetStateAction<DayKey>>;
+}
+
+const DayThreeCalc = ({ activeDay, setActiveDay}: Props) => {
 
   const {
     localState,
@@ -186,6 +190,7 @@ const DayThreeCalc = (props: Props) => {
           </RowWrapper>
         </div>
       </div>
+      <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay}/>
       <Modal
         isOpen={showModal}
         title="Reset Calculator"

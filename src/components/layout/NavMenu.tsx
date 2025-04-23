@@ -14,7 +14,7 @@ const NavMenu = ({ isExpanded }: Props) => {
 
   const menuItems = Object.values(NAVBAR_OPTIONS).map(({ route, id, text }) => (
     <NavLink to={route} key={id} className={linkClass}>
-      <span className="text-lg font-semibold">{text}</span>
+      <span className="text-lg font-semibold hover:font-bold">{text}</span>
     </NavLink>
   ))
 
