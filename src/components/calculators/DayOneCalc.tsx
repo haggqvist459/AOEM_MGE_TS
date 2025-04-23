@@ -79,7 +79,7 @@ const DayOneCalc = (props: Props) => {
         <div className='calculator-output'>
           <SubHeader title='Score' />
           <RowWrapper>
-            <Output label='Daily score' value={localState.score.tribe} />
+            <Output label='Daily score' value={localState.totalDailyScore} />
             <Output label='Tribes hunted' value={localState.tribesHunted} />
           </RowWrapper>
           <SubHeader title='Previous Event Score' />

@@ -1,12 +1,15 @@
+import { DAY_KEYS } from "@/utils";
+
 
 export type PreviousEventData = { 
     first: string,
     tenth: string
 }
 
+type DayKey = (typeof DAY_KEYS)[keyof typeof DAY_KEYS];
 
 export type DailyScoreData = {
-  day: string;
+  day: DayKey;
   score: number;
 };
 

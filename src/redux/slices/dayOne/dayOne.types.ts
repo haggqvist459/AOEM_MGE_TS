@@ -8,4 +8,5 @@ export type DayOneStateData = {
     score: {
       tribe: number
     }
+    totalDailyScore: number
 }

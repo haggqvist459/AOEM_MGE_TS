@@ -11,6 +11,7 @@ const initialState: DayOneStateData = loadData<DayOneStateData>(DAY_KEYS.DAY_ONE
   score: {
     tribe: 0
   },
+  totalDailyScore: 0,
   previousEvent: {
     first: '',
     tenth: ''
@@ -37,6 +38,7 @@ const dayOneSlice = createSlice({
       state.tribesHunted = validatedStamina / POINTS_AND_MULTIPLIERS.STAMINA_PER_TRIBE;
       // calculate the score
       state.score.tribe = state.tribesHunted * tribeLevelMultiplier
+      state.totalDailyScore = state.score.tribe
 
     },
     resetState: () => {
@@ -47,6 +49,7 @@ const dayOneSlice = createSlice({
         score: {
           tribe: 0
         },
+        totalDailyScore: 0,
         previousEvent: {
           first: '',
           tenth: ''
