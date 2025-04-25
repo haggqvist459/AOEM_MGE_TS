@@ -37,7 +37,7 @@ const dayThreeSlice = createSlice({
     updateField: (state, action) => updateFieldDelegated(state, action),
     updateTroopField(state, action: PayloadAction<UpdateTroopPayload>) {
       const { id, field, value } = action.payload;
-      const troopIndex = state.troops.findIndex(m => m.id === id);
+      const troopIndex = state.troops.findIndex(t => t.id === id);
       if (troopIndex === -1) return;
 
       const troop = state.troops[troopIndex];

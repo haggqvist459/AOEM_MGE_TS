@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { dayOneReducer, dayTwoReducer, dayThreeReducer, dayFourReducer, dayFiveReducer, daySixReducer, daySevenReducer } from '@/redux/slices';
-import { saveData, DAY_KEYS } from "@/utils";
+import { dayOneReducer, dayTwoReducer, dayThreeReducer, dayFourReducer, dayFiveReducer, daySixReducer, daySevenReducer, previousEventReducer } from '@/redux/slices';
+import { saveData, DAY_KEYS, SCORE_KEYS } from "@/utils";
 
 
 export const store = configureStore({
@@ -11,7 +11,8 @@ export const store = configureStore({
     [DAY_KEYS.DAY_FOUR]: dayFourReducer,
     [DAY_KEYS.DAY_FIVE]: dayFiveReducer,
     [DAY_KEYS.DAY_SIX]: daySixReducer,
-    [DAY_KEYS.DAY_SEVEN]: daySevenReducer
+    [DAY_KEYS.DAY_SEVEN]: daySevenReducer,
+    [SCORE_KEYS.PREVIOUS_EVENT_SCORE]: previousEventReducer
   },
 
 });

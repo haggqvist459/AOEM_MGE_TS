@@ -1,11 +1,28 @@
-import { CalculatorContainer, CalculatorHeader, SubHeader, Output, ToggleButton } from "@/components";
+import { useState } from "react";
+import { useAppSelector, useAppDispatch, resetPreviousEventState, updateEvent, createEvent, deleteEvent } from '@/redux'
+import { CalculatorContainer, CalculatorHeader, SubHeader, Output, ToggleButton, Modal } from "@/components";
 
 
 const PreviousEventScorePage = () => {
+
+  const [showModal, setShowModal] = useState(false)
+  const dispatch = useAppDispatch()
+
+  const confirmDelete = (): void => {
+
+    dispatch(resetPreviousEventState())
+    setShowModal(false)
+  }
   return (
     <CalculatorContainer>
-      <CalculatorHeader title="Previous Event Scores" showTrash={false}/>
-      
+      <CalculatorHeader title="Previous Events" handleClick={() => setShowModal(true)} />
+      <Modal
+        title="Delete data"
+        description="Delete all previous event data? This action can not be undone"
+        isOpen={showModal}
+        onCancel={() => setShowModal(false)}
+        onConfirm={() => confirmDelete()}
+      />
     </CalculatorContainer>
   )
 }
