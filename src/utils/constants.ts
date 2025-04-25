@@ -37,6 +37,11 @@ export const NAVBAR_OPTIONS = {
     },
 } as const
 
+export const SCORE_KEYS = {
+  TOTAL_SCORE: 'totalScore',
+  PREVIOUS_EVENT_SCORE: 'previousEventScore'
+} as const 
+
 export const DAY_KEYS = {
     DAY_ONE: 'dayOne',
     DAY_TWO: 'dayTwo',

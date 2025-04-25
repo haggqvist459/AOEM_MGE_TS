@@ -52,13 +52,3 @@ const HomePage = () => {
 
 export default HomePage;
 
-
-/*
-      <DaySevenCalc />
-      <DaySixCalc />
-      <DayFiveCalc />
-      <DayFourCalc />
-      <DayThreeCalc />
-      <DayTwoCalc />
-      <DayOneCalc />
-*/

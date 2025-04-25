@@ -6,8 +6,7 @@ import { ROUTES } from '@/utils';
 
 
 const App = () => {
-
-
+  
   return (
     <BrowserRouter>
       <Routes>

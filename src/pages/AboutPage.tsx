@@ -3,7 +3,7 @@ import { CalculatorContainer, CalculatorHeader, SubHeader } from "@/components";
 const AboutPage = () => {
   return (
     <CalculatorContainer>
-      <CalculatorHeader title="<aboutTitle>" showTrash={false} />
+      <CalculatorHeader title="About This Site" showTrash={false} />
       <div className='w-full md:w-1/2 mx-auto flex flex-col text-center pb-3'>
         <SubHeader title="The Calculators" />
         <p>

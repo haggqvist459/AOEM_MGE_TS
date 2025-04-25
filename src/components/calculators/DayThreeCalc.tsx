@@ -127,7 +127,7 @@ const DayThreeCalc = ({ activeDay, setActiveDay}: Props) => {
           <div className="w-full flex items-center">
             <button
               disabled={localState.troops.length >= 5}
-              className="w-1/2 lg:w-1/3 mx-auto px-4 my-2 rounded border-2 border-primary bg-primary text-blue-50 font-medium hover:bg-blue-900 hover:border-blue-50 disabled:opacity-50 disabled:hover:border-none'"
+              className="add-button"
               onClick={() => handleAddtroop()}>Add troop</button>
           </div>
           <RowWrapper>

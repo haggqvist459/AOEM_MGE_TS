@@ -1,4 +1,3 @@
-import { SubHeader } from '@/components'
 
 type Props = {
   title: string
