@@ -6,7 +6,7 @@ type Props = {
   value: string
   placeholder: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onBlur: () => void
+  onBlur?: () => void
   inputType?: string
   infoMessage?: string
   required?: boolean

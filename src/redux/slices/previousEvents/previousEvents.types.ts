@@ -5,6 +5,11 @@ export type DayData = {
   score: string
 }
 
+export type CreateEventPayload = {
+  name: string
+  days: DayData[]
+}
+
 export type DayDataPayload = {
   id: string
   day: DayKey

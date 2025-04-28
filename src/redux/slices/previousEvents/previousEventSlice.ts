@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from 'uuid'
-import { DayData, PreviousEventScoreData, PreviousEventStateData, DayDataPayload } from "./previousEvents.types";
+import { DayData, PreviousEventScoreData, PreviousEventStateData, DayDataPayload, CreateEventPayload } from "./previousEvents.types";
 import { loadData, saveData, toNumber, SCORE_KEYS, DAY_KEYS } from "@/utils";
 
 const initialState: PreviousEventStateData = loadData<PreviousEventStateData>(SCORE_KEYS.PREVIOUS_EVENT_SCORE) ?? {
@@ -15,21 +15,19 @@ const previousEventSlice = createSlice({
       const { id, day, value } = action.payload
       console.log("updateEvent payload values, id: ", id, ', day: ', day, ', value: ', value)
       console.log(state)
-      const eventIndex = state.previousEvents.findIndex(e => e.id === id )
-      if (eventIndex === -1 ) return // some error, event not found 
+      const eventIndex = state.previousEvents.findIndex(e => e.id === id)
+      if (eventIndex === -1) return // some error, event not found 
 
       const event = state.previousEvents[eventIndex]
       const dayIndex = event.days.findIndex(d => d.day = day)
       event.days[dayIndex].score = value
     },
-    createEvent: (state) => {
+    createEvent: (state, action: PayloadAction<CreateEventPayload>) => {
+      const { name, days } = action.payload
       state.previousEvents.push({
         id: uuidv4(),
-        name: 'New event',
-        days: Object.values(DAY_KEYS).map((dayKey) => ({
-          day: dayKey,
-          score: ''
-        }))
+        name,
+        days
       })
     },
     deleteEvent: (state, action: PayloadAction<string>) => {
