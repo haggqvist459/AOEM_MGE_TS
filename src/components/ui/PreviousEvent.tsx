@@ -1,40 +1,37 @@
-import { useState } from 'react'
-import { DayData, } from '@/redux'
-import { SubHeader, Input, ExpandableSection } from '@/components'
+import { PreviousEventScoreData } from '@/redux'
+import { DAY_TITLES, toNumber } from '@/utils'
+import { SubHeader, Output, Trashcan, GridWrapper } from '@/components'
 
 type Props = {
-  id: string
-  name: string
-  days: DayData[]
-  onChange: () => void
-  onBlur: () => void
+  previousEvent: PreviousEventScoreData
+  onDelete: (id: string) => void
 }
 
 const PreviousEvent = ({
-  id,
-  name,
-  days,
-  onBlur,
-  onChange
+  previousEvent,
+  onDelete
 }: Props) => {
 
-  const [isExpanded, setIsExpanded] = useState(false)
+  const { id, days, name } = previousEvent;
+  const totalScore = days.reduce((total, day) => total + toNumber(day.score), 0)
 
   return (
-    <ExpandableSection title={name} isExpanded={isExpanded} toggleExpansion={() => setIsExpanded(prev => !prev)}>
+    <div className='w-full'>
+      <div className='w-full flex justify-between'>
+        <SubHeader title={name} />
+        <button onClick={() => onDelete(id)}>
+          <Trashcan />
+        </button>
+      </div>
+
       {/* Input for name  */}
-      {days.map((day) => (
-        <Input
-          key={id + day.day}
-          id={id + day.day}
-          label='Day 1'
-          placeholder='0'
-          value={day.score}
-          onBlur={onBlur}
-          onChange={onChange}
-        />
-      ))}
-    </ExpandableSection>
+      <GridWrapper>
+        {days.map((dayData, index) => (
+          <Output key={index} label={DAY_TITLES[dayData.day]} value={toNumber(dayData.score)} />
+        ))}
+        <Output label='Total score' value={totalScore} />
+      </GridWrapper>
+    </div>
   )
 }
 

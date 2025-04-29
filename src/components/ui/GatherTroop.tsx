@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Input, ExpandableHeader, ExpandableSection, ToggleButton } from '@/components'
+import { Input, ExpandableSection, ToggleButton } from '@/components'
 import { Trashcan } from '@/components/icons'
 import { GatherTroopData } from '@/redux'
 
@@ -61,7 +61,7 @@ const GatherTroop = ({
           />
           <div className="flex justify-between">
             <div className="flex flex-col justify-between">
-              <span className="input-label ">Full at day start</span>
+              <span className="label ">Full at day start</span>
               <ToggleButton isToggled={troopData.fullAtReset} onToggle={() => onInstantDispatch(troopData.id, 'fullAtReset', !troopData.fullAtReset)} />
             </div>
             <button className="self-end mb-0.5" onClick={() => onDelete(troopData.id)}>

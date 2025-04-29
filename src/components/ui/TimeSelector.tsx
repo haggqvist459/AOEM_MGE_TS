@@ -22,7 +22,7 @@ const TimeSelector = ({
 
   return (
     <div>
-      <span className="input-label">{title}</span>
+      <span className="label">{title}</span>
       <RowWrapper>
         <Input
           placeholder="days"

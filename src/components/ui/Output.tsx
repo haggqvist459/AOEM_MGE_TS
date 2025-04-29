@@ -1,4 +1,3 @@
-import { toNumber } from "@/utils";
 
 type Props = {
   label: string,
@@ -11,8 +10,8 @@ const Output = ({
 }: Props) => {
   return (
     <div className="flex flex-col">
-      <span className="score-label">{label}</span>
-      <span className="score-text">{value.toLocaleString()}</span>
+      <span className="label">{label}</span>
+      <span className="score-text ">{value.toLocaleString()}</span>
     </div>
   )
 }

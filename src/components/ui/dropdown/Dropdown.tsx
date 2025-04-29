@@ -19,7 +19,7 @@ const Dropdown = ({
 
   return (
     <div className="w-full">
-      <label htmlFor={id} className="input-label">{label}</label>
+      <label htmlFor={id} className="label">{label}</label>
       <div className='w-full relative'>
         <select
           id={id}

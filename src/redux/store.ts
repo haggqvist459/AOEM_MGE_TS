@@ -23,6 +23,9 @@ store.subscribe(() => {
   Object.values(DAY_KEYS).forEach((key) => {
     saveData(key, state[key]);
   });
+
+  saveData(SCORE_KEYS.PREVIOUS_EVENT_SCORE, state[SCORE_KEYS.PREVIOUS_EVENT_SCORE]);
+
 });
 
 export type RootState = ReturnType<typeof store.getState>

@@ -56,7 +56,7 @@ textarea {
     @apply  text-lg lg:text-xl font-semibold text-primary 
   }
 
-  .input-label {
+  .label {
     @apply text-base font-medium text-primary
   }
 
@@ -67,11 +67,9 @@ textarea {
   .dropdown-text {
     @apply border rounded border-neutral-600 text-neutral-800 w-full px-1 appearance-none shadow-sm
   }
-  .score-label {
-    @apply text-base font-medium text-primary
-  }
+ 
   .score-text {
-    @apply text-base text-neutral-800
+    @apply text-base text-neutral-800 border rounded border-transparent
   }
 
   .calculator-input {
@@ -83,7 +81,7 @@ textarea {
   }
 
   .add-button {
-    @apply w-1/2 lg:w-1/3 mx-auto px-4 my-2 rounded border-2 border-primary bg-primary text-blue-50 font-medium hover:bg-blue-900 hover:border-blue-50 disabled:opacity-50 disabled:hover:border-none
+    @apply w-1/2 lg:w-1/3 mx-auto px-4 my-2 rounded border-2 border-primary bg-primary text-blue-50 font-medium hover:border-blue-50 disabled:opacity-50 disabled:hover:border-none
   }
 }
 
