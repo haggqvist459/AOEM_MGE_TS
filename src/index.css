@@ -52,8 +52,12 @@ textarea {
     @apply text-xl xs:text-2xl md:text-3xl font-bold text-primary
   }
 
-  .sub-header {
+  .main-header {
     @apply  text-lg lg:text-xl font-semibold text-primary 
+  }
+
+  .sub-header {
+    @apply text-[17px] font-semibold text-primary
   }
 
   .label {

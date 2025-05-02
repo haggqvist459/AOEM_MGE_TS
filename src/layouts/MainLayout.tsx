@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
-import { Header, Footer } from '@/components'
+import { NavBar, Footer } from '@/components'
 
 
 const MainLayout = () => {
   return (
     <div className="bg-neutral-200 min-h-screen flex flex-col relative">
-      <Header />
+      <NavBar />
       <div className="flex-grow">
         <Outlet />
       </div>

@@ -9,7 +9,7 @@ import {
 } from '@/redux'
 import {
   CalculatorHeader, CalculatorContainer, CalculatorButtons, ExpandableSection,
-  Modal, Input, Output, SubHeader, TimeSelector, InfoButton, RowWrapper, Troop,
+  Modal, Input, Output, Header, TimeSelector, InfoButton, RowWrapper, Troop,
 } from '@/components';
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown'
 
@@ -88,7 +88,7 @@ const DayFiveCalc = ({ activeDay, setActiveDay}: Props) => {
       <CalculatorHeader title='Day Five' handleClick={() => setShowModal(true)} />
       <div className='flex flex-col md:flex-row'>
         <div className='calculator-input'>
-          <SubHeader title='Speed-up' />
+          <Header title='Speed-up' />
           <TimeSelector
             timeValue={localState.initialTrainingSpeedup}
             title='Training'
@@ -97,7 +97,7 @@ const DayFiveCalc = ({ activeDay, setActiveDay}: Props) => {
             onBlur={handleBlur}
           />
           <div className='flex space-x-1'>
-            <SubHeader title='Promotion' />
+            <Header title='Promotion' />
             <InfoButton message='Input numbers from your Stable, Archery Range etc. Speed-ups will be evenly split. Troop types with empty fields will be ignored, and leftover speed-ups will be allocated for training' />
           </div>
           {(Object.entries(localState.troops) as [TroopType, TroopTypeData][]).map(([troopType, troopData]) => (
@@ -137,7 +137,7 @@ const DayFiveCalc = ({ activeDay, setActiveDay}: Props) => {
               showSeconds={true}
             />
           </ExpandableSection>
-          <SubHeader title='Previous Event Score' />
+          <Header title='Previous Event Score' />
           <RowWrapper>
             <Input
               id='previous.first'
@@ -158,13 +158,13 @@ const DayFiveCalc = ({ activeDay, setActiveDay}: Props) => {
           </RowWrapper>
         </div>
         <div className='calculator-output'>
-          <SubHeader title="Score" />
+          <Header title="Score" />
           <Output label="Total daily score" value={localState.totalDailyScore} />
           <RowWrapper>
             <Output label="Promotion" value={localState.score.promotion} />
             <Output label="Training" value={localState.score.training} />
           </RowWrapper>
-          <SubHeader title='Troop data' />
+          <Header title='Troop data' />
           <RowWrapper>
             <Output label='Archer' value={localState.troops['Archers'].troopTotalScore} />
             <Output label='Cavalry' value={localState.troops['Cavalry'].troopTotalScore} />
@@ -181,7 +181,7 @@ const DayFiveCalc = ({ activeDay, setActiveDay}: Props) => {
             <Output label='Pikemen Batches' value={localState.troops['Pikemen'].maxPromotableBatches} />
             <Output label='Swordsmen Batches' value={localState.troops['Swordsmen'].maxPromotableBatches} />
           </RowWrapper>
-          <SubHeader title='Previous Event Score' />
+          <Header title='Previous Event Score' />
           <RowWrapper>
             <Output label='First' value={toNumber(localState.previousEvent.first)} />
             <Output label='Tenth' value={toNumber(localState.previousEvent.tenth)} />

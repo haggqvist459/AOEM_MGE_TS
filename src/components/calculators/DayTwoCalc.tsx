@@ -4,7 +4,7 @@ import { resetStateDayTwo, updateFieldDayTwo, calculateDailyScoreDayTwo, DayTwoS
 import { toNumber } from '@/utils'
 import { DayKey } from '@/types';
 import {
-  CalculatorContainer, CalculatorHeader, SubHeader, Input, Output,
+  CalculatorContainer, CalculatorHeader, Header, Input, Output,
   RowWrapper, InfoButton, TimeSelector, Modal, CalculatorButtons
 } from '@/components'
 
@@ -40,7 +40,7 @@ const DayTwoCalc = ({ activeDay, setActiveDay }: Props) => {
       <div className='flex flex-col md:flex-row'>
         <div className="calculator-input">
           <div className="flex space-x-1">
-            <SubHeader title="Medals" />
+            <Header title="Medals" />
             <InfoButton message={'As medals are consumed in batches based on individual hero ranks, these scores are rough estimates.'} />
           </div>
           <RowWrapper>
@@ -62,7 +62,7 @@ const DayTwoCalc = ({ activeDay, setActiveDay }: Props) => {
             />
           </RowWrapper>
           <div className="flex space-x-1">
-            <SubHeader title="Scrolls" />
+            <Header title="Scrolls" />
             <InfoButton message={'As scrolls are consumed in batches based on individual skill ranks, these scores are rough estimates.'} />
           </div>
           <RowWrapper>
@@ -84,7 +84,7 @@ const DayTwoCalc = ({ activeDay, setActiveDay }: Props) => {
             />
           </RowWrapper>
           <div className="flex space-x-1">
-            <SubHeader title="Blueprints" />
+            <Header title="Blueprints" />
             <InfoButton message={'For pre-forged, input the number of completed but not claimed blueprints before the day starts.'} />
           </div>
           <RowWrapper>
@@ -105,7 +105,7 @@ const DayTwoCalc = ({ activeDay, setActiveDay }: Props) => {
               onBlur={() => handleBlur('preforgedBlueprints')}
             />
           </RowWrapper>
-          <SubHeader title="Forging" />
+          <Header title="Forging" />
           <TimeSelector
             title="Time to complete"
             field="forgingTime"
@@ -121,7 +121,7 @@ const DayTwoCalc = ({ activeDay, setActiveDay }: Props) => {
             onChange={handleLocalChange}
             onBlur={handleBlur}
           />
-          <SubHeader title='Previous Event Score' />
+          <Header title='Previous Event Score' />
           <RowWrapper>
             <Input
               id='previous.first'
@@ -142,14 +142,14 @@ const DayTwoCalc = ({ activeDay, setActiveDay }: Props) => {
           </RowWrapper>
         </div>
         <div className="calculator-output">
-          <SubHeader title="Score" />
+          <Header title="Score" />
           <Output label="Total daily score" value={localState.totalDailyScore} />
           <RowWrapper>
             <Output label="Forging" value={localState.score.forging} />
             <Output label="Scrolls" value={localState.score.scrolls} />
             <Output label="Medals" value={localState.score.medals} />
           </RowWrapper>
-          <SubHeader title='Previous Event Score' />
+          <Header title='Previous Event Score' />
           <RowWrapper>
             <Output label='First' value={toNumber(localState.previousEvent.first)} />
             <Output label='Tenth' value={toNumber(localState.previousEvent.tenth)} />

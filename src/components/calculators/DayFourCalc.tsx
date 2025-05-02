@@ -3,7 +3,7 @@ import { calculateDailyScoreDayFour, updateFieldDayFour, resetStateDayFour, DayF
 import { useDailyCalculator } from "@/hooks";
 import { toNumber } from '@/utils';
 import { DayKey } from '@/types';
-import { CalculatorContainer, CalculatorHeader, CalculatorButtons, SubHeader, RowWrapper, Input, Output, Modal, InfoButton, TimeSelector } from "@/components";
+import { CalculatorContainer, CalculatorHeader, CalculatorButtons, Header, RowWrapper, Input, Output, Modal, InfoButton, TimeSelector } from "@/components";
 
 type Props = {
   activeDay: DayKey;
@@ -40,7 +40,7 @@ const DayFourCalc = ({ activeDay, setActiveDay}: Props) => {
       <div className='flex flex-col md:flex-row'>
         <div className='calculator-input'>
           <div className='flex space-x-1'>
-            <SubHeader title='Ring upgrades' />
+            <Header title='Ring upgrades' />
             <InfoButton message='Ring materials are consumed in batches based on individual ring levels. These scores are rough estimates' />
           </div>
           <RowWrapper>
@@ -79,7 +79,7 @@ const DayFourCalc = ({ activeDay, setActiveDay}: Props) => {
               onBlur={() => handleBlur('copperSand')}
             />
           </RowWrapper>
-          <SubHeader title='Speed-ups' />
+          <Header title='Speed-ups' />
           <TimeSelector
             title='Universal'
             timeValue={localState.universalSpeedup}
@@ -101,7 +101,7 @@ const DayFourCalc = ({ activeDay, setActiveDay}: Props) => {
             onChange={handleLocalChange}
             onBlur={handleBlur}
           />
-          <SubHeader title='Previous Event Score' />
+          <Header title='Previous Event Score' />
           <RowWrapper>
             <Input
               id='previous.first'
@@ -122,18 +122,18 @@ const DayFourCalc = ({ activeDay, setActiveDay}: Props) => {
           </RowWrapper>
         </div>
         <div className='calculator-output'>
-          <SubHeader title="Score" />
+          <Header title="Score" />
           <RowWrapper>
             <Output label="Total daily score" value={localState.totalDailyScore} />
             <Output label='Ring upgrades' value={localState.score.rings} />
           </RowWrapper>
-          <SubHeader title='Speed-up score' />
+          <Header title='Speed-up score' />
           <RowWrapper>
             <Output label='Universal' value={localState.score.universal} />
             <Output label='Building' value={localState.score.building} />
             <Output label='Research' value={localState.score.research} />
           </RowWrapper>
-          <SubHeader title='Previous Event Score' />
+          <Header title='Previous Event Score' />
           <RowWrapper>
             <Output label='First' value={toNumber(localState.previousEvent.first)} />
             <Output label='Tenth' value={toNumber(localState.previousEvent.tenth)} />

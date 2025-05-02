@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { deleteData, exportLocalStorageToFile, importLocalStorageFromFile } from '@/utils'
-import { CalculatorContainer, CalculatorHeader, SubHeader, Modal } from "@/components";
+import { CalculatorContainer, CalculatorHeader, Header, Modal } from "@/components";
 
 const AdminPage = () => {
 
@@ -24,7 +24,7 @@ const AdminPage = () => {
       <div className='flex flex-col md:flex-row space-x-5 justify-center text-center'>
         {/* Export */}
         <div className='w-full  md:w-1/3 flex flex-col items-center mb-5 pb-3 border-b border-secondary md:border-none'>
-          <SubHeader title="Export data" />
+          <Header title="Export data" />
           <p className='flex-grow'>To transfer all the data from one device to another, export it into a .txt file first. </p>
           <button
             type='button'
@@ -36,7 +36,7 @@ const AdminPage = () => {
         </div>
         {/* Import */}
         <div className='w-full md:w-1/3 flex flex-col items-center mb-5 pb-3 border-b border-secondary md:border-none'>
-          <SubHeader title="Import data" />
+          <Header title="Import data" />
           <p className='flex-grow'>If you have a .txt file exported from this page, from another device, import it here.</p>
           <input
             id='inputBackup'
@@ -55,7 +55,7 @@ const AdminPage = () => {
       {/* Delete stuff */}
       <div className='w-full md:w-1/3 mx-auto text-center'>
         <div className='flex flex-col items-center border-b border-secondary md:border-none mb-5 pb-3'>
-          <SubHeader title="Delete data" />
+          <Header title="Delete data" />
           <p>Delete all calculator and previous event score data.</p>
           <button
             type='button'

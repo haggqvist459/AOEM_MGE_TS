@@ -3,7 +3,7 @@ import { useDailyCalculator } from '@/hooks'
 import { DaySevenStateData, updateFieldDaySeven, resetStateDaySeven, calculateDailyScoreDaySeven } from '@/redux'
 import { toNumber, TRIBE_LEVEL_MULTIPLIERS, TROOP_POWER_MULTIPLIER } from '@/utils'
 import { DayKey } from '@/types'
-import { CalculatorHeader, CalculatorContainer, CalculatorButtons, RowWrapper, SubHeader, Input, Output, Modal, ExpandableSection } from '@/components'
+import { CalculatorHeader, CalculatorContainer, CalculatorButtons, RowWrapper, Header, Input, Output, Modal, ExpandableSection } from '@/components'
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown'
 
 const tribeDropdownOptions = mapToDropdownOptions(TRIBE_LEVEL_MULTIPLIERS);
@@ -199,7 +199,7 @@ const DaySevenCalc = ({ activeDay, setActiveDay}: Props) => {
               />
             </RowWrapper>
           </ExpandableSection>
-          <SubHeader title='Previous Event Score' />
+          <Header title='Previous Event Score' />
           <RowWrapper>
             <Input
               id='previous.first'
@@ -220,7 +220,7 @@ const DaySevenCalc = ({ activeDay, setActiveDay}: Props) => {
           </RowWrapper>
         </div>
         <div className='calculator-output'>
-          <SubHeader title="Score" />
+          <Header title="Score" />
           <RowWrapper>
             <Output label="Total daily score" value={localState.totalDailyScore} />
             <Output label="Troops" value={localState.score.troops} />
@@ -237,7 +237,7 @@ const DaySevenCalc = ({ activeDay, setActiveDay}: Props) => {
             <Output label="Rings" value={localState.score.rings} />
             <Output label="Tribes" value={localState.score.tribes} />
           </RowWrapper>
-          <SubHeader title='Previous Event Score' />
+          <Header title='Previous Event Score' />
           <RowWrapper>
             <Output label='First' value={toNumber(localState.previousEvent.first)} />
             <Output label='Tenth' value={toNumber(localState.previousEvent.tenth)} />

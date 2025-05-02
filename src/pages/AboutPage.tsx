@@ -1,11 +1,11 @@
-import { CalculatorContainer, CalculatorHeader, SubHeader } from "@/components";
+import { CalculatorContainer, CalculatorHeader, Header } from "@/components";
 
 const AboutPage = () => {
   return (
     <CalculatorContainer>
       <CalculatorHeader title="About This Site" showTrash={false} />
       <div className='w-full md:w-1/2 mx-auto flex flex-col text-center pb-3'>
-        <SubHeader title="The Calculators" />
+        <Header title="The Calculators" />
         <p>
           The daily calculators on this website are based on observations from the game.
         </p>
@@ -13,7 +13,7 @@ const AboutPage = () => {
           Every effort is made to keep the calculators up-to-date and accurate, no guarantee can be given for the results.
         </p>
 
-        <SubHeader title="The Data" />
+        <Header title="The Data" />
         <p>
           This website does not use cookies, and does not gather any data about you or your usage aside from what you input into the calculators.
         </p>
@@ -26,7 +26,7 @@ const AboutPage = () => {
         </p>
         <p>You can move your calculator data between devices by exporting it into a .txt file on the admin page, and then import it again on the next device. </p>
 
-        <SubHeader title="The Website"/>
+        <Header title="The Website"/>
         <p>
           This website is player-made and is not in any way affilated or sponsored by any official developer entity, or party related to Age of Empires Mobile.
         </p>

@@ -1,6 +1,6 @@
 import { PreviousEventScoreData } from '@/redux'
 import { DAY_TITLES, toNumber } from '@/utils'
-import { SubHeader, Output, Trashcan, GridWrapper, RowWrapper } from '@/components'
+import { Header, Output, Trashcan, GridWrapper, RowWrapper } from '@/components'
 
 type Props = {
   previousEvent: PreviousEventScoreData
@@ -19,24 +19,24 @@ const PreviousEvent = ({
   return (
     <div className='w-full'>
       <div className='w-full flex justify-between'>
-        <SubHeader title={name} />
+        <Header title={name} />
         <button onClick={() => onDelete(id)}>
           <Trashcan />
         </button>
       </div>
-
-      {/* Input for name  */}
       <GridWrapper>
-        <div>
-          <h3 className="text-[17px] font-semibold text-primary">{'Total Score'}</h3>
+        <div className='border-b border-secondary md:border-r'>
+          <Header title='Total Score' headerType='sub-header'/>
           <RowWrapper>
             <Output label='First' value={totalScoreFirst} />
             <Output label='Tenth' value={totalScoreTenth} />
           </RowWrapper>
         </div>
         {days.map((dayData, index) => (
-          <div key={index}>
-            <h3 className="text-[17px] font-semibold text-primary">{DAY_TITLES[dayData.day]}</h3>
+          <div key={index}
+            className={`border-secondary border-b 
+              ${index % 2 === 0 ? 'md:border-l' : 'md:border-r'}`}>
+            <Header title={DAY_TITLES[dayData.day]} headerType='sub-header'/>
             <RowWrapper>
               <Output key={index} label="First" value={toNumber(dayData.score.first)} />
               <Output key={index} label="Tenth" value={toNumber(dayData.score.tenth)} />
@@ -49,3 +49,10 @@ const PreviousEvent = ({
 }
 
 export default PreviousEvent;
+
+/*
+${index < days.length - 1 ? 'border-b' : ''} 
+              ${index < days.length - 2 ? 'md:border-b' : ''} 
+              ${index > days.length - 3 ? 'md:border-b-0' : ''} 
+
+*/

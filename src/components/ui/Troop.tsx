@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { TroopTypeData, TroopType } from '@/redux'
 import { TROOP_TIER_MULTIPLIERS } from '@/utils'
 import { TimeData } from '@/types'
-import { ExpandableHeader, ExpandableSection, RowWrapper, Input, TimeSelector } from '@/components'
+import { ExpandableSection, RowWrapper, Input, TimeSelector } from '@/components'
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown'
 
 const dropdownOptions = mapToDropdownOptions(TROOP_TIER_MULTIPLIERS)

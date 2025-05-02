@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { ROUTES } from '@/utils'
 import { NavMenu, NavButton } from '@/components';
 
-const Header = () => {
+const NavBar = () => {
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -23,4 +23,4 @@ const Header = () => {
   )
 }
 
-export default Header;
+export default NavBar;

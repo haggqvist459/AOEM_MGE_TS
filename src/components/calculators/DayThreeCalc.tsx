@@ -4,7 +4,7 @@ import { useAppDispatch, DayThreeStateData } from "@/redux";
 import { toNumber } from '@/utils';
 import { DayKey } from '@/types';
 import { updateFieldDayThree, resetStateDayThree, calculateDailyScoreDayThree, updateTroopField, addTroop, removeTroop, GatherTroopData } from "@/redux"
-import { CalculatorContainer, CalculatorButtons, CalculatorHeader, SubHeader, RowWrapper, Input, Output, GatherTroop, Modal } from "@/components";
+import { CalculatorContainer, CalculatorButtons, CalculatorHeader, Header, RowWrapper, Input, Output, GatherTroop, Modal } from "@/components";
 import { Dropdown, DropdownOption } from '@/components/ui/dropdown'
 
 
@@ -113,7 +113,7 @@ const DayThreeCalc = ({ activeDay, setActiveDay}: Props) => {
       <CalculatorHeader title="Day Three" handleClick={() => setShowModal(true)} />
       <div className='flex flex-col md:flex-row'>
         <div className='calculator-input'>
-          <SubHeader title='Gathering'/>
+          <Header title='Gathering'/>
           {localState.troops.map((troop: GatherTroopData, index: number) => (
             <GatherTroop
               key={index}
@@ -147,7 +147,7 @@ const DayThreeCalc = ({ activeDay, setActiveDay}: Props) => {
               onChange={(e) => dropdownDispatch('allianceCenterId', e.target.value)}
             />
           </RowWrapper>
-          <SubHeader title='Advent wheel'/>
+          <Header title='Advent wheel'/>
           <Input
             id='empireCoins'
             placeholder="0"
@@ -156,7 +156,7 @@ const DayThreeCalc = ({ activeDay, setActiveDay}: Props) => {
             onChange={(e) => handleLocalChange('empireCoins', e.target.value)}
             onBlur={() => handleBlur('empireCoins')}
           />
-          <SubHeader title='Previous Event Score' />
+          <Header title='Previous Event Score' />
           <RowWrapper>
             <Input
               id='previous.first'
@@ -177,13 +177,13 @@ const DayThreeCalc = ({ activeDay, setActiveDay}: Props) => {
           </RowWrapper>
         </div>
         <div className='calculator-output'>
-          <SubHeader title="Score" />
+          <Header title="Score" />
           <Output label="Total daily score" value={localState.totalDailyScore} />
           <RowWrapper>
             <Output label='Gathering' value={localState.score.gathering} />
             <Output label='Spins' value={localState.score.spins} />
           </RowWrapper>
-          <SubHeader title='Previous Event Score' />
+          <Header title='Previous Event Score' />
           <RowWrapper>
             <Output label='First' value={toNumber(localState.previousEvent.first)} />
             <Output label='Tenth' value={toNumber(localState.previousEvent.tenth)} />

@@ -1,4 +1,4 @@
-import { SubHeader } from "@/components"
+import { Header } from "@/components"
 
 type Props = {
   title: string
@@ -25,7 +25,7 @@ const Modal = ({
         className="bg-white p-5 rounded shadow-lg w-full max-w-md mx-4"
         onClick={(e) => e.stopPropagation()}
       >
-        <SubHeader title={title} />
+        <Header title={title} />
         <p className="my-2">{description}</p>
         <div className="flex justify-end space-x-2">
           <button onClick={onCancel} className="px-4 py-2 bg-secondary rounded">Cancel</button>

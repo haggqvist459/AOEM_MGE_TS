@@ -3,7 +3,7 @@ import { useDailyCalculator } from '@/hooks'
 import { toNumber, TROOP_POWER_MULTIPLIER } from '@/utils'
 import { ResetStateDaysix, updateFieldDaySix, calculateDailyScoreDaySix, DaySixStateData } from '@/redux'
 import { DayKey } from '@/types'
-import { CalculatorHeader, CalculatorContainer, CalculatorButtons, RowWrapper, SubHeader, InfoButton, Input, Output, Modal } from '@/components'
+import { CalculatorHeader, CalculatorContainer, CalculatorButtons, RowWrapper, Header, InfoButton, Input, Output, Modal } from '@/components'
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown'
 
 const dropdownOptions = mapToDropdownOptions(TROOP_POWER_MULTIPLIER)
@@ -42,7 +42,7 @@ const DaySixCalc = ({ activeDay, setActiveDay}: Props) => {
       <div className='flex flex-col md:flex-row'>
         <div className='calculator-input'>
           <div className='flex space-x-1'>
-            <SubHeader title='Research' />
+            <Header title='Research' />
             <InfoButton message='Input the power gain based on the research you estimate to complete' />
           </div>
           <Input
@@ -53,7 +53,7 @@ const DaySixCalc = ({ activeDay, setActiveDay}: Props) => {
             onBlur={() => handleBlur('researchPower')}
           />
           <div className='flex space-x-1'>
-            <SubHeader title='Building' />
+            <Header title='Building' />
             <InfoButton message='Input the power gains from the buildings you estimate to complete' />
           </div>
           <RowWrapper>
@@ -80,7 +80,7 @@ const DaySixCalc = ({ activeDay, setActiveDay}: Props) => {
             />
           </RowWrapper>
           <div className='flex space-x-1'>
-            <SubHeader title='Troops' />
+            <Header title='Troops' />
             <InfoButton message='Add the total number of troops together from all training queues' />
           </div>
           <RowWrapper>
@@ -100,7 +100,7 @@ const DaySixCalc = ({ activeDay, setActiveDay}: Props) => {
               onChange={(e) => handleInstantDispatch('troopTier', e.target.value)}
             />
           </RowWrapper>
-          <SubHeader title='Previous Event Score' />
+          <Header title='Previous Event Score' />
           <RowWrapper>
             <Input
               id='previous.first'
@@ -121,14 +121,14 @@ const DaySixCalc = ({ activeDay, setActiveDay}: Props) => {
           </RowWrapper>
         </div>
         <div className='calculator-output'>
-          <SubHeader title="Score" />
+          <Header title="Score" />
           <Output label="Total daily score" value={localState.totalDailyScore} />
           <RowWrapper>
             <Output label="Research" value={localState.score.research} />
             <Output label="Building" value={localState.score.building} />
             <Output label="Troops" value={localState.score.troop} />
           </RowWrapper>
-          <SubHeader title='Previous Event Score' />
+          <Header title='Previous Event Score' />
           <RowWrapper>
             <Output label='First' value={toNumber(localState.previousEvent.first)} />
             <Output label='Tenth' value={toNumber(localState.previousEvent.tenth)} />

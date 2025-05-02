@@ -1,3 +1,5 @@
+import { Header } from "@/components";
+
 type Props = {
   isExpanded: boolean
   height?: string
@@ -22,7 +24,7 @@ const ExpandableSection = ({
           onClick={() => toggleExpansion(!isExpanded)}
           className="flex flex-row items-center justify-between w-full text-left focus:outline-none"
         >
-          <h3 className='text-[17px] font-semibold text-primary'>{title}</h3>
+          <Header title={title} headerType="sub-header" />
           {/* Triangle Icon */}
           <span className={`text-primary font-sans inline-block transform transition-transform ${isExpanded ? "rotate-90" : "rotate-0"}`}>
             ▶

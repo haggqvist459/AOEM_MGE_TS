@@ -4,7 +4,7 @@ import {
   useAppSelector, useAppDispatch, resetPreviousEventState, updateEvent, createEvent, deleteEvent,
   PreviousEventStateData, PreviousEventScoreData
 } from '@/redux'
-import { CalculatorContainer, CalculatorHeader, Modal, SubHeader, Input, PreviousEvent, GridWrapper, RowWrapper, Output } from "@/components";
+import { CalculatorContainer, CalculatorHeader, Modal, Header, Input, PreviousEvent, GridWrapper, RowWrapper, Output } from "@/components";
 
 
 const PreviousEventScorePage = () => {
@@ -69,27 +69,30 @@ const PreviousEventScorePage = () => {
   return (
     <CalculatorContainer>
       <CalculatorHeader title="Previous Events" handleClick={() => setShowModal(true)} />
-      <div className="flex flex-col sm:flex-row">
+      <div className="flex flex-col md:flex-row ">
         {/* Create event */}
-        <div className="w-1/2 xs:w-full px-1 border-b border-r border-secondary mb-1 mr-1">
+        <div className="w-full mb-1 md:mr-1 border-secondary border-b md:border-r">
           <form onSubmit={(e) => {
             e.preventDefault()
             onConfirm()
           }}>
-            <SubHeader title="Create event" />
-            <GridWrapper columns={1}>
-              <Input
-                inputType="text"
-                id="startDate"
-                label='Start date'
-                placeholder="e.g. April 28"
-                value={newEvent.name}
-                onChange={(e) => setNewEvent({ ...newEvent, name: e.target.value })}
-              />
+            <Header title="Create event" />
+            <GridWrapper>
+              <div className="">
+                <Header title="" headerType="sub-header"/>
+                <Input
+                  inputType="text"
+                  id="startDate"
+                  label='Start date'
+                  placeholder="e.g. April 28"
+                  value={newEvent.name}
+                  onChange={(e) => setNewEvent({ ...newEvent, name: e.target.value })}
+                />
+              </div>
               {/* Map the days in the newEvent object */}
               {newEvent.days.map((dayData, index) => (
-                <div key={index}>
-                  <h3 className="text-[17px] font-semibold text-primary">{DAY_TITLES[dayData.day]}</h3>
+                <div key={index} className={`${index % 2 !== 0 ? '' : ''}`}>
+                  <Header title={DAY_TITLES[dayData.day]} headerType="sub-header"/>
                   <RowWrapper>
                     <Input
                       id={`${index}-${dayData.day}-first`}
@@ -112,23 +115,29 @@ const PreviousEventScorePage = () => {
                 </div>
               ))}
             </GridWrapper>
-            <button
-              className="add-button w-full"
-              type="submit"
-              disabled={newEvent.name.trim() === ""}
-            >
-              Add Event
-            </button>
+            <div className="">
+              <button
+                className="add-button w-full"
+                type="submit"
+                disabled={newEvent.name.trim() === ""}
+              >
+                Add Event
+              </button>
+            </div>
           </form>
         </div>
         {/* Averages */}
-        <div className="w-1/2 xs:w-full px-1 border-l border-b border-secondary mb-1">
-          <SubHeader title="Average score" />
-          <GridWrapper columns={1}>
-          <Output label="Total score" value={0} />
+        <div className="w-full mb-1 border-secondary border-b md:border-l">
+          <Header title="Average score" />
+          <GridWrapper>
+            <div className="border-secondary border-b border-r">
+            <Header title="" headerType="sub-header"/>
+              <Output label="Total score" value={0} />
+            </div>
             {Object.values(DAY_KEYS).map((dayKey, index) => (
-              <div key={index}>
-                <h3 className="text-[17px] font-semibold text-primary">{DAY_TITLES[dayKey]}</h3>
+              <div key={index} className={`border-secondary border-b
+                ${index % 2 === 0 ? 'md:border-l' : 'md:border-r'}`}>
+                <Header title={DAY_TITLES[dayKey]} headerType="sub-header"/>
                 <RowWrapper>
                   <Output key={dayKey} label={'First'} value={0} />
                   <Output key={dayKey} label={'Tenth'} value={0} />
@@ -138,9 +147,9 @@ const PreviousEventScorePage = () => {
           </GridWrapper>
         </div>
       </div>
-      <GridWrapper columns={1}>
+      <GridWrapper>
         {localState.previousEvents.map((previousEvent, index) => (
-          <div key={index} className={`px-1 border-b border-secondary ${index % 2 !== 0 ? 'md:border-l' : 'md:border-r'}`}>
+          <div key={index} className={`border-secondary ${index % 2 !== 0 ? 'md:border-l' : 'md:border-r'}`}>
             <PreviousEvent
               previousEvent={previousEvent}
               onDelete={onDelete}

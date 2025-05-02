@@ -3,7 +3,7 @@ import { useDailyCalculator } from '@/hooks/useDailyCalculator';
 import { resetStateDayOne, updateFieldDayOne, calculateDailyScoreDayOne, DayOneStateData } from '@/redux'
 import { TRIBE_LEVEL_MULTIPLIERS, toNumber } from '@/utils';
 import { DayKey } from '@/types';
-import { CalculatorContainer, CalculatorHeader, SubHeader, Input, Output, RowWrapper, Modal, CalculatorButtons } from '@/components'
+import { CalculatorContainer, CalculatorHeader, Header, Input, Output, RowWrapper, Modal, CalculatorButtons } from '@/components'
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown';
 
 const dropdownOptions = mapToDropdownOptions(TRIBE_LEVEL_MULTIPLIERS)
@@ -43,7 +43,7 @@ const DayOneCalc = ({ activeDay, setActiveDay}: Props) => {
       <div className='flex flex-col md:flex-row'>
         <div className='calculator-input'>
           <div className='mb-2'>
-            <SubHeader title='Tribe Hunting' />
+            <Header title='Tribe Hunting' />
             <Input
               id='stamina'
               placeholder='Include all daily boosts'
@@ -60,7 +60,7 @@ const DayOneCalc = ({ activeDay, setActiveDay}: Props) => {
               onChange={(e) => handleInstantDispatch?.('tribeLevelMultiplier', e.target.value)}
             />
           </div>
-          <SubHeader title='Previous Event Score' />
+          <Header title='Previous Event Score' />
           <RowWrapper>
             <Input
               id='previous.first'
@@ -81,12 +81,12 @@ const DayOneCalc = ({ activeDay, setActiveDay}: Props) => {
           </RowWrapper>
         </div>
         <div className='calculator-output'>
-          <SubHeader title='Score' />
+          <Header title='Score' />
           <RowWrapper>
             <Output label='Daily score' value={localState.totalDailyScore} />
             <Output label='Tribes hunted' value={localState.tribesHunted} />
           </RowWrapper>
-          <SubHeader title='Previous Event Score' />
+          <Header title='Previous Event Score' />
           <RowWrapper>
             <Output label='First' value={toNumber(localState.previousEvent.first)} />
             <Output label='Tenth' value={toNumber(localState.previousEvent.tenth)} />

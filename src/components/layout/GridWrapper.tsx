@@ -6,7 +6,7 @@ type Props = {
 }
 const GridWrapper = ({ 
   children,
-  columns = 2
+  columns = 1
 }: Props) => {
 
   const columnClass = `grid-cols-1 xs:grid-cols-${columns} md:grid-cols-2`
