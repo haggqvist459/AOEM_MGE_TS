@@ -2,7 +2,17 @@ import { DayKey } from "@/types"
 
 export type DayData = {
   day: DayKey
-  score: string
+  score: {
+    first: string,
+    tenth: string
+  }
+}
+
+export type DayDataPayload = {
+  id: string
+  day: DayKey,
+  field: 'first' | 'tenth'
+  value: string
 }
 
 export type CreateEventPayload = {
@@ -10,16 +20,18 @@ export type CreateEventPayload = {
   days: DayData[]
 }
 
-export type DayDataPayload = {
-  id: string
-  day: DayKey
-  value: string
-}
-
 export type PreviousEventScoreData = {
   name: string
   id: string
   days: DayData[]
+}
+
+export type PreviousEventAverageData = {
+  day: DayKey,
+  score: {
+    first: string,
+    tenth: string
+  }
 }
 
 export type PreviousEventStateData = {

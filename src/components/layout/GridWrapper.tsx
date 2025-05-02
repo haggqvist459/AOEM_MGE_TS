@@ -1,13 +1,20 @@
 import React from "react";
 
 type Props = {
-  children: React.ReactNode
+  children: React.ReactNode,
+  columns?: number
 }
-const GridWrapper = ({ children }: Props) => {
+const GridWrapper = ({ 
+  children,
+  columns = 2
+}: Props) => {
+
+  const columnClass = `grid-cols-1 xs:grid-cols-${columns} md:grid-cols-2`
+
   return (
-    <div className="grid grid-cols-1 xs:grid-cols-2 gap-1">
+    <div className={`grid ${columnClass} gap-1`}>
       {React.Children.toArray(children).map((child, index) => (
-        <div key={index} className="w-full">{child}</div>
+        <div key={index} className="w-full self-end">{child}</div>
       ))}
     </div>
   )

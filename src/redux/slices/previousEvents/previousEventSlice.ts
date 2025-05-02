@@ -12,15 +12,20 @@ const previousEventSlice = createSlice({
   initialState,
   reducers: {
     updateEvent: (state, action: PayloadAction<DayDataPayload>) => {
-      const { id, day, value } = action.payload
-      console.log("updateEvent payload values, id: ", id, ', day: ', day, ', value: ', value)
+      const { id, day, field, value } = action.payload
+      console.log("updateEvent payload values, id: ", id, ', day: ', day, ', field: ', field, ', value: ', value)
       console.log(state)
       const eventIndex = state.previousEvents.findIndex(e => e.id === id)
       if (eventIndex === -1) return // some error, event not found 
 
       const event = state.previousEvents[eventIndex]
-      const dayIndex = event.days.findIndex(d => d.day = day)
-      event.days[dayIndex].score = value
+      const dayIndex = event.days.findIndex(d => d.day === day)
+      if (field === 'first') {
+        event.days[dayIndex].score.first = value
+      } else if (field === 'tenth') {
+        event.days[dayIndex].score.tenth = value
+      }
+      
     },
     createEvent: (state, action: PayloadAction<CreateEventPayload>) => {
       const { name, days } = action.payload
