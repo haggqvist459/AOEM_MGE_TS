@@ -58,32 +58,18 @@ export const selectPreviousScoreAverages = createSelector(
 export const selectTotalScoreAverages = createSelector(
   [(state: RootState) => state[SCORE_KEYS.PREVIOUS_EVENT_SCORE].previousEvents],
   (events) => {
-    const firstTotals: number[] = []
-    const tenthTotals: number[] = []
+    
 
-    for (const event of events) {
-      let firstSum = 0
-      let tenthSum = 0
+    events.forEach((event:PreviousEventScoreData) => {
+      let eventFirstTotal = 0;
+      let eventTenthTotal = 0;
+      event.days.forEach((day: DayData, ) => {
+        if(toNumber(day.score.first) > 0) {
+          // accumulate each 
+        }
+      })
+    })
 
-      for (const day of event.days) {
-        const first = toNumber(day.score.first)
-        const tenth = toNumber(day.score.tenth)
-
-        if (first > 0) firstSum += first
-        if (tenth > 0) tenthSum += tenth
-      }
-
-      if (firstSum > 0) firstTotals.push(firstSum)
-      if (tenthSum > 0) tenthTotals.push(tenthSum)
-    }
-
-    const avg = (values: number[]) =>
-      values.length > 0 ? values.reduce((a, b) => a + b, 0) / values.length : 0
-
-    return {
-      first: avg(firstTotals),
-      tenth: avg(tenthTotals),
-    }
   }
 )
 
