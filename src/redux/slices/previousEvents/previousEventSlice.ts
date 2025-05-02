@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from 'uuid'
-import { DayData, PreviousEventScoreData, PreviousEventStateData, DayDataPayload, CreateEventPayload } from "./previousEvents.types";
-import { loadData, saveData, toNumber, SCORE_KEYS, DAY_KEYS } from "@/utils";
+import { PreviousEventStateData, DayDataPayload, CreateEventPayload } from "./previousEvents.types";
+import { loadData, saveData, SCORE_KEYS } from "@/utils";
 
 const initialState: PreviousEventStateData = loadData<PreviousEventStateData>(SCORE_KEYS.PREVIOUS_EVENT_SCORE) ?? {
   previousEvents: []
@@ -25,7 +25,7 @@ const previousEventSlice = createSlice({
       } else if (field === 'tenth') {
         event.days[dayIndex].score.tenth = value
       }
-      
+
     },
     createEvent: (state, action: PayloadAction<CreateEventPayload>) => {
       const { name, days } = action.payload

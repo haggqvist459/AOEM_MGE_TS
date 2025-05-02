@@ -17,30 +17,35 @@ const PreviousEvent = ({
   const totalScoreTenth = days.reduce((total, day) => total + toNumber(day.score.tenth), 0)
 
   return (
-    <div className='w-full'>
-      <div className='w-full flex justify-between'>
+    <div className='w-full mt-2 border-secondary border-t md:border-none'>
+      <div className='w-full flex justify-between md:px-1 pt-1'>
         <Header title={name} />
         <button onClick={() => onDelete(id)}>
           <Trashcan />
         </button>
       </div>
       <GridWrapper>
-        <div className='border-b border-secondary md:border-r'>
-          <Header title='Total Score' headerType='sub-header'/>
-          <RowWrapper>
-            <Output label='First' value={totalScoreFirst} />
-            <Output label='Tenth' value={totalScoreTenth} />
-          </RowWrapper>
+        <div className='border-b border-secondary'>
+          <div className='md:px-1'>
+            <Header title='Total Score' headerType='sub-header' />
+            <RowWrapper>
+              <Output label='First' value={totalScoreFirst} />
+              <Output label='Tenth' value={totalScoreTenth} />
+            </RowWrapper>
+          </div>
         </div>
         {days.map((dayData, index) => (
           <div key={index}
             className={`border-secondary border-b 
-              ${index % 2 === 0 ? 'md:border-l' : 'md:border-r'}`}>
-            <Header title={DAY_TITLES[dayData.day]} headerType='sub-header'/>
-            <RowWrapper>
-              <Output key={index} label="First" value={toNumber(dayData.score.first)} />
-              <Output key={index} label="Tenth" value={toNumber(dayData.score.tenth)} />
-            </RowWrapper>
+              ${index % 2 === 0 ? 'md:border-l' : ''}`}
+          >
+            <div className='md:px-1'>
+              <Header title={DAY_TITLES[dayData.day]} headerType='sub-header' />
+              <RowWrapper>
+                <Output key={index} label="First" value={toNumber(dayData.score.first)} />
+                <Output key={index} label="Tenth" value={toNumber(dayData.score.tenth)} />
+              </RowWrapper>
+            </div>
           </div>
         ))}
       </GridWrapper>
@@ -49,10 +54,3 @@ const PreviousEvent = ({
 }
 
 export default PreviousEvent;
-
-/*
-${index < days.length - 1 ? 'border-b' : ''} 
-              ${index < days.length - 2 ? 'md:border-b' : ''} 
-              ${index > days.length - 3 ? 'md:border-b-0' : ''} 
-
-*/

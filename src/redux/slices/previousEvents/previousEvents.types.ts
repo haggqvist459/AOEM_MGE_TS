@@ -8,6 +8,8 @@ export type DayData = {
   }
 }
 
+
+
 export type DayDataPayload = {
   id: string
   day: DayKey,
@@ -26,14 +28,19 @@ export type PreviousEventScoreData = {
   days: DayData[]
 }
 
-export type PreviousEventAverageData = {
-  day: DayKey,
+export type PreviousEventStateData = {
+  previousEvents: PreviousEventScoreData[]
+}
+
+export type DayAverageData = {
+  day: DayKey
   score: {
-    first: string,
-    tenth: string
+    first: number,
+    tenth: number
   }
 }
 
-export type PreviousEventStateData = {
-  previousEvents: PreviousEventScoreData[]
+export type PreviousEventAverageData = {
+  id: string
+  days: DayAverageData[]
 }

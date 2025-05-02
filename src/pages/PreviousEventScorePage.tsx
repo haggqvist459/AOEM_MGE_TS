@@ -2,7 +2,7 @@ import { useState, useEffect, ChangeEvent } from "react";
 import { DAY_KEYS, DAY_TITLES } from "@/utils";
 import {
   useAppSelector, useAppDispatch, resetPreviousEventState, updateEvent, createEvent, deleteEvent,
-  PreviousEventStateData, PreviousEventScoreData
+  PreviousEventStateData, PreviousEventScoreData, selectPreviousScoreAverages, selectTotalScoreAverages
 } from '@/redux'
 import { CalculatorContainer, CalculatorHeader, Modal, Header, Input, PreviousEvent, GridWrapper, RowWrapper, Output } from "@/components";
 
@@ -11,6 +11,8 @@ const PreviousEventScorePage = () => {
 
   const dispatch = useAppDispatch();
   const previousEventData = useAppSelector(state => state.previousEventScore)
+  const previousTotalAverage = useAppSelector(selectTotalScoreAverages)
+  const previousDailyAverage = useAppSelector(selectPreviousScoreAverages)
   const [localState, setLocalState] = useState<PreviousEventStateData>(previousEventData);
   const [showModal, setShowModal] = useState(false)
   const [newEvent, setNewEvent] = useState<PreviousEventScoreData>({
@@ -76,10 +78,11 @@ const PreviousEventScorePage = () => {
             e.preventDefault()
             onConfirm()
           }}>
-            <Header title="Create event" />
+            <div className="md:px-1">
+              <Header title="Create Event" />
+            </div>
             <GridWrapper>
-              <div className="">
-                <Header title="" headerType="sub-header"/>
+              <div className="md:pl-1">
                 <Input
                   inputType="text"
                   id="startDate"
@@ -91,8 +94,8 @@ const PreviousEventScorePage = () => {
               </div>
               {/* Map the days in the newEvent object */}
               {newEvent.days.map((dayData, index) => (
-                <div key={index} className={`${index % 2 !== 0 ? '' : ''}`}>
-                  <Header title={DAY_TITLES[dayData.day]} headerType="sub-header"/>
+                <div key={index} className={`border-transparent border-b ${index % 2 !== 0 ? 'md:pl-1' : 'md:pr-1'}`}>
+                  <Header title={DAY_TITLES[dayData.day]} headerType="sub-header" />
                   <RowWrapper>
                     <Input
                       id={`${index}-${dayData.day}-first`}
@@ -115,7 +118,7 @@ const PreviousEventScorePage = () => {
                 </div>
               ))}
             </GridWrapper>
-            <div className="">
+            <div className="md:px-1">
               <button
                 className="add-button w-full"
                 type="submit"
@@ -128,20 +131,34 @@ const PreviousEventScorePage = () => {
         </div>
         {/* Averages */}
         <div className="w-full mb-1 border-secondary border-b md:border-l">
-          <Header title="Average score" />
+          <div className="md:px-1">
+            <Header title="Average Score" />
+          </div>
           <GridWrapper>
-            <div className="border-secondary border-b border-r">
-            <Header title="" headerType="sub-header"/>
-              <Output label="Total score" value={0} />
-            </div>
-            {Object.values(DAY_KEYS).map((dayKey, index) => (
-              <div key={index} className={`border-secondary border-b
-                ${index % 2 === 0 ? 'md:border-l' : 'md:border-r'}`}>
-                <Header title={DAY_TITLES[dayKey]} headerType="sub-header"/>
+            <div className="border-secondary border-b">
+              <div className="md:px-1">
+                <Header title="Total Score" headerType="sub-header" />
                 <RowWrapper>
-                  <Output key={dayKey} label={'First'} value={0} />
-                  <Output key={dayKey} label={'Tenth'} value={0} />
+                  <Output label="First" value={0} />
+                  <Output label="Tenth" value={0} />
                 </RowWrapper>
+              </div>
+            </div>
+            {previousDailyAverage.days.map((day, index) => (
+              <div
+                key={index}
+                className={`border-secondary border-b
+                  ${index % 2 === 0 ? 'md:border-l' : ''}
+                  ${index === Object.values(DAY_KEYS).length - 1 ? 'border-b-0 md:border-b' : 'border-b'}
+                  `}
+              >
+                <div className="md:px-1">
+                  <Header title={DAY_TITLES[day.day]} headerType="sub-header" />
+                  <RowWrapper>
+                    <Output label={'First'} value={day.score.first} />
+                    <Output label={'Tenth'} value={day.score.tenth} />
+                  </RowWrapper>
+                </div>
               </div>
             ))}
           </GridWrapper>
