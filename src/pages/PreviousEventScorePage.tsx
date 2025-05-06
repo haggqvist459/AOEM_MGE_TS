@@ -139,8 +139,8 @@ const PreviousEventScorePage = () => {
               <div className="md:px-1">
                 <Header title="Total Score" headerType="sub-header" />
                 <RowWrapper>
-                  <Output label="First" value={0} />
-                  <Output label="Tenth" value={0} />
+                  <Output label="First" value={previousTotalAverage.first} />
+                  <Output label="Tenth" value={previousTotalAverage.tenth} />
                 </RowWrapper>
               </div>
             </div>
