@@ -38,7 +38,7 @@ export const NAVBAR_OPTIONS = {
 } as const
 
 export const SCORE_KEYS = {
-  TOTAL_SCORE: 'totalScore',
+  // TOTAL_SCORE: 'totalScore',
   PREVIOUS_EVENT_SCORE: 'previousEventScore'
 } as const 
 

@@ -1,11 +1,11 @@
 import { loadData, saveData } from "./localStorage";
-import { DAY_KEYS } from "./constants";
+import { DAY_KEYS, SCORE_KEYS } from "./constants";
 
 
-export const exportLocalStorageToFile = (): void => {
+export const exportLocalStorageToFile = (localStorageKeys: string[], fileName: string): void => {
   const collectedData: Record<string, unknown> = {}
 
-  for (const key of Object.values(DAY_KEYS)) {
+  for (const key of Object.values(localStorageKeys)) {
     const value = loadData(key)
     if (value !== null) {
       collectedData[key] = value
@@ -23,7 +23,7 @@ export const exportLocalStorageToFile = (): void => {
 
   const a = document.createElement("a")
   a.href = url
-  a.download = "AoEM_MGE_backup.txt"
+  a.download = `${fileName}`
   document.body.appendChild(a)
   a.click()
   document.body.removeChild(a)
@@ -33,6 +33,9 @@ export const exportLocalStorageToFile = (): void => {
 export const importLocalStorageFromFile = (event: React.ChangeEvent<HTMLInputElement>): void => {
   const target = event.target as HTMLInputElement
   const file = target.files?.[0]
+  let hasImported = false;
+  const allValidKeys = [...Object.values(DAY_KEYS), ...Object.values(SCORE_KEYS)]
+
   if (!file) return
 
   const reader = new FileReader()
@@ -40,13 +43,16 @@ export const importLocalStorageFromFile = (event: React.ChangeEvent<HTMLInputEle
     try {
       const data = JSON.parse(e.target?.result as string) as Record<string, unknown>
 
-      for (const key of Object.values(DAY_KEYS)) {
+      for (const key of allValidKeys) {
         if (data[key] !== undefined) {
           saveData(key, data[key])
+          hasImported = true;
         }
       }
 
-      alert("Data successfully imported into localStorage!")
+      alert(hasImported
+        ? "Data successfully imported into localStorage!"
+        : "No valid data found in the file.");
       window.location.reload()
     } catch {
       alert("Invalid file format!")

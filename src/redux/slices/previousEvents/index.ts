@@ -1,5 +1,5 @@
 export * from './previousEvents.types'
-export * from './selectors'
+export * from './previousEvents.selectors'
 export { 
   createEvent,
   updateEvent,

@@ -1,1 +1,2 @@
-export * from './useDailyCalculator'
+export * from './useDailyCalculator';
+export * from './usePreviousEvents'

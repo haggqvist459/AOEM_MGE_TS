@@ -1,15 +1,20 @@
 import { useState } from "react";
-import { deleteData, exportLocalStorageToFile, importLocalStorageFromFile } from '@/utils'
+import { deleteData, exportLocalStorageToFile, importLocalStorageFromFile, DAY_KEYS, SCORE_KEYS } from '@/utils'
 import { CalculatorContainer, CalculatorHeader, Header, Modal } from "@/components";
 
 const AdminPage = () => {
 
   const [showModal, setShowModal] = useState(false);
 
-  const handleInputButtonClick = (): void => {
-    const input = document.getElementById('inputBackup');
+  const handleInputButtonClick = (inputId: string): void => {
+    const input = document.getElementById(inputId);
     if (input) input.click();
   };
+
+  const handleExports = (): void => {
+    exportLocalStorageToFile(Object.values(DAY_KEYS), 'AoEM_MGE_Backup_Calc.txt')
+    exportLocalStorageToFile(Object.values(SCORE_KEYS), 'AOEM_MGE_Backup_Prev.txt')
+  }
 
   const confirmDelete = (): void => {
     deleteData()
@@ -27,9 +32,9 @@ const AdminPage = () => {
           <Header title="Export data" />
           <p className='flex-grow'>To transfer all the data from one device to another, export it into a .txt file first. </p>
           <button
-            type='button'
-            className='w-1/2 mt-4 border-2 border-secondary bg-secondary rounded text-primary font-bold hover:border-primary hover:bg-neutral-500 '
-            onClick={() => exportLocalStorageToFile()}
+            type="button"
+            className="w-1/2 mt-4 border-2 border-primary bg-primary rounded text-blue-50 font-medium hover:border-blue-50"
+            onClick={() => handleExports()}
           >
             Export
           </button>
@@ -39,17 +44,20 @@ const AdminPage = () => {
           <Header title="Import data" />
           <p className='flex-grow'>If you have a .txt file exported from this page, from another device, import it here.</p>
           <input
-            id='inputBackup'
+            id='inputButton'
             type='file'
             accept='.txt'
             style={{ display: 'none' }}
             onChange={(e) => importLocalStorageFromFile(e)}
           />
           <button
-            id='inputBackup'
-            type='button'
-            className='w-1/2 mt-4 border-2 border-secondary bg-secondary rounded text-primary font-bold hover:border-primary hover:bg-neutral-500'
-            onClick={handleInputButtonClick}>Import</button>
+            type="button"
+            id='inputButton'
+            className="w-1/2 mt-4 border-2 border-primary bg-primary rounded text-blue-50 font-medium hover:border-blue-50"
+            onClick={() => handleInputButtonClick('inputButton')}
+          >
+            Import
+          </button>
         </div>
       </div>
       {/* Delete stuff */}
@@ -58,8 +66,8 @@ const AdminPage = () => {
           <Header title="Delete data" />
           <p>Delete all calculator and previous event score data.</p>
           <button
-            type='button'
-            className='w-1/2 mt-4 border-2 border-secondary bg-secondary rounded text-primary font-bold hover:border-primary hover:bg-neutral-500'
+            type="button"
+            className="w-1/2 mt-4 border-2 border-primary bg-primary rounded text-blue-50 font-medium hover:border-blue-50"
             onClick={() => setShowModal(true)}
           >
             Delete

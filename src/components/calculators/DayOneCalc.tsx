@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDailyCalculator } from '@/hooks/useDailyCalculator';
 import { resetStateDayOne, updateFieldDayOne, calculateDailyScoreDayOne, DayOneStateData } from '@/redux'
-import { TRIBE_LEVEL_MULTIPLIERS, toNumber } from '@/utils';
+import { DAY_KEYS, TRIBE_LEVEL_MULTIPLIERS, toNumber } from '@/utils';
 import { DayKey } from '@/types';
 import { CalculatorContainer, CalculatorHeader, Header, Input, Output, RowWrapper, Modal, CalculatorButtons } from '@/components'
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown';

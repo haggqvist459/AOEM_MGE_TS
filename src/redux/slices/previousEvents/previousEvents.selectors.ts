@@ -1,7 +1,8 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "@/redux/store"
-import { DayData, PreviousEventAverageData, PreviousEventScoreData } from './previousEvents.types'
+import { DayData, PreviousEventAverageData, PreviousEventScoreData, PreviousEventNumericData } from './previousEvents.types'
 import { toNumber, DAY_KEYS, SCORE_KEYS } from "@/utils"
+import { DayKey } from "@/types"
 
 
 export const selectPreviousScoreAverages = createSelector(
@@ -53,8 +54,6 @@ export const selectPreviousScoreAverages = createSelector(
   }
 )
 
-
-
 export const selectTotalScoreAverages = createSelector(
   [(state: RootState) => state[SCORE_KEYS.PREVIOUS_EVENT_SCORE].previousEvents],
   (events) => {
@@ -87,12 +86,49 @@ export const selectTotalScoreAverages = createSelector(
       tenth: eventTotalsTenth.length > 0
         ? eventTotalsTenth.reduce((a, b) => a + b, 0) / eventTotalsTenth.length
         : 0,
-    }
+    } satisfies PreviousEventNumericData
   }
 )
 
+export const selectAverageScoreForDay = (day: DayKey) =>
+  createSelector(
+    (state: RootState) => state.previousEventScore.events,
+    (events) => {
+      const validFirst: number[] = []
+      const validTenth: number[] = []
 
-// /*
+      for (const event of events) {
+        const dayData = event.days.find((d: DayData) => d.day === day)
+        if (!dayData) continue
 
+        const first = toNumber(dayData.score.first)
+        const tenth = toNumber(dayData.score.tenth)
 
-// */
+        if (first > 0) validFirst.push(first)
+        if (tenth > 0) validTenth.push(tenth)
+      }
+
+      const average = (arr: number[]) =>
+        arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0
+
+      return {
+        first: average(validFirst),
+        tenth: average(validTenth),
+      } satisfies PreviousEventNumericData
+    }
+  )
+
+export const selectPreviousEventNames = createSelector(
+  [(state: RootState) => state.previousEventScore.events],
+  (events) => events.map((event: PreviousEventScoreData) => ({ id: event.id, name: event.name }))
+)
+
+export const selectScoreForDayInEvent = (eventId: string, day: DayKey) =>
+  createSelector(
+    [(state: RootState) => state.previousEventScore.events],
+    (events): PreviousEventScoreData => {
+      const event = events.find((e: PreviousEventScoreData) => e.id === eventId)
+      const dayData = event?.days.find((d: DayData) => d.day === day)
+      return dayData?.score ?? { first: '', tenth: '' }
+    }
+  )

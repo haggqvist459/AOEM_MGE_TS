@@ -8,8 +8,6 @@ export type DayData = {
   }
 }
 
-
-
 export type DayDataPayload = {
   id: string
   day: DayKey,
@@ -43,4 +41,9 @@ export type DayAverageData = {
 export type PreviousEventAverageData = {
   id: string
   days: DayAverageData[]
+}
+
+export type PreviousEventNumericData = {
+  first: number
+  tenth: number
 }
