@@ -129,6 +129,9 @@ export const selectScoreForDayInEvent = (eventId: string, day: DayKey) =>
     (events): PreviousEventScoreData => {
       const event = events.find((e: PreviousEventScoreData) => e.id === eventId)
       const dayData = event?.days.find((d: DayData) => d.day === day)
-      return dayData?.score ?? { first: '', tenth: '' }
+      return dayData?.score ?? { first: '', tenth: '' } 
     }
+    
   )
+
+  
