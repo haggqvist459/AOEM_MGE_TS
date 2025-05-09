@@ -13,6 +13,7 @@ export { default as NavButton } from './NavButton';
 export { default as NavMenu } from './NavMenu';
 export { default as Output } from './Output';
 export { default as PreviousEvent } from './PreviousEvent';
+export { default as PreviousEventScore } from './PreviousEventScore';
 export { default as TimeSelector } from './TimeSelector';
 export { default as ToggleButton } from './ToggleButton';
 export { default as Troop } from './Troop';

@@ -1,18 +1,20 @@
 import { Header, Output, RowWrapper} from '@/components';
-
+import { PreviousEventNumericData } from '@/redux'
 type Props = {
-  
+  score: PreviousEventNumericData
 }
 
-const PreviousEventScore = (props: Props) => {
+const PreviousEventScore = ({
+  score
+}: Props) => {
 
 
   return (
     <div className='w-full'>
       <Header title='Previous Event Score'/>
       <RowWrapper>
-        <Output label='First' value={0}/>
-        <Output label='Tenth' value={0}/>
+        <Output label='First' value={score.first}/>
+        <Output label='Tenth' value={score.tenth}/>
       </RowWrapper>
     </div>
   )

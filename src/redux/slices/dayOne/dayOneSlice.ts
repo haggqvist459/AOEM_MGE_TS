@@ -12,10 +12,6 @@ const initialState: DayOneStateData = loadData<DayOneStateData>(DAY_KEYS.DAY_ONE
     tribe: 0
   },
   totalDailyScore: 0,
-  previousEvent: {
-    first: '',
-    tenth: ''
-  }
 }
 
 const dayOneSlice = createSlice({
@@ -50,10 +46,6 @@ const dayOneSlice = createSlice({
           tribe: 0
         },
         totalDailyScore: 0,
-        previousEvent: {
-          first: '',
-          tenth: ''
-        }
       }
 
       saveData(DAY_KEYS.DAY_ONE, reset);
