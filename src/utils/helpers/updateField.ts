@@ -2,46 +2,68 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { FieldUpdatePayload } from '@/types';
 
 
-// <T extends Record<string, any>>
-// This means: "T is a generic type that must be an object with string keys and any values"
-// It's used so the function can work with any shape of slice state (e.g., DayOneState, DayTwoState)
-// This lets TypeScript infer the actual state type when the function is called from a specific slice
+/**
+ * Generic update handler for both primitive and nested object fields.
+ * 
+ * @template T - The shape of the state slice (e.g., DayFiveState).
+ */
 export const updateFieldDelegated = <T extends Record<string, any>>(
-    state: T,
-    action: PayloadAction<FieldUpdatePayload>
+  state: T,
+  action: PayloadAction<FieldUpdatePayload>
 ) => {
-    const { field, unit, value } = action.payload;
+  const { field, unit, value } = action.payload;
 
-    // validate value here at later stage
-
-    if (unit) {
-        updateObjectField(state, field, unit, value);
-    } else {
-        updatePrimitiveField(state, field, value);
-    }
+  if (unit && typeof value === 'string') {
+    updateObjectField(state, field, unit, value);
+  } else {
+    updatePrimitiveField(state, field, value);
+  }
 };
 
-// (state as Record<string, any>)
-// This is a type assertion telling TypeScript:
-// "Trust me, state is an object with string keys"
-// It's necessary because generic types (like T) are read-only by default, and you can't assign to T[key]
-// By asserting it as a Record, we temporarily bypass that restriction so we can safely update the field
-const updateObjectField = <T extends Record<string, any>>(
-    state: T,
-    field: string,
-    unit: string,
-    value: string
+/**
+ * Updates a nested object field in the state.
+ * Assumes state[field] is an object with string keys and string values.
+ *
+ * @template T - The shape of the state slice.
+ * @template K - The key within T being updated.
+ */
+const updateObjectField = <T extends Record<K, Record<string, string>>, K extends keyof T>(
+  state: T,
+  field: K,
+  unit: string,
+  value: string
 ) => {
-    (state as Record<string, any>)[field] = {
-        ...state[field],
-        [unit]: value,
-    };
+  state[field] = {
+    ...state[field],
+    [unit]: value,
+  };
 };
 
-const updatePrimitiveField = <T extends Record<string, any>>(
-    state: T,
-    field: string,
-    value: string
-) => {
-    (state as Record<string, any>)[field] = value;
-};
+/**
+ * Updates a primitive field in the state.
+ * Supports string and boolean fields.
+ * If the current value is a boolean, it is toggled.
+ *
+ * @template T - The shape of the state slice.
+ * @template K - The key within T being updated.
+ */
+function updatePrimitiveField<T extends Record<K, string | boolean>, K extends keyof T>(
+  state: T,
+  field: K,
+  value?: string | boolean
+) {
+  const currentValue = state[field];
+
+  if (typeof currentValue === 'boolean') {
+    state[field] = !currentValue as T[K]; // [1]
+  } else {
+    state[field] = value as T[K]; 
+  }
+}
+
+/* [1]
+Type assertion
+T is a generic type representing an object
+K is a key from that object type (i.e., one of its property names).
+T[K] is the type of the value at key K — for example, if K = "gatherTroopName", then T[K] = string.
+*/

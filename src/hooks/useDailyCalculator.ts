@@ -53,7 +53,7 @@ export const useDailyCalculator = <T>({
     dispatch(calculateScore(field))
   }
 
-  const handleInstantDispatch = (field: string, value: string) => {
+  const handleInstantDispatch = (field: string, value?: string) => {
     dispatch(updateField({ field, value }))
     dispatch(calculateScore()) 
   }

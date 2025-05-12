@@ -28,6 +28,8 @@ export type DayFiveStateData = {
   trainedTroopTier: TierValue
   initialTrainingSpeedup: TimeData
   remainingTrainingSpeedup: TimeData
+  hasImperialTitle: boolean,
+  hasCityTitle: boolean
   score: {
     promotion: number
     training: number

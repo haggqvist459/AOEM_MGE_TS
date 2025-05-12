@@ -8,7 +8,7 @@ import {
 } from '@/redux'
 import {
   CalculatorHeader, CalculatorContainer, CalculatorButtons, ExpandableSection,
-  Modal, Input, Output, Header, TimeSelector, InfoButton, RowWrapper, Troop, PreviousEventScore
+  Modal, Input, Output, Header, TimeSelector, InfoButton, RowWrapper, Troop, PreviousEventScore, ToggleButton
 } from '@/components';
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown'
 
@@ -149,6 +149,16 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
               showSeconds={true}
             />
           </ExpandableSection>
+          <RowWrapper>
+            <div>
+              <Header title='Imperial Title' headerType='sub-header'/>
+              <ToggleButton isToggled={localState.hasImperialTitle} onToggle={() => handleInstantDispatch('hasImperialTitle')}/>
+            </div>
+            <div>
+            <Header title='City Title' headerType='sub-header'/>
+            <ToggleButton isToggled={localState.hasCityTitle} onToggle={() => handleInstantDispatch('hasCityTitle')}/>
+            </div>
+          </RowWrapper>
           <Dropdown
             id='previousEventDropdown'
             label='Previous event score'

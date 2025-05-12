@@ -56,3 +56,5 @@
 - [ ] Fix Nav menu width on certain breakpoints (md?)
 - [ ] Remove decimal points for gathering score on day three
 - [ ] Apply city and imperial titles for troop training 
+- [ ] Apply state types on reset object in reset state reducer 
+- [ ] Fix duplicate form IDs on day five (likely troop types)
