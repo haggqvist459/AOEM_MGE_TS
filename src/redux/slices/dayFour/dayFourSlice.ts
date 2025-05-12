@@ -29,11 +29,7 @@ const initialState: DayFourStateData = loadData<DayFourStateData>(DAY_KEYS.DAY_F
     building: 0,
     research: 0
   },
-  totalDailyScore: 0,
-  previousEvent: {
-    first: '',
-    tenth: ''
-  }
+  totalDailyScore: 0
 }
 
 const dayFourSlice = createSlice({
@@ -118,10 +114,6 @@ const dayFourSlice = createSlice({
           research: 0
         },
         totalDailyScore: 0,
-        previousEvent: {
-          first: '',
-          tenth: ''
-        }
       }
 
       saveData(DAY_KEYS.DAY_FOUR, reset);

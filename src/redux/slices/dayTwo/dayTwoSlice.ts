@@ -26,11 +26,7 @@ const initialState: DayTwoStateData = loadData<DayTwoStateData>(DAY_KEYS.DAY_TWO
     forging: 0,
     medals: 0,
     scrolls: 0
-  },
-  previousEvent: {
-    first: '',
-    tenth: '',
-  },
+  }
 }
 
 const dayTwoSlice = createSlice({
@@ -126,11 +122,7 @@ const dayTwoSlice = createSlice({
           forging: 0,
           medals: 0,
           scrolls: 0
-        },
-        previousEvent: {
-          first: '',
-          tenth: '',
-        },
+        }
       }
 
       saveData(DAY_KEYS.DAY_TWO, reset);

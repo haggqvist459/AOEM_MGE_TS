@@ -1,4 +1,3 @@
-import { PreviousEventData } from "@/types";
 import { TROOP_POWER_MULTIPLIER } from "@/utils";
 
 export type DaySixStateData = {
@@ -16,5 +15,4 @@ export type DaySixStateData = {
     research: number
   }
   totalDailyScore: number
-  previousEvent: PreviousEventData
 }

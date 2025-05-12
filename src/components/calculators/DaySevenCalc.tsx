@@ -1,20 +1,17 @@
 import { useState } from 'react'
-import { useDailyCalculator } from '@/hooks'
+import { useDailyCalculator, usePreviousEventScores } from '@/hooks';
 import { DaySevenStateData, updateFieldDaySeven, resetStateDaySeven, calculateDailyScoreDaySeven } from '@/redux'
-import { toNumber, TRIBE_LEVEL_MULTIPLIERS, TROOP_POWER_MULTIPLIER } from '@/utils'
+import { DAY_KEYS, TRIBE_LEVEL_MULTIPLIERS, TROOP_POWER_MULTIPLIER } from '@/utils'
 import { DayKey } from '@/types'
-import { CalculatorHeader, CalculatorContainer, CalculatorButtons, RowWrapper, Header, Input, Output, Modal, ExpandableSection } from '@/components'
+import { CalculatorHeader, CalculatorContainer, CalculatorButtons, RowWrapper, Header, Input, Output, Modal, ExpandableSection, PreviousEventScore } from '@/components'
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown'
-
-const tribeDropdownOptions = mapToDropdownOptions(TRIBE_LEVEL_MULTIPLIERS);
-const troopTierDropdownOptions = mapToDropdownOptions(TROOP_POWER_MULTIPLIER);
 
 type Props = {
   activeDay: DayKey;
   setActiveDay: React.Dispatch<React.SetStateAction<DayKey>>;
 }
 
-const DaySevenCalc = ({ activeDay, setActiveDay}: Props) => {
+const DaySevenCalc = ({ activeDay, setActiveDay }: Props) => {
 
   const {
     localState,
@@ -30,13 +27,28 @@ const DaySevenCalc = ({ activeDay, setActiveDay}: Props) => {
     useInstantDispatch: true
   })
 
+  const {
+    eventList,
+    selectedEvent,
+    setSelectedEvent,
+    selectedScore,
+  } = usePreviousEventScores(DAY_KEYS.DAY_ONE)
+
   const [expandedSection, setExpandedSection] = useState({
     tribe: false,
     medals: false,
     rings: false,
     powerGain: false,
   })
+
   const [showModal, setShowModal] = useState(false)
+  const tribeDropdownOptions = mapToDropdownOptions(TRIBE_LEVEL_MULTIPLIERS);
+  const troopTierDropdownOptions = mapToDropdownOptions(TROOP_POWER_MULTIPLIER);
+  const previousEventDropdownOptions = [
+    { label: 'Daily average', value: 'daily-average' },
+    ...mapToDropdownOptions(eventList)
+  ]
+
   const toggleSection = (section: keyof typeof expandedSection) => {
     setExpandedSection(prev => ({ ...prev, [section]: !prev[section] }));
   }
@@ -199,25 +211,13 @@ const DaySevenCalc = ({ activeDay, setActiveDay}: Props) => {
               />
             </RowWrapper>
           </ExpandableSection>
-          <Header title='Previous Event Score' />
-          <RowWrapper>
-            <Input
-              id='previous.first'
-              label='First'
-              placeholder='0'
-              value={localState.previousEvent.first}
-              onChange={(e) => handleLocalChange('previousEvent', e.target.value, 'first')}
-              onBlur={() => handleBlur('previousEvent', 'first')}
-            />
-            <Input
-              id='previous.tenth'
-              label='Tenth'
-              placeholder='0'
-              value={localState.previousEvent.tenth}
-              onChange={(e) => handleLocalChange('previousEvent', e.target.value, 'tenth')}
-              onBlur={() => handleBlur('previousEvent', 'tenth')}
-            />
-          </RowWrapper>
+          <Dropdown
+            id='previousEventDropdown'
+            label='Previous event score'
+            value={selectedEvent}
+            options={previousEventDropdownOptions}
+            onChange={(e) => setSelectedEvent(e.target.value)}
+          />
         </div>
         <div className='calculator-output'>
           <Header title="Score" />
@@ -237,11 +237,7 @@ const DaySevenCalc = ({ activeDay, setActiveDay}: Props) => {
             <Output label="Rings" value={localState.score.rings} />
             <Output label="Tribes" value={localState.score.tribes} />
           </RowWrapper>
-          <Header title='Previous Event Score' />
-          <RowWrapper>
-            <Output label='First' value={toNumber(localState.previousEvent.first)} />
-            <Output label='Tenth' value={toNumber(localState.previousEvent.tenth)} />
-          </RowWrapper>
+          <PreviousEventScore score={selectedScore}/>
         </div>
       </div>
       <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay} />

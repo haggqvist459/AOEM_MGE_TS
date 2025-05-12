@@ -19,11 +19,7 @@ const initialState: DaySixStateData = loadData<DaySixStateData>(DAY_KEYS.DAY_SIX
     research: 0,
     troop: 0
   },
-  totalDailyScore: 0,
-  previousEvent: {
-    first: '',
-    tenth: ''
-  }
+  totalDailyScore: 0
 }
 
 const daySixSlice = createSlice({
@@ -73,11 +69,7 @@ const daySixSlice = createSlice({
           research: 0,
           troop: 0
         },
-        totalDailyScore: 0,
-        previousEvent: {
-          first: '',
-          tenth: ''
-        }
+        totalDailyScore: 0
       }
 
       saveData(DAY_KEYS.DAY_SIX, reset);

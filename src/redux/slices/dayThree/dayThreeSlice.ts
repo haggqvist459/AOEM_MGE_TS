@@ -24,10 +24,6 @@ const initialState: DayThreeStateData = loadData<DayThreeStateData>(DAY_KEYS.DAY
     spins: 0
   },
   totalDailyScore: 0,
-  previousEvent: {
-    first: '',
-    tenth: '',
-  }
 }
 
 const dayThreeSlice = createSlice({
@@ -150,10 +146,6 @@ const dayThreeSlice = createSlice({
           spins: 0
         },
         totalDailyScore: 0,
-        previousEvent: {
-          first: '',
-          tenth: '',
-        }
       }
 
       saveData(DAY_KEYS.DAY_THREE, reset);

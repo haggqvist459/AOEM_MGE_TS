@@ -34,11 +34,7 @@ const initialState: DaySevenStateData = loadData<DaySevenStateData>(DAY_KEYS.DAY
     tribes: 0,
     troops: 0
   },
-  totalDailyScore: 0,
-  previousEvent: {
-    first: '',
-    tenth: ''
-  }
+  totalDailyScore: 0
 }
 
 const daySevenSlice = createSlice({
@@ -166,11 +162,7 @@ const daySevenSlice = createSlice({
           tribes: 0,
           troops: 0
         },
-        totalDailyScore: 0,
-        previousEvent: {
-          first: '',
-          tenth: ''
-        }
+        totalDailyScore: 0
       }
 
       saveData(DAY_KEYS.DAY_SEVEN, reset);

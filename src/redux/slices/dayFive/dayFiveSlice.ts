@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DayFiveStateData, TroopType, TroopTypeData, UpdateTroopTypePayload, calculatePromotionScore, calculateTrainingScore } from "../dayFive";
 import { saveData, loadData, toNumber, updateFieldDelegated, toSeconds, TROOP_TIER_MULTIPLIERS } from "@/utils";
-import { DAY_KEYS, POINTS_AND_MULTIPLIERS, TROOP_TYPES } from "@/utils";
+import { DAY_KEYS, TROOP_TYPES } from "@/utils";
 import { TimeData } from "@/types";
 
 const targetTierDefault = TROOP_TIER_MULTIPLIERS['Tier 7'];
@@ -47,11 +47,7 @@ const initialState: DayFiveStateData = loadData<DayFiveStateData>(DAY_KEYS.DAY_F
     promotion: 0,
     training: 0
   },
-  totalDailyScore: 0,
-  previousEvent: {
-    first: '',
-    tenth: ''
-  }
+  totalDailyScore: 0
 }
 
 const dayFiveSlice = createSlice({
@@ -133,11 +129,7 @@ const dayFiveSlice = createSlice({
           promotion: 0,
           training: 0
         },
-        totalDailyScore: 0,
-        previousEvent: {
-          first: '',
-          tenth: ''
-        }
+        totalDailyScore: 0
       }
 
       saveData(DAY_KEYS.DAY_FIVE, reset)

@@ -1,5 +1,3 @@
-import { PreviousEventData } from "@/types";
-
 
 export type UpdateTroopPayload = {
   id: string
@@ -28,5 +26,4 @@ export type DayThreeStateData = {
     spins: number
   }
   totalDailyScore: number
-  previousEvent: PreviousEventData
 }

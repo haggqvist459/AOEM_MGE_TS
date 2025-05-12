@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDailyCalculator, usePreviousEventScores } from '@/hooks';
 import { resetStateDayOne, updateFieldDayOne, calculateDailyScoreDayOne, DayOneStateData } from '@/redux'
-import { DAY_KEYS, TRIBE_LEVEL_MULTIPLIERS, toNumber } from '@/utils';
+import { DAY_KEYS, TRIBE_LEVEL_MULTIPLIERS } from '@/utils';
 import { DayKey } from '@/types';
 import { CalculatorContainer, CalculatorHeader, Header, Input, Output, RowWrapper, Modal, CalculatorButtons, PreviousEventScore } from '@/components'
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown';
@@ -28,9 +28,7 @@ const DayOneCalc = ({ activeDay, setActiveDay }: Props) => {
   });
 
   const {
-    previousEventAverages,
     eventList,
-    getEventScoreById,
     selectedEvent,
     setSelectedEvent,
     selectedScore,
@@ -43,15 +41,6 @@ const DayOneCalc = ({ activeDay, setActiveDay }: Props) => {
   ]
 
   const [showModal, setShowModal] = useState(false)
-  
-
-
-
-
-  console.log("usePreviousEventScores, previousEventAverages: ", previousEventAverages)
-  console.log("usePreviousEventScores, eventList: ", eventList)
-  console.log("usePreviousEventScores, getEventScoreById", getEventScoreById)
-  console.log("previousEventDropdownOptions: ", previousEventDropdownOptions)
 
   const resetCalculator = () => {
     reset()
@@ -81,7 +70,7 @@ const DayOneCalc = ({ activeDay, setActiveDay }: Props) => {
           />
           <Dropdown
             id='previousEventDropdown'
-            label='Select previous event'
+            label='Previous event score'
             value={selectedEvent}
             options={previousEventDropdownOptions}
             onChange={(e) => setSelectedEvent(e.target.value)}

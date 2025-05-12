@@ -1,26 +1,25 @@
 import { useState } from 'react'
-import { useDailyCalculator } from "@/hooks";
-import { TROOP_TIER_MULTIPLIERS, toNumber } from '@/utils';
+import { useDailyCalculator, usePreviousEventScores } from "@/hooks";
+import { TROOP_TIER_MULTIPLIERS, DAY_KEYS } from '@/utils';
 import { TimeData, DayKey } from '@/types';
-
 import {
   updateFieldDayFive, calculateDailyScoreDayFive, resetStateDayFive,
   DayFiveStateData, TroopType, TroopTypeData, useAppDispatch, updateTroopTypeField,
 } from '@/redux'
 import {
   CalculatorHeader, CalculatorContainer, CalculatorButtons, ExpandableSection,
-  Modal, Input, Output, Header, TimeSelector, InfoButton, RowWrapper, Troop,
+  Modal, Input, Output, Header, TimeSelector, InfoButton, RowWrapper, Troop, PreviousEventScore
 } from '@/components';
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown'
 
-const trainingDropdownOptions = mapToDropdownOptions(TROOP_TIER_MULTIPLIERS)
+
 
 type Props = {
   activeDay: DayKey;
   setActiveDay: React.Dispatch<React.SetStateAction<DayKey>>;
 }
 
-const DayFiveCalc = ({ activeDay, setActiveDay}: Props) => {
+const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
 
   const {
     localState,
@@ -38,8 +37,21 @@ const DayFiveCalc = ({ activeDay, setActiveDay}: Props) => {
     exposeSetLocalState: true
   })
 
+  const {
+    eventList,
+    selectedEvent,
+    setSelectedEvent,
+    selectedScore,
+  } = usePreviousEventScores(DAY_KEYS.DAY_ONE)
+
+  const previousEventDropdownOptions = [
+    { label: 'Daily average', value: 'daily-average' },
+    ...mapToDropdownOptions(eventList)
+  ]
 
   const [showModal, setShowModal] = useState(false)
+
+  const trainingDropdownOptions = mapToDropdownOptions(TROOP_TIER_MULTIPLIERS)
   const [trainingExpanded, setTrainingExpanded] = useState(false)
 
   const dispatch = useAppDispatch();
@@ -110,7 +122,7 @@ const DayFiveCalc = ({ activeDay, setActiveDay}: Props) => {
               onInstantDispatch={handleTroopInstantDispatch}
             />
           ))}
-          <ExpandableSection title='Training' isExpanded={trainingExpanded}  toggleExpansion={() => setTrainingExpanded(prev => !prev)}>
+          <ExpandableSection title='Training' isExpanded={trainingExpanded} toggleExpansion={() => setTrainingExpanded(prev => !prev)}>
             <RowWrapper>
               <Dropdown
                 id='troopTraining'
@@ -137,25 +149,13 @@ const DayFiveCalc = ({ activeDay, setActiveDay}: Props) => {
               showSeconds={true}
             />
           </ExpandableSection>
-          <Header title='Previous Event Score' />
-          <RowWrapper>
-            <Input
-              id='previous.first'
-              label='First'
-              placeholder='0'
-              value={localState.previousEvent.first}
-              onChange={(e) => handleLocalChange('previousEvent', e.target.value, 'first')}
-              onBlur={() => handleBlur('previousEvent', 'first')}
-            />
-            <Input
-              id='previous.tenth'
-              label='Tenth'
-              placeholder='0'
-              value={localState.previousEvent.tenth}
-              onChange={(e) => handleLocalChange('previousEvent', e.target.value, 'tenth')}
-              onBlur={() => handleBlur('previousEvent', 'tenth')}
-            />
-          </RowWrapper>
+          <Dropdown
+            id='previousEventDropdown'
+            label='Previous event score'
+            value={selectedEvent}
+            options={previousEventDropdownOptions}
+            onChange={(e) => setSelectedEvent(e.target.value)}
+          />
         </div>
         <div className='calculator-output'>
           <Header title="Score" />
@@ -166,26 +166,22 @@ const DayFiveCalc = ({ activeDay, setActiveDay}: Props) => {
           </RowWrapper>
           <Header title='Troop data' />
           <RowWrapper>
-            <Output label='Archer' value={localState.troops['Archers'].troopTotalScore} />
-            <Output label='Cavalry' value={localState.troops['Cavalry'].troopTotalScore} />
+            <Output label='Archer score' value={localState.troops['Archers'].troopTotalScore} />
+            <Output label='Cavalry score ' value={localState.troops['Cavalry'].troopTotalScore} />
           </RowWrapper>
           <RowWrapper>
             <Output label='Archer Batches' value={localState.troops['Archers'].maxPromotableBatches} />
             <Output label='Cavalry Batches' value={localState.troops['Cavalry'].maxPromotableBatches} />
           </RowWrapper>
           <RowWrapper>
-            <Output label='Pikemen' value={localState.troops['Pikemen'].troopTotalScore} />
-            <Output label='Swordsmen' value={localState.troops['Swordsmen'].troopTotalScore} />
+            <Output label='Pikemen score' value={localState.troops['Pikemen'].troopTotalScore} />
+            <Output label='Swordsmen score' value={localState.troops['Swordsmen'].troopTotalScore} />
           </RowWrapper>
           <RowWrapper>
             <Output label='Pikemen Batches' value={localState.troops['Pikemen'].maxPromotableBatches} />
             <Output label='Swordsmen Batches' value={localState.troops['Swordsmen'].maxPromotableBatches} />
           </RowWrapper>
-          <Header title='Previous Event Score' />
-          <RowWrapper>
-            <Output label='First' value={toNumber(localState.previousEvent.first)} />
-            <Output label='Tenth' value={toNumber(localState.previousEvent.tenth)} />
-          </RowWrapper>
+          <PreviousEventScore score={selectedScore}/>
         </div>
       </div>
       <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay} />

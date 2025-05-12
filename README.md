@@ -15,13 +15,14 @@
 - [x] Display overview of total score
 - [x] Display overview of each daily score
 - [x] Compare with previous events
-- [ ] Average the previous events for comparison
+- [x] Average the previous events for comparison
 
 #### Previous Event Score Page: 
 - [x] Set up previous events
 - [x] Allow for first to tenth or first and tenth place scores
-- [ ] Average score calculation using a selector
-
+- [x] Average score calculation using a selector
+- [x] Select specific previous event for score calculation
+ 
 #### About Page: 
 - [x] Explain how data is gathered and kept 
 - [x] Disclaimers 
@@ -39,7 +40,7 @@
 - [x] Navigation buttons between the previous and next days 
 - [x] Common hook for local and redux state updates
 - [x] Modal pop up with confirmation prior to state reset
-- [ ] Fetch previous event averages for the output section
+- [x] Fetch previous event averages for the output section
 
 #### Misc:
 - [x] Persist list using localStorage
@@ -49,6 +50,9 @@
 - [x] Theme variables for colours
 - [ ] Custom icon & splash screen
 - [ ] Stricter typing for day one dropdown options 
-- [ ] Re-name Header to NavBar
-- [ ] Re-name SubHeader to Header
-- [ ] Create SubHeader component for the h3 element with 17px font size
+- [x] Re-name Header to NavBar
+- [x] Re-name SubHeader to Header
+- [x] Create SubHeader component for the h3 element with 17px font size
+- [ ] Fix Nav menu width on certain breakpoints (md?)
+- [ ] Remove decimal points for gathering score on day three
+- [ ] Apply city and imperial titles for troop training 

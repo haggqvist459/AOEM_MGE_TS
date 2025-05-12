@@ -1,4 +1,4 @@
-import { PreviousEventData, TimeData } from '@/types';
+import { TimeData } from '@/types';
 
 export type DayTwoStateData = {
   epicMedals: string
@@ -16,5 +16,4 @@ export type DayTwoStateData = {
     forging: number
   },
   totalDailyScore: number
-  previousEvent: PreviousEventData,
 }

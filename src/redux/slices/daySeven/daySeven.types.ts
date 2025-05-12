@@ -1,4 +1,3 @@
-import { PreviousEventData } from "@/types";
 import { TROOP_POWER_MULTIPLIER, TRIBE_LEVEL_MULTIPLIERS } from "@/utils";
 
 export type TribeLevelValue = typeof TRIBE_LEVEL_MULTIPLIERS[keyof typeof TRIBE_LEVEL_MULTIPLIERS] 
@@ -33,5 +32,4 @@ export type DaySevenStateData = {
     research: number,
   }
   totalDailyScore: number
-  previousEvent: PreviousEventData
 }

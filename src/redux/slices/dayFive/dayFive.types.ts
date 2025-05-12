@@ -1,4 +1,4 @@
-import { PreviousEventData, TimeData } from "@/types";
+import { TimeData } from "@/types";
 import { TROOP_TIER_MULTIPLIERS, TROOP_TYPES } from "@/utils";
 
 export type TierValue = typeof TROOP_TIER_MULTIPLIERS[keyof typeof TROOP_TIER_MULTIPLIERS]
@@ -13,7 +13,7 @@ export type UpdateTroopTypePayload = {
 
 export type TroopTypeData = {
   baseTier: TierValue
-  targetTier: TierValue 
+  targetTier: TierValue
   availableTroops: string
   troopsPerBatch: string
   promotionTime: TimeData
@@ -33,5 +33,4 @@ export type DayFiveStateData = {
     training: number
   }
   totalDailyScore: number
-  previousEvent: PreviousEventData
 }

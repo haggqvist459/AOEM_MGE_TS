@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { useDailyCalculator } from '@/hooks'
-import { toNumber, TROOP_POWER_MULTIPLIER } from '@/utils'
+import { useDailyCalculator, usePreviousEventScores } from '@/hooks';
+import { DAY_KEYS, TROOP_POWER_MULTIPLIER } from '@/utils'
 import { ResetStateDaysix, updateFieldDaySix, calculateDailyScoreDaySix, DaySixStateData } from '@/redux'
 import { DayKey } from '@/types'
-import { CalculatorHeader, CalculatorContainer, CalculatorButtons, RowWrapper, Header, InfoButton, Input, Output, Modal } from '@/components'
+import { CalculatorHeader, CalculatorContainer, CalculatorButtons, RowWrapper, Header, InfoButton, Input, Output, Modal, PreviousEventScore } from '@/components'
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown'
 
-const dropdownOptions = mapToDropdownOptions(TROOP_POWER_MULTIPLIER)
+
 
 type Props = {
   activeDay: DayKey;
@@ -29,7 +29,20 @@ const DaySixCalc = ({ activeDay, setActiveDay}: Props) => {
     useInstantDispatch: true
   })
 
+  const {
+    eventList,
+    selectedEvent,
+    setSelectedEvent,
+    selectedScore,
+  } = usePreviousEventScores(DAY_KEYS.DAY_ONE)
+
+  const previousEventDropdownOptions = [
+    { label: 'Daily average', value: 'daily-average' },
+    ...mapToDropdownOptions(eventList)
+  ]
+
   const [showModal, setShowModal] = useState(false)
+  const dropdownOptions = mapToDropdownOptions(TROOP_POWER_MULTIPLIER)
 
   const resetCalculator = () => {
     reset()
@@ -100,25 +113,13 @@ const DaySixCalc = ({ activeDay, setActiveDay}: Props) => {
               onChange={(e) => handleInstantDispatch('troopTier', e.target.value)}
             />
           </RowWrapper>
-          <Header title='Previous Event Score' />
-          <RowWrapper>
-            <Input
-              id='previous.first'
-              label='First'
-              placeholder='0'
-              value={localState.previousEvent.first}
-              onChange={(e) => handleLocalChange('previousEvent', e.target.value, 'first')}
-              onBlur={() => handleBlur('previousEvent', 'first')}
-            />
-            <Input
-              id='previous.tenth'
-              label='Tenth'
-              placeholder='0'
-              value={localState.previousEvent.tenth}
-              onChange={(e) => handleLocalChange('previousEvent', e.target.value, 'tenth')}
-              onBlur={() => handleBlur('previousEvent', 'tenth')}
-            />
-          </RowWrapper>
+          <Dropdown
+            id='previousEventDropdown'
+            label='Previous event score'
+            value={selectedEvent}
+            options={previousEventDropdownOptions}
+            onChange={(e) => setSelectedEvent(e.target.value)}
+          />
         </div>
         <div className='calculator-output'>
           <Header title="Score" />
@@ -128,11 +129,7 @@ const DaySixCalc = ({ activeDay, setActiveDay}: Props) => {
             <Output label="Building" value={localState.score.building} />
             <Output label="Troops" value={localState.score.troop} />
           </RowWrapper>
-          <Header title='Previous Event Score' />
-          <RowWrapper>
-            <Output label='First' value={toNumber(localState.previousEvent.first)} />
-            <Output label='Tenth' value={toNumber(localState.previousEvent.tenth)} />
-          </RowWrapper>
+          <PreviousEventScore score={selectedScore}/>
         </div>
       </div>
       <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay}/>

@@ -1,4 +1,4 @@
-import { PreviousEventData, TimeData } from "@/types";
+import { TimeData } from "@/types";
 
 export type DayFourStateData = {
   hammers: string
@@ -15,5 +15,4 @@ export type DayFourStateData = {
     research: number
   }
   totalDailyScore: number
-  previousEvent: PreviousEventData
 }

@@ -1,12 +1,14 @@
 import { useState } from 'react'
-import { useDailyCalculator } from "@/hooks";
+import { useDailyCalculator, usePreviousEventScores } from "@/hooks";
 import { resetStateDayTwo, updateFieldDayTwo, calculateDailyScoreDayTwo, DayTwoStateData } from '@/redux'
-import { toNumber } from '@/utils'
+import { DAY_KEYS } from '@/utils'
 import { DayKey } from '@/types';
 import {
   CalculatorContainer, CalculatorHeader, Header, Input, Output,
-  RowWrapper, InfoButton, TimeSelector, Modal, CalculatorButtons
+  RowWrapper, InfoButton, TimeSelector, Modal, CalculatorButtons,
+  PreviousEventScore
 } from '@/components'
+import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown';
 
 
 type Props = {
@@ -28,8 +30,18 @@ const DayTwoCalc = ({ activeDay, setActiveDay }: Props) => {
     resetState: resetStateDayTwo,
   })
 
-  const [showModal, setShowModal] = useState(false)
+  const {
+    eventList,
+    selectedEvent,
+    setSelectedEvent,
+    selectedScore,
+  } = usePreviousEventScores(DAY_KEYS.DAY_TWO)
 
+  const [showModal, setShowModal] = useState(false)
+  const previousEventDropdownOptions = [
+    { label: 'Daily average', value: 'daily-average' },
+    ...mapToDropdownOptions(eventList)
+  ]
   const resetCalculator = () => {
     reset()
     setShowModal(false)
@@ -121,25 +133,13 @@ const DayTwoCalc = ({ activeDay, setActiveDay }: Props) => {
             onChange={handleLocalChange}
             onBlur={handleBlur}
           />
-          <Header title='Previous Event Score' />
-          <RowWrapper>
-            <Input
-              id='previous.first'
-              label='First'
-              placeholder='0'
-              value={localState.previousEvent.first}
-              onChange={(e) => handleLocalChange('previousEvent', e.target.value, 'first')}
-              onBlur={() => handleBlur('previousEvent', 'first')}
-            />
-            <Input
-              id='previous.tenth'
-              label='Tenth'
-              placeholder='0'
-              value={localState.previousEvent.tenth}
-              onChange={(e) => handleLocalChange('previousEvent', e.target.value, 'tenth')}
-              onBlur={() => handleBlur('previousEvent', 'tenth')}
-            />
-          </RowWrapper>
+          <Dropdown
+            id='previousEventDropdown'
+            label='Previous event score'
+            value={selectedEvent}
+            options={previousEventDropdownOptions}
+            onChange={(e) => setSelectedEvent(e.target.value)}
+          />
         </div>
         <div className="calculator-output">
           <Header title="Score" />
@@ -149,14 +149,10 @@ const DayTwoCalc = ({ activeDay, setActiveDay }: Props) => {
             <Output label="Scrolls" value={localState.score.scrolls} />
             <Output label="Medals" value={localState.score.medals} />
           </RowWrapper>
-          <Header title='Previous Event Score' />
-          <RowWrapper>
-            <Output label='First' value={toNumber(localState.previousEvent.first)} />
-            <Output label='Tenth' value={toNumber(localState.previousEvent.tenth)} />
-          </RowWrapper>
+          <PreviousEventScore score={selectedScore} />
         </div>
       </div>
-      <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay}/>
+      <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay} />
       <Modal
         isOpen={showModal}
         title="Reset Calculator"

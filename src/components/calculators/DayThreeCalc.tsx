@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import { useDailyCalculator } from "@/hooks";
+import { useDailyCalculator, usePreviousEventScores } from '@/hooks';
 import { useAppDispatch, DayThreeStateData } from "@/redux";
-import { toNumber } from '@/utils';
+import { DAY_KEYS } from '@/utils';
 import { DayKey } from '@/types';
 import { updateFieldDayThree, resetStateDayThree, calculateDailyScoreDayThree, updateTroopField, addTroop, removeTroop, GatherTroopData } from "@/redux"
-import { CalculatorContainer, CalculatorButtons, CalculatorHeader, Header, RowWrapper, Input, Output, GatherTroop, Modal } from "@/components";
-import { Dropdown, DropdownOption } from '@/components/ui/dropdown'
+import { CalculatorContainer, CalculatorButtons, CalculatorHeader, Header, RowWrapper, Input, Output, GatherTroop, Modal, PreviousEventScore } from "@/components";
+import { Dropdown, DropdownOption, mapToDropdownOptions } from '@/components/ui/dropdown'
 
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
   setActiveDay: React.Dispatch<React.SetStateAction<DayKey>>;
 }
 
-const DayThreeCalc = ({ activeDay, setActiveDay}: Props) => {
+const DayThreeCalc = ({ activeDay, setActiveDay }: Props) => {
 
   const {
     localState,
@@ -29,10 +29,21 @@ const DayThreeCalc = ({ activeDay, setActiveDay}: Props) => {
     exposeSetLocalState: true,
   })
 
+  const {
+    eventList,
+    selectedEvent,
+    setSelectedEvent,
+    selectedScore,
+  } = usePreviousEventScores(DAY_KEYS.DAY_ONE)
+
   const dispatch = useAppDispatch()
   const [showModal, setShowModal] = useState(false)
   const [richFieldOptions, setRichFieldOptions] = useState<DropdownOption[]>([])
   const [allianceCenterOptions, setAllianceCenterOptions] = useState<DropdownOption[]>([])
+  const previousEventDropdownOptions = [
+    { label: 'Daily average', value: 'daily-average' },
+    ...mapToDropdownOptions(eventList)
+  ]
 
   useEffect(() => {
 
@@ -113,7 +124,7 @@ const DayThreeCalc = ({ activeDay, setActiveDay}: Props) => {
       <CalculatorHeader title="Day Three" handleClick={() => setShowModal(true)} />
       <div className='flex flex-col md:flex-row'>
         <div className='calculator-input'>
-          <Header title='Gathering'/>
+          <Header title='Gathering' />
           {localState.troops.map((troop: GatherTroopData, index: number) => (
             <GatherTroop
               key={index}
@@ -147,7 +158,7 @@ const DayThreeCalc = ({ activeDay, setActiveDay}: Props) => {
               onChange={(e) => dropdownDispatch('allianceCenterId', e.target.value)}
             />
           </RowWrapper>
-          <Header title='Advent wheel'/>
+          <Header title='Advent wheel' />
           <Input
             id='empireCoins'
             placeholder="0"
@@ -156,25 +167,13 @@ const DayThreeCalc = ({ activeDay, setActiveDay}: Props) => {
             onChange={(e) => handleLocalChange('empireCoins', e.target.value)}
             onBlur={() => handleBlur('empireCoins')}
           />
-          <Header title='Previous Event Score' />
-          <RowWrapper>
-            <Input
-              id='previous.first'
-              label='First'
-              placeholder='0'
-              value={localState.previousEvent.first}
-              onChange={(e) => handleLocalChange('previousEvent', e.target.value, 'first')}
-              onBlur={() => handleBlur('previousEvent', 'first')}
-            />
-            <Input
-              id='previous.tenth'
-              label='Tenth'
-              placeholder='0'
-              value={localState.previousEvent.tenth}
-              onChange={(e) => handleLocalChange('previousEvent', e.target.value, 'tenth')}
-              onBlur={() => handleBlur('previousEvent', 'tenth')}
-            />
-          </RowWrapper>
+          <Dropdown
+            id='previousEventDropdown'
+            label='Previous event score'
+            value={selectedEvent}
+            options={previousEventDropdownOptions}
+            onChange={(e) => setSelectedEvent(e.target.value)}
+          />
         </div>
         <div className='calculator-output'>
           <Header title="Score" />
@@ -183,14 +182,10 @@ const DayThreeCalc = ({ activeDay, setActiveDay}: Props) => {
             <Output label='Gathering' value={localState.score.gathering} />
             <Output label='Spins' value={localState.score.spins} />
           </RowWrapper>
-          <Header title='Previous Event Score' />
-          <RowWrapper>
-            <Output label='First' value={toNumber(localState.previousEvent.first)} />
-            <Output label='Tenth' value={toNumber(localState.previousEvent.tenth)} />
-          </RowWrapper>
+          <PreviousEventScore score={selectedScore} />
         </div>
       </div>
-      <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay}/>
+      <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay} />
       <Modal
         isOpen={showModal}
         title="Reset Calculator"

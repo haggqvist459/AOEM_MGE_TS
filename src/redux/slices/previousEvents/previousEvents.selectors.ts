@@ -2,7 +2,7 @@ import { createSelector } from "@reduxjs/toolkit"
 import { RootState } from "@/redux/store"
 import { DayData, PreviousEventAverageData, PreviousEventScoreData, PreviousEventNumericData } from './previousEvents.types'
 import { toNumber, DAY_KEYS, SCORE_KEYS } from "@/utils"
-import { DayKey, PreviousEventData } from "@/types"
+import { DayKey } from "@/types"
 
 
 export const selectPreviousScoreAverages = createSelector(
@@ -118,18 +118,13 @@ export const selectAverageScoreForDay = (day: DayKey) =>
     }
   )
 
-export const selectPreviousEventNamesOld = createSelector(
-  [(state: RootState) => state[SCORE_KEYS.PREVIOUS_EVENT_SCORE].previousEvents],
-  (events) => events.map((event: PreviousEventScoreData) => ({ id: event.id, name: event.name }))
-)
-
 export const selectPreviousEventNames = createSelector(
   [(state: RootState) => state[SCORE_KEYS.PREVIOUS_EVENT_SCORE].previousEvents],
   (events): Record<string, string> =>
     events.reduce((accumulator: Record<string, string>, event: PreviousEventScoreData) => {
       accumulator[event.name] = event.id
       return accumulator
-    }, {} as Record<string, string>)
+    }, {})
 )
 
 
@@ -139,7 +134,7 @@ export const selectScoreForDayInEvent = (eventId: string, day: DayKey) =>
     (events): PreviousEventNumericData => {
       const event = events.find((event: PreviousEventScoreData) => event.id === eventId)
       const score = event?.days.find((dayData: DayData) => dayData.day === day)?.score
-      
+
       return {
         first: toNumber(score?.first),
         tenth: toNumber(score?.tenth),
