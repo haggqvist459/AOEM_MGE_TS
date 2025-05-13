@@ -21,7 +21,7 @@ const NavMenu = ({ isExpanded }: Props) => {
 
   return (
     <div className="relative overflow-hidden transition-all duration-500 ease-in-out" style={{ height: isExpanded ? '36px' : '0px' }}>
-      <div className="relative w-full lg:w-1/2 xl:w-1/3">
+      <div className="relative w-full lg:w-1/2 xl:w-2/5 mx-auto">
         <div className={`flex px-3 items-center justify-start md:justify-center overflow-x-auto whitespace-nowrap space-x-4 duration-500 ease-in-out ${isExpanded ? "translate-y-0" : "-translate-y-full"
           }`}
         >
