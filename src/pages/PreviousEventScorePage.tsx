@@ -1,7 +1,7 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import { DAY_KEYS, DAY_TITLES } from "@/utils";
 import {
-  useAppSelector, useAppDispatch, resetPreviousEventState, updateEvent, createEvent, deleteEvent,
+  useAppSelector, useAppDispatch, resetPreviousEventState, createEvent, deleteEvent,
   PreviousEventStateData, PreviousEventScoreData, selectPreviousScoreAverages, selectTotalScoreAverages
 } from '@/redux'
 import { CalculatorContainer, CalculatorHeader, Modal, Header, Input, PreviousEvent, GridWrapper, RowWrapper, Output } from "@/components";
