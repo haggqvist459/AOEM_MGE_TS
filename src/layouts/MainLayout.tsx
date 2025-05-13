@@ -15,8 +15,3 @@ const MainLayout = () => {
 }
 
 export default MainLayout;
-
-/*
-footer padding:
-pb-[env(safe-area-inset-bottom)]
-*/

@@ -27,8 +27,8 @@ const TotalScorePage = () => {
 
 
   const totalDailyScore = dailyScores.reduce((acc, curr) => acc + curr.score, 0);
-  console.log("dailyScores: ", dailyScores)
-  console.log("totalDailyScore: ", totalDailyScore)
+  // console.log("dailyScores: ", dailyScores)
+  // console.log("totalDailyScore: ", totalDailyScore)
 
 
   return (

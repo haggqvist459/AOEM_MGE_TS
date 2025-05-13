@@ -87,7 +87,7 @@ const DayThreeCalc = ({ activeDay, setActiveDay }: Props) => {
   }
 
   const handleTroopBlur = (id: string, field: string) => {
-    console.log("handletroopBlur values, id: ", id, ' field: ', field);
+    // console.log("handletroopBlur values, id: ", id, ' field: ', field);
     const troop = localState.troops.find((troop: GatherTroopData) => troop.id === id);
     if (!troop) return;
     dispatch(updateTroopField({ id, field, value: troop[field as keyof GatherTroopData] }));
@@ -100,7 +100,7 @@ const DayThreeCalc = ({ activeDay, setActiveDay }: Props) => {
   }
 
   const dropdownDispatch = (field: string, value: string) => {
-    console.log("dropdownDispatch values, field: ", field, ' value: ', value)
+    // console.log("dropdownDispatch values, field: ", field, ' value: ', value)
     dispatch(updateFieldDayThree({ field, value }))
     dispatch(calculateDailyScoreDayThree('dropdownSelection'))
   }
@@ -149,7 +149,6 @@ const DayThreeCalc = ({ activeDay, setActiveDay }: Props) => {
               label='Rich Field'
               options={richFieldOptions}
               value={localState.richFieldId}
-              // onChange={(e) => handleInstantDispatch('richFieldId', e.target.value)}
               onChange={(e) => dropdownDispatch('richFieldId', e.target.value)}
             />
             <Dropdown

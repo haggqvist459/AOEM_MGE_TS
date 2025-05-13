@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DayThreeStateData, UpdateTroopPayload } from './dayThree.types';
 import { calculateGatheringScore } from './dayThree.utils';
 import { saveData, loadData, updateFieldDelegated, toNumber, } from "@/utils";
-import { DAY_KEYS, POINTS_AND_MULTIPLIERS, RESOURCE_MULTIPLIERS, } from '@/utils';
+import { DAY_KEYS, POINTS_AND_MULTIPLIERS } from '@/utils';
 
 const initialState: DayThreeStateData = loadData<DayThreeStateData>(DAY_KEYS.DAY_THREE) ?? {
   troops: [
@@ -45,19 +45,19 @@ const dayThreeSlice = createSlice({
     calculateDailyScore: (state, action: PayloadAction<string | undefined>) => {
       const id = action.payload;
 
-      console.log("calculateDailyScore triggerd with id: ", id)
+      // console.log("calculateDailyScore triggerd with id: ", id)
 
       // default dropdown value, no calculation should be performed. 
       if (id === '0') return
       if (id === 'previousEvent') return;
       if (id === 'empireCoins') {
-        console.log("empireCoins calculation ")
+        // console.log("empireCoins calculation ")
         state.score.spins = 0;
         const empireCoins = toNumber(state.empireCoins);
         const fiveSpinCount = Math.floor(empireCoins / POINTS_AND_MULTIPLIERS.FIVE_SPIN_COST);
         const remainingCoins = empireCoins % POINTS_AND_MULTIPLIERS.FIVE_SPIN_COST;
         const singleSpinCount = Math.floor(remainingCoins / POINTS_AND_MULTIPLIERS.SINGLE_SPIN_COST);
-        console.log("empireCoins calculation values, empireCoins: ", empireCoins, ' fiveSpinCount: ', fiveSpinCount, ' remainingCoins: ', remainingCoins, ' singleSpinCount: ', singleSpinCount)
+        // console.log("empireCoins calculation values, empireCoins: ", empireCoins, ' fiveSpinCount: ', fiveSpinCount, ' remainingCoins: ', remainingCoins, ' singleSpinCount: ', singleSpinCount)
         state.score.spins = (fiveSpinCount * POINTS_AND_MULTIPLIERS.ADVENT_SCORE * 5) + (singleSpinCount * POINTS_AND_MULTIPLIERS.ADVENT_SCORE);
         state.totalDailyScore = state.score.spins + state.score.gathering
         return;

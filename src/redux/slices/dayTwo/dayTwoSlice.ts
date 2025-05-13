@@ -90,7 +90,8 @@ const dayTwoSlice = createSlice({
         case 'previousEvent':
           break;
         default:
-          console.log("Error, incorrect field supplied to score calculation: ", field);
+          // console.log("Error, incorrect field supplied to score calculation: ", field);
+          break
       }
 
       // add the various score values together into totalDailyScore

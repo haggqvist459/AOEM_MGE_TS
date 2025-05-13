@@ -12,7 +12,8 @@ export const calculateGatheringScore = (
       let gatheredResources = 0
 
       if (completedTurns === 0 || loadCapacity === 0) {
-        console.warn(`Missing values for troop ${troop.name}. Skipping score calculation.`);
+        // console.warn(`Missing values for troop ${troop.name}. Skipping score calculation.`);
+        return 0;
       }
 
       if (allianceCenterId === troop.id) {

@@ -87,7 +87,6 @@ const daySevenSlice = createSlice({
             state.score.scrolls += epicScrolls * POINTS_AND_MULTIPLIERS.EPIC_SCROLL;
           }
           break;
-          break;
         case 'hammers':
         case 'fineGold':
         case 'copperSand':
@@ -126,7 +125,7 @@ const daySevenSlice = createSlice({
         case 'previousEvent':
           break;
         default:
-          console.error(`calculateDailyScore - field: ${field} does not exist for score calculation`)
+          // console.error(`calculateDailyScore - field: ${field} does not exist for score calculation`)
           break;
       }
 

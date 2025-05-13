@@ -29,7 +29,7 @@ const PreviousEventScorePage = () => {
 
   useEffect(() => {
     setLocalState(previousEventData)
-    console.log("localState: ", localState)
+    // console.log("localState: ", localState)
   }, [previousEventData])
 
 

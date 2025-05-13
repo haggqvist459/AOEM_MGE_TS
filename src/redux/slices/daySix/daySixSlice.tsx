@@ -46,7 +46,7 @@ const daySixSlice = createSlice({
         case 'previousEvent':
           break;
         default:
-          console.error("incorrect value for field provided to calculateDailyScore: ", field)
+          // console.error("incorrect value for field provided to calculateDailyScore: ", field)
           break;
       }
 

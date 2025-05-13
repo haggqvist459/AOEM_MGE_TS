@@ -79,7 +79,8 @@ const dayFourSlice = createSlice({
         case 'previousEvent':
           break;
         default:
-          console.log(`Error in score calculation, field ${field} does not exist in state.`)
+          // console.log(`Error in score calculation, field ${field} does not exist in state.`);
+          break;
       }
 
       state.totalDailyScore = Object.values(state.score)

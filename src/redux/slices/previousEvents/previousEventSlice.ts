@@ -13,8 +13,8 @@ const previousEventSlice = createSlice({
   reducers: {
     updateEvent: (state, action: PayloadAction<DayDataPayload>) => {
       const { id, day, field, value } = action.payload
-      console.log("updateEvent payload values, id: ", id, ', day: ', day, ', field: ', field, ', value: ', value)
-      console.log(state)
+      // console.log("updateEvent payload values, id: ", id, ', day: ', day, ', field: ', field, ', value: ', value)
+      // console.log(state)
       const eventIndex = state.previousEvents.findIndex(e => e.id === id)
       if (eventIndex === -1) return // some error, event not found 
 
