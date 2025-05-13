@@ -14,7 +14,14 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
-    VitePWA()
+    VitePWA({
+      registerType: 'autoUpdate',
+      manifest: false, // Use your own file from public/
+      srcDir: 'src',
+      devOptions: {
+        enabled: true
+      }
+    })
   ],
   server: {
     host: true,
