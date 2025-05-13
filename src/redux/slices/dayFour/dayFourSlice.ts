@@ -87,7 +87,7 @@ const dayFourSlice = createSlice({
 
     },
     resetState: () => {
-      const reset = {
+      const reset: DayFourStateData = {
         hammers: '',
         copperSand: '',
         silverSand: '',

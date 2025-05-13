@@ -18,7 +18,7 @@ const AboutPage = () => {
           This website does not use cookies, and does not gather any data about you or your usage aside from what you input into the calculators.
         </p>
         <p>
-          The website utilises a web API called  <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage" target='_blank' className='underline text-s text-blue-950'>localStorage</a> to store the data between sessions.
+          The website utilises a web API called  <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage" target='_blank' className='underline text-s text-primary'>localStorage</a> to store the data between sessions.
         </p>
         <p>
           This means that your calculator data is stored in your browser.

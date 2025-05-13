@@ -98,7 +98,7 @@ const dayTwoSlice = createSlice({
         .reduce((total, score) => total + (score || 0), 0);
     },
     resetState: () => {
-      const reset = {
+      const reset: DayTwoStateData = {
         epicMedals: '',
         legendaryMedals: '',
         epicScrolls: '',

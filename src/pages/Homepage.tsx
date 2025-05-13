@@ -34,12 +34,13 @@ const HomePage = () => {
 
   return (
     <div>
-      <div className='relative w-full px-3 h-10 bg-primary flex items-center justify-center gap-x-2'>
+      <div className='relative px-3 w-full h-10 bg-primary flex items-center justify-center space-x-2'>
         <p className='text-blue-50 text-base min-w-max font-semibold'>Jump to: </p>
-        <div className='flex space-x-2 overflow-x-auto whitespace-nowrap scroll-smooth snap-x snap-mandatory'>
+        <div className='flex space-x-2 overflow-x-auto whitespace-nowrap'>
           {menuOptions}
+          <div className="pointer-events-none absolute top-0 bottom-0 right-0 w-10 bg-gradient-to-l from-primary/80 to-transparent md:hidden"/>
         </div>
-        <div className="pointer-events-none absolute top-0 bottom-0 right-0 w-10 bg-gradient-to-l from-primary/80 to-transparent md:hidden"></div>
+        
       </div>
       <div
         key={activeDay}

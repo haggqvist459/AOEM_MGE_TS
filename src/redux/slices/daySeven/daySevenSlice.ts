@@ -134,7 +134,7 @@ const daySevenSlice = createSlice({
         .reduce((total, score) => total + (score || 0), 0);
     },
     resetState: () => {
-      const reset = {
+      const reset: DaySevenStateData = {
         buildingPower: {
           firstQueue: '',
           secondQueue: '',

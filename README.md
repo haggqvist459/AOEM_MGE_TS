@@ -49,12 +49,11 @@
 - [x] Local SVG code for icons in separate components
 - [x] Theme variables for colours
 - [ ] Custom icon & splash screen
-- [ ] Stricter typing for day one dropdown options 
 - [x] Re-name Header to NavBar
 - [x] Re-name SubHeader to Header
 - [x] Create SubHeader component for the h3 element with 17px font size
-- [ ] Fix Nav menu width on certain breakpoints (md?)
-- [ ] Remove decimal points for gathering score on day three
-- [ ] Apply city and imperial titles for troop training 
-- [ ] Apply state types on reset object in reset state reducer 
-- [ ] Fix duplicate form IDs on day five (likely troop types)
+- [x] Fix Nav menu width on certain breakpoints (md?)
+- [x] Remove decimal points for gathering score on day three
+- [x] Apply city and imperial titles for troop training 
+- [x] Apply state types on reset object in reset state reducer 
+- [x] Fix duplicate form IDs on day five (likely troop types)

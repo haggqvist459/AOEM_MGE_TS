@@ -94,7 +94,7 @@ const dayThreeSlice = createSlice({
         const loadMultiplier = 1 + (loadBonus / 100);
         gatheredResources *= loadMultiplier;
       }
-      troop.score = gatheredResources / POINTS_AND_MULTIPLIERS.RESOURCE_DIVIDER;
+      Math.floor(gatheredResources / POINTS_AND_MULTIPLIERS.RESOURCE_DIVIDER);
 
 
       // Accumulate the scores from each troop

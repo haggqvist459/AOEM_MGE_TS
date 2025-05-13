@@ -38,7 +38,7 @@ const dayOneSlice = createSlice({
 
     },
     resetState: () => {
-      const reset = {
+      const reset: DayOneStateData = {
         tribeLevelMultiplier: Object.values(TRIBE_LEVEL_MULTIPLIERS)[0],
         stamina: '',
         tribesHunted: 0,

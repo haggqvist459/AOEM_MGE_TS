@@ -55,7 +55,7 @@ const daySixSlice = createSlice({
 
     },
     resetState: () => {
-      const reset = {
+      const reset: DaySixStateData = {
         troopsTotal: '',
         troopTier: targetTierDefault,
         buildingPower: {
