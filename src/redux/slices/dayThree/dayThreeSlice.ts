@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { DayThreeStateData, UpdateTroopPayload } from './dayThree.types'
+import { DayThreeStateData, UpdateTroopPayload } from './dayThree.types';
+import { calculateGatheringScore } from './dayThree.utils';
 import { saveData, loadData, updateFieldDelegated, toNumber, } from "@/utils";
 import { DAY_KEYS, POINTS_AND_MULTIPLIERS, RESOURCE_MULTIPLIERS, } from '@/utils';
 
@@ -44,6 +45,8 @@ const dayThreeSlice = createSlice({
     calculateDailyScore: (state, action: PayloadAction<string | undefined>) => {
       const id = action.payload;
 
+      console.log("calculateDailyScore triggerd with id: ", id)
+
       // default dropdown value, no calculation should be performed. 
       if (id === '0') return
       if (id === 'previousEvent') return;
@@ -59,44 +62,20 @@ const dayThreeSlice = createSlice({
         state.totalDailyScore = state.score.spins + state.score.gathering
         return;
       }
+      if (id === 'dropdownSelection') {
+        state.troops.forEach(troop => (
+          troop.score = calculateGatheringScore(troop, state.allianceCenterId, state.richFieldId)
+        ))
+        state.score.gathering = state.troops.reduce((total, troop) => total + troop.score, 0);
+        state.totalDailyScore = state.score.gathering + state.score.spins;
+        return;
+      }
 
       // find the index of the troop to calculate
       const troopIndex = state.troops.findIndex(troop => troop.id === id);
       const troop = state.troops[troopIndex];
 
-      const completedTurns = toNumber(troop.completedTurns)
-      const loadCapacity = toNumber(troop.loadCapacity)
-      const loadBonus = toNumber(troop.loadBonus)
-      let gatheredResources = 0
-
-      if (completedTurns === 0 || loadCapacity === 0) {
-        console.warn(`Missing values for troop ${id}. Skipping score calculation.`);
-      }
-
-      if (state.allianceCenterId === id) {
-        // Base score calculation on alliance center collection
-        gatheredResources = completedTurns * loadCapacity
-      } else if (state.richFieldId === id) {
-        // Base score calculation on rich field collection 
-        const cappedYield = Math.min(loadCapacity, RESOURCE_MULTIPLIERS.RICH);
-        gatheredResources = cappedYield * completedTurns;
-      } else {
-        // Troops are gathering at a regular field. 
-        gatheredResources = completedTurns * RESOURCE_MULTIPLIERS.REGULAR
-      }
-
-      // full at reset? 
-      if (troop.fullAtReset) {
-        gatheredResources += loadCapacity
-      }
-      // load bonus multiplier
-      if (loadBonus > 0) {
-        const loadMultiplier = 1 + (loadBonus / 100);
-        gatheredResources *= loadMultiplier;
-      }
-      Math.floor(gatheredResources / POINTS_AND_MULTIPLIERS.RESOURCE_DIVIDER);
-
-
+      troop.score = calculateGatheringScore(troop, state.allianceCenterId, state.richFieldId)
       // Accumulate the scores from each troop
       state.score.gathering = state.troops.reduce((total, troop) => total + troop.score, 0);
       // Update totalDailyScore to reflect both gathering and spins scores

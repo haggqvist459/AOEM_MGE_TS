@@ -4,7 +4,7 @@ import { useAppDispatch, DayThreeStateData } from "@/redux";
 import { DAY_KEYS } from '@/utils';
 import { DayKey } from '@/types';
 import { updateFieldDayThree, resetStateDayThree, calculateDailyScoreDayThree, updateTroopField, addTroop, removeTroop, GatherTroopData } from "@/redux"
-import { CalculatorContainer, CalculatorButtons, CalculatorHeader, Header, RowWrapper, Input, Output, GatherTroop, Modal, PreviousEventScore } from "@/components";
+import { CalculatorContainer, CalculatorButtons, CalculatorHeader, Header, RowWrapper, Input, Output, GatherTroop, Modal, PreviousEventScore, GridWrapper } from "@/components";
 import { Dropdown, DropdownOption, mapToDropdownOptions } from '@/components/ui/dropdown'
 
 
@@ -102,8 +102,10 @@ const DayThreeCalc = ({ activeDay, setActiveDay }: Props) => {
   const dropdownDispatch = (field: string, value: string) => {
     console.log("dropdownDispatch values, field: ", field, ' value: ', value)
     dispatch(updateFieldDayThree({ field, value }))
-    calculateDailyScoreDayThree(value)
+    dispatch(calculateDailyScoreDayThree('dropdownSelection'))
   }
+
+
   const handleRemovetroop = (id: string) => {
     dispatch(removeTroop(id))
   }
@@ -177,11 +179,16 @@ const DayThreeCalc = ({ activeDay, setActiveDay }: Props) => {
         </div>
         <div className='calculator-output'>
           <Header title="Score" />
-          <Output label="Total daily score" value={localState.totalDailyScore} />
           <RowWrapper>
-            <Output label='Gathering' value={localState.score.gathering} />
+            <Output label="Total daily score" value={localState.totalDailyScore} />
             <Output label='Spins' value={localState.score.spins} />
           </RowWrapper>
+          <GridWrapper columns={2}>
+            <Output label='Gathering total' value={localState.score.gathering} />
+            {localState.troops.map((troop, index) => (
+              <Output key={index} label={troop.name} value={troop.score} />
+            ))}
+          </GridWrapper>
           <PreviousEventScore score={selectedScore} />
         </div>
       </div>

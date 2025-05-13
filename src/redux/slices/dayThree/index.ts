@@ -9,3 +9,4 @@ export {
 } from './dayThreeSlice'
 
 export * from './dayThree.types'
+export * from './dayThree.utils'
