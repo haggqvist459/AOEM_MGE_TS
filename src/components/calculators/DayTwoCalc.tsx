@@ -119,6 +119,7 @@ const DayTwoCalc = ({ activeDay, setActiveDay }: Props) => {
           </RowWrapper>
           <Header title="Forging" />
           <TimeSelector
+            id='forgingTime'
             title="Time to complete"
             field="forgingTime"
             showSeconds={true}
@@ -127,6 +128,7 @@ const DayTwoCalc = ({ activeDay, setActiveDay }: Props) => {
             onBlur={handleBlur}
           />
           <TimeSelector
+            id='forgingSpeedup'
             title="Forging speed-up"
             field="forgingSpeedup"
             timeValue={localState.forgingSpeedup}

@@ -94,6 +94,7 @@ const DayFourCalc = ({ activeDay, setActiveDay }: Props) => {
           </RowWrapper>
           <Header title='Speed-ups' />
           <TimeSelector
+            id='universalSpeedup'
             title='Universal'
             timeValue={localState.universalSpeedup}
             field='universalSpeedup'
@@ -101,6 +102,7 @@ const DayFourCalc = ({ activeDay, setActiveDay }: Props) => {
             onBlur={handleBlur}
           />
           <TimeSelector
+            id='buildingSpeedup'
             title='Building'
             timeValue={localState.buildingSpeedup}
             field='buildingSpeedup'
@@ -108,6 +110,7 @@ const DayFourCalc = ({ activeDay, setActiveDay }: Props) => {
             onBlur={handleBlur}
           />
           <TimeSelector
+            id='researchSpeedup'
             title='Research'
             timeValue={localState.researchSpeedup}
             field='researchSpeedup'

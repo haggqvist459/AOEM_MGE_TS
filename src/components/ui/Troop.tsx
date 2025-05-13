@@ -61,6 +61,7 @@ const Troop = ({
           />
         </RowWrapper>
         <TimeSelector
+          id={`${troopType}-promotionTime`}
           title='Promotion time'
           timeValue={troopTypeData.promotionTime}
           field='promotionTime'

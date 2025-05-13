@@ -102,6 +102,7 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
         <div className='calculator-input'>
           <Header title='Speed-up' />
           <TimeSelector
+            id={'initialTrainingSpeedup'}
             timeValue={localState.initialTrainingSpeedup}
             title='Training'
             field='initialTrainingSpeedup'
@@ -141,6 +142,7 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
               />
             </RowWrapper>
             <TimeSelector
+              id={'trainedTroopsTrainingTime'}
               title='Training time'
               timeValue={localState.trainedTroopsTrainingTime}
               field='trainedTroopsTrainingTime'
