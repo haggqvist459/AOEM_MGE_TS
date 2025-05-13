@@ -20,6 +20,10 @@ export default defineConfig({
       srcDir: 'src',
       devOptions: {
         enabled: true
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,svg,woff2,woff,ttf,eot,png,webmanifest}'],
+        navigateFallback: 'index.html'
       }
     })
   ],

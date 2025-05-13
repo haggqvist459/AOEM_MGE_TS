@@ -24,7 +24,7 @@ textarea {
 
 @font-face {
   font-family: 'Rubik';
-  src: url('/src/assets/fonts/Rubik-VariableFont_wght.ttf') format('truetype');
+  src: url('./assets/fonts/Rubik-VariableFont_wght.ttf') format('truetype');
   font-weight: 300 900;
   font-style: normal;
   font-display: swap;
