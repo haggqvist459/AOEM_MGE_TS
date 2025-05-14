@@ -5,7 +5,7 @@ type Props = {
     handleClick?: () => void
 }
 
-const CalculatorHeader = ({ title, showTrash = true, handleClick }: Props) => {
+const SectionHeader = ({ title, showTrash = true, handleClick }: Props) => {
     return (
         <div className="flex items-center justify-center w-full relative mb-5">
             <h1 className='calculator-header'>{title}</h1>
@@ -21,4 +21,4 @@ const CalculatorHeader = ({ title, showTrash = true, handleClick }: Props) => {
     )
 }
 
-export default CalculatorHeader;
+export default SectionHeader;

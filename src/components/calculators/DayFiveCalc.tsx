@@ -7,7 +7,7 @@ import {
   DayFiveStateData, TroopType, TroopTypeData, useAppDispatch, updateTroopTypeField,
 } from '@/redux'
 import {
-  CalculatorHeader, CalculatorContainer, CalculatorButtons, ExpandableSection,
+  SectionHeader, SectionContainer, CalculatorButtons, ExpandableSection,
   Modal, Input, Output, Header, TimeSelector, InfoButton, RowWrapper, Troop, PreviousEventScore, ToggleButton
 } from '@/components';
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown'
@@ -96,114 +96,116 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
 
 
   return (
-    <CalculatorContainer>
-      <CalculatorHeader title='Day Five' handleClick={() => setShowModal(true)} />
-      <div className='flex flex-col md:flex-row'>
-        <div className='calculator-input'>
-          <Header title='Speed-up' />
-          <TimeSelector
-            id={'initialTrainingSpeedup'}
-            timeValue={localState.initialTrainingSpeedup}
-            title='Training'
-            field='initialTrainingSpeedup'
-            onChange={handleLocalChange}
-            onBlur={handleBlur}
-          />
-          <div className='flex space-x-1'>
-            <Header title='Promotion' />
-            <InfoButton message='Input numbers from your Stable, Archery Range etc. Speed-ups will be evenly split. Troop types with empty fields will be ignored, and leftover speed-ups will be allocated for training' />
-          </div>
-          {(Object.entries(localState.troops) as [TroopType, TroopTypeData][]).map(([troopType, troopData]) => (
-            <Troop
-              key={troopType}
-              troopType={troopType}
-              troopTypeData={troopData}
-              onChange={handleTroopLocalChange}
-              onBlur={handleTroopBlur}
-              onInstantDispatch={handleTroopInstantDispatch}
-            />
-          ))}
-          <ExpandableSection title='Training' isExpanded={trainingExpanded} toggleExpansion={() => setTrainingExpanded(prev => !prev)}>
-            <RowWrapper>
-              <Dropdown
-                id='troopTraining'
-                label='Target tier'
-                value={localState.trainedTroopTier}
-                options={trainingDropdownOptions}
-                onChange={(e) => handleInstantDispatch('trainedTroopTier', e.target.value)}
-              />
-              <Input
-                id='trainedTroopsPerBatch'
-                placeholder='0'
-                label='Troops per batch'
-                value={localState.trainedTroopsPerBatch}
-                onChange={(e) => handleLocalChange('trainedTroopsPerBatch', e.target.value)}
-                onBlur={() => handleBlur('trainedTroopsPerBatch')}
-              />
-            </RowWrapper>
+    <SectionContainer>
+      <div key={DAY_KEYS.DAY_FIVE}>
+        <SectionHeader title='Day Five' handleClick={() => setShowModal(true)} />
+        <div className='flex flex-col md:flex-row'>
+          <div className='calculator-input'>
+            <Header title='Speed-up' />
             <TimeSelector
-              id={'trainedTroopsTrainingTime'}
-              title='Training time'
-              timeValue={localState.trainedTroopsTrainingTime}
-              field='trainedTroopsTrainingTime'
+              id={'initialTrainingSpeedup'}
+              timeValue={localState.initialTrainingSpeedup}
+              title='Training'
+              field='initialTrainingSpeedup'
               onChange={handleLocalChange}
               onBlur={handleBlur}
-              showSeconds={true}
             />
-          </ExpandableSection>
-          <RowWrapper>
-            <div>
-              <Header title='Imperial Title' headerType='sub-header'/>
-              <ToggleButton isToggled={localState.hasImperialTitle} onToggle={() => handleInstantDispatch('hasImperialTitle')}/>
+            <div className='flex space-x-1'>
+              <Header title='Promotion' />
+              <InfoButton message='Input numbers from your Stable, Archery Range etc. Speed-ups will be evenly split. Troop types with empty fields will be ignored, and leftover speed-ups will be allocated for training' />
             </div>
-            <div>
-            <Header title='City Title' headerType='sub-header'/>
-            <ToggleButton isToggled={localState.hasCityTitle} onToggle={() => handleInstantDispatch('hasCityTitle')}/>
-            </div>
-          </RowWrapper>
-          <Dropdown
-            id='previousEventDropdown'
-            label='Previous event score'
-            value={selectedEvent}
-            options={previousEventDropdownOptions}
-            onChange={(e) => setSelectedEvent(e.target.value)}
-          />
+            {(Object.entries(localState.troops) as [TroopType, TroopTypeData][]).map(([troopType, troopData]) => (
+              <Troop
+                key={troopType}
+                troopType={troopType}
+                troopTypeData={troopData}
+                onChange={handleTroopLocalChange}
+                onBlur={handleTroopBlur}
+                onInstantDispatch={handleTroopInstantDispatch}
+              />
+            ))}
+            <ExpandableSection title='Training' isExpanded={trainingExpanded} toggleExpansion={() => setTrainingExpanded(prev => !prev)}>
+              <RowWrapper>
+                <Dropdown
+                  id='troopTraining'
+                  label='Target tier'
+                  value={localState.trainedTroopTier}
+                  options={trainingDropdownOptions}
+                  onChange={(e) => handleInstantDispatch('trainedTroopTier', e.target.value)}
+                />
+                <Input
+                  id='trainedTroopsPerBatch'
+                  placeholder='0'
+                  label='Troops per batch'
+                  value={localState.trainedTroopsPerBatch}
+                  onChange={(e) => handleLocalChange('trainedTroopsPerBatch', e.target.value)}
+                  onBlur={() => handleBlur('trainedTroopsPerBatch')}
+                />
+              </RowWrapper>
+              <TimeSelector
+                id={'trainedTroopsTrainingTime'}
+                title='Training time'
+                timeValue={localState.trainedTroopsTrainingTime}
+                field='trainedTroopsTrainingTime'
+                onChange={handleLocalChange}
+                onBlur={handleBlur}
+                showSeconds={true}
+              />
+            </ExpandableSection>
+            <RowWrapper>
+              <div>
+                <Header title='Imperial Title' headerType='sub-header' />
+                <ToggleButton isToggled={localState.hasImperialTitle} onToggle={() => handleInstantDispatch('hasImperialTitle')} />
+              </div>
+              <div>
+                <Header title='City Title' headerType='sub-header' />
+                <ToggleButton isToggled={localState.hasCityTitle} onToggle={() => handleInstantDispatch('hasCityTitle')} />
+              </div>
+            </RowWrapper>
+            <Dropdown
+              id='previousEventDropdown'
+              label='Previous event score'
+              value={selectedEvent}
+              options={previousEventDropdownOptions}
+              onChange={(e) => setSelectedEvent(e.target.value)}
+            />
+          </div>
+          <div className='calculator-output'>
+            <Header title="Score" />
+            <Output label="Total daily score" value={localState.totalDailyScore} />
+            <RowWrapper>
+              <Output label="Promotion" value={localState.score.promotion} />
+              <Output label="Training" value={localState.score.training} />
+            </RowWrapper>
+            <Header title='Troop data' />
+            <RowWrapper>
+              <Output label='Archer score' value={localState.troops['Archers'].troopTotalScore} />
+              <Output label='Cavalry score ' value={localState.troops['Cavalry'].troopTotalScore} />
+            </RowWrapper>
+            <RowWrapper>
+              <Output label='Archer Batches' value={localState.troops['Archers'].maxPromotableBatches} />
+              <Output label='Cavalry Batches' value={localState.troops['Cavalry'].maxPromotableBatches} />
+            </RowWrapper>
+            <RowWrapper>
+              <Output label='Pikemen score' value={localState.troops['Pikemen'].troopTotalScore} />
+              <Output label='Swordsmen score' value={localState.troops['Swordsmen'].troopTotalScore} />
+            </RowWrapper>
+            <RowWrapper>
+              <Output label='Pikemen Batches' value={localState.troops['Pikemen'].maxPromotableBatches} />
+              <Output label='Swordsmen Batches' value={localState.troops['Swordsmen'].maxPromotableBatches} />
+            </RowWrapper>
+            <PreviousEventScore score={selectedScore} />
+          </div>
         </div>
-        <div className='calculator-output'>
-          <Header title="Score" />
-          <Output label="Total daily score" value={localState.totalDailyScore} />
-          <RowWrapper>
-            <Output label="Promotion" value={localState.score.promotion} />
-            <Output label="Training" value={localState.score.training} />
-          </RowWrapper>
-          <Header title='Troop data' />
-          <RowWrapper>
-            <Output label='Archer score' value={localState.troops['Archers'].troopTotalScore} />
-            <Output label='Cavalry score ' value={localState.troops['Cavalry'].troopTotalScore} />
-          </RowWrapper>
-          <RowWrapper>
-            <Output label='Archer Batches' value={localState.troops['Archers'].maxPromotableBatches} />
-            <Output label='Cavalry Batches' value={localState.troops['Cavalry'].maxPromotableBatches} />
-          </RowWrapper>
-          <RowWrapper>
-            <Output label='Pikemen score' value={localState.troops['Pikemen'].troopTotalScore} />
-            <Output label='Swordsmen score' value={localState.troops['Swordsmen'].troopTotalScore} />
-          </RowWrapper>
-          <RowWrapper>
-            <Output label='Pikemen Batches' value={localState.troops['Pikemen'].maxPromotableBatches} />
-            <Output label='Swordsmen Batches' value={localState.troops['Swordsmen'].maxPromotableBatches} />
-          </RowWrapper>
-          <PreviousEventScore score={selectedScore}/>
-        </div>
+        <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay} />
+        <Modal
+          isOpen={showModal}
+          title="Reset Calculator"
+          description="Reset all values back to 0? This action can not be undone."
+          onCancel={() => setShowModal(false)}
+          onConfirm={resetCalculator} />
       </div>
-      <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay} />
-      <Modal
-        isOpen={showModal}
-        title="Reset Calculator"
-        description="Reset all values back to 0? This action can not be undone."
-        onCancel={() => setShowModal(false)}
-        onConfirm={resetCalculator} />
-    </CalculatorContainer>
+    </SectionContainer>
   )
 }
 

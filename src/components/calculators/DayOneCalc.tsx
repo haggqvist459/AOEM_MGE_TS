@@ -3,7 +3,7 @@ import { useDailyCalculator, usePreviousEventScores } from '@/hooks';
 import { resetStateDayOne, updateFieldDayOne, calculateDailyScoreDayOne, DayOneStateData } from '@/redux'
 import { DAY_KEYS, TRIBE_LEVEL_MULTIPLIERS } from '@/utils';
 import { DayKey } from '@/types';
-import { CalculatorContainer, CalculatorHeader, Header, Input, Output, RowWrapper, Modal, CalculatorButtons, PreviousEventScore } from '@/components'
+import { SectionContainer, SectionHeader, Header, Input, Output, RowWrapper, Modal, CalculatorButtons, PreviousEventScore } from '@/components'
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown';
 
 type Props = {
@@ -48,51 +48,53 @@ const DayOneCalc = ({ activeDay, setActiveDay }: Props) => {
   }
 
   return (
-    <CalculatorContainer>
-      <CalculatorHeader title='Day One' handleClick={() => setShowModal(true)} />
-      <div className='flex flex-col md:flex-row'>
-        <div className='calculator-input'>
-          <Header title='Tribe Hunting' />
-          <Input
-            id='stamina'
-            placeholder='Include all daily boosts'
-            label='Stamina:'
-            value={localState.stamina}
-            onChange={(e) => handleLocalChange('stamina', e.target.value)}
-            onBlur={() => handleBlur('stamina')}
-          />
-          <Dropdown
-            id='tribeLevelMultiplier'
-            label='Select tribe level:'
-            options={tribeDropdownOptions}
-            value={localState.tribeLevelMultiplier}
-            onChange={(e) => handleInstantDispatch?.('tribeLevelMultiplier', e.target.value)}
-          />
-          <Dropdown
-            id='previousEventDropdown'
-            label='Previous event score'
-            value={selectedEvent}
-            options={previousEventDropdownOptions}
-            onChange={(e) => setSelectedEvent(e.target.value)}
-          />
+    <SectionContainer>
+      <div key={DAY_KEYS.DAY_ONE}>
+        <SectionHeader title='Day One' handleClick={() => setShowModal(true)} />
+        <div className='flex flex-col md:flex-row'>
+          <div className='calculator-input'>
+            <Header title='Tribe Hunting' />
+            <Input
+              id='stamina'
+              placeholder='Include all daily boosts'
+              label='Stamina:'
+              value={localState.stamina}
+              onChange={(e) => handleLocalChange('stamina', e.target.value)}
+              onBlur={() => handleBlur('stamina')}
+            />
+            <Dropdown
+              id='tribeLevelMultiplier'
+              label='Select tribe level:'
+              options={tribeDropdownOptions}
+              value={localState.tribeLevelMultiplier}
+              onChange={(e) => handleInstantDispatch?.('tribeLevelMultiplier', e.target.value)}
+            />
+            <Dropdown
+              id='previousEventDropdown'
+              label='Previous event score'
+              value={selectedEvent}
+              options={previousEventDropdownOptions}
+              onChange={(e) => setSelectedEvent(e.target.value)}
+            />
+          </div>
+          <div className='calculator-output'>
+            <Header title='Score' />
+            <RowWrapper>
+              <Output label='Daily score' value={localState.totalDailyScore} />
+              <Output label='Tribes hunted' value={localState.tribesHunted} />
+            </RowWrapper>
+            <PreviousEventScore score={selectedScore} />
+          </div>
         </div>
-        <div className='calculator-output'>
-          <Header title='Score' />
-          <RowWrapper>
-            <Output label='Daily score' value={localState.totalDailyScore} />
-            <Output label='Tribes hunted' value={localState.tribesHunted} />
-          </RowWrapper>
-          <PreviousEventScore score={selectedScore}/>
-        </div>
+        <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay} />
+        <Modal
+          isOpen={showModal}
+          title="Reset Calculator"
+          description="Reset all values back to 0? This action can not be undone."
+          onCancel={() => setShowModal(false)}
+          onConfirm={resetCalculator} />
       </div>
-      <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay} />
-      <Modal
-        isOpen={showModal}
-        title="Reset Calculator"
-        description="Reset all values back to 0? This action can not be undone."
-        onCancel={() => setShowModal(false)}
-        onConfirm={resetCalculator} />
-    </CalculatorContainer>
+    </SectionContainer>
   )
 }
 

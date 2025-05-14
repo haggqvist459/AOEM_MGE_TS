@@ -4,7 +4,7 @@ import { useAppDispatch, DayThreeStateData } from "@/redux";
 import { DAY_KEYS } from '@/utils';
 import { DayKey } from '@/types';
 import { updateFieldDayThree, resetStateDayThree, calculateDailyScoreDayThree, updateTroopField, addTroop, removeTroop, GatherTroopData } from "@/redux"
-import { CalculatorContainer, CalculatorButtons, CalculatorHeader, Header, RowWrapper, Input, Output, GatherTroop, Modal, PreviousEventScore, GridWrapper } from "@/components";
+import { SectionContainer, CalculatorButtons, SectionHeader, Header, RowWrapper, Input, Output, GatherTroop, Modal, PreviousEventScore, GridWrapper } from "@/components";
 import { Dropdown, DropdownOption, mapToDropdownOptions } from '@/components/ui/dropdown'
 
 
@@ -122,83 +122,85 @@ const DayThreeCalc = ({ activeDay, setActiveDay }: Props) => {
 
 
   return (
-    <CalculatorContainer>
-      <CalculatorHeader title="Day Three" handleClick={() => setShowModal(true)} />
-      <div className='flex flex-col md:flex-row'>
-        <div className='calculator-input'>
-          <Header title='Gathering' />
-          {localState.troops.map((troop: GatherTroopData, index: number) => (
-            <GatherTroop
-              key={index}
-              troopData={troop}
-              onChange={handlelocalTroopChange}
-              onBlur={handleTroopBlur}
-              onInstantDispatch={handleTroopInstantDispatch}
-              onDelete={handleRemovetroop}
-            />
-          ))}
-          <div className="w-full flex items-center">
-            <button
-              disabled={localState.troops.length >= 5}
-              className="add-button"
-              onClick={() => handleAddtroop()}>Add troop</button>
-          </div>
-          <RowWrapper>
-            <Dropdown
-              id='richFieldId'
-              label='Rich Field'
-              options={richFieldOptions}
-              value={localState.richFieldId}
-              onChange={(e) => dropdownDispatch('richFieldId', e.target.value)}
-            />
-            <Dropdown
-              id='allianceCenterId'
-              label='Alliance Center'
-              options={allianceCenterOptions}
-              value={localState.allianceCenterId}
-              onChange={(e) => dropdownDispatch('allianceCenterId', e.target.value)}
-            />
-          </RowWrapper>
-          <Header title='Advent wheel' />
-          <Input
-            id='empireCoins'
-            placeholder="0"
-            label="Empire coins"
-            value={localState.empireCoins}
-            onChange={(e) => handleLocalChange('empireCoins', e.target.value)}
-            onBlur={() => handleBlur('empireCoins')}
-          />
-          <Dropdown
-            id='previousEventDropdown'
-            label='Previous event score'
-            value={selectedEvent}
-            options={previousEventDropdownOptions}
-            onChange={(e) => setSelectedEvent(e.target.value)}
-          />
-        </div>
-        <div className='calculator-output'>
-          <Header title="Score" />
-          <RowWrapper>
-            <Output label="Total daily score" value={localState.totalDailyScore} />
-            <Output label='Spins' value={localState.score.spins} />
-          </RowWrapper>
-          <GridWrapper columns={2}>
-            <Output label='Gathering total' value={localState.score.gathering} />
-            {localState.troops.map((troop, index) => (
-              <Output key={index} label={troop.name} value={troop.score} />
+    <SectionContainer>
+      <div key={DAY_KEYS.DAY_THREE}>
+        <SectionHeader title="Day Three" handleClick={() => setShowModal(true)} />
+        <div className='flex flex-col md:flex-row'>
+          <div className='calculator-input'>
+            <Header title='Gathering' />
+            {localState.troops.map((troop: GatherTroopData, index: number) => (
+              <GatherTroop
+                key={index}
+                troopData={troop}
+                onChange={handlelocalTroopChange}
+                onBlur={handleTroopBlur}
+                onInstantDispatch={handleTroopInstantDispatch}
+                onDelete={handleRemovetroop}
+              />
             ))}
-          </GridWrapper>
-          <PreviousEventScore score={selectedScore} />
+            <div className="w-full flex items-center">
+              <button
+                disabled={localState.troops.length >= 5}
+                className="add-button"
+                onClick={() => handleAddtroop()}>Add troop</button>
+            </div>
+            <RowWrapper>
+              <Dropdown
+                id='richFieldId'
+                label='Rich Field'
+                options={richFieldOptions}
+                value={localState.richFieldId}
+                onChange={(e) => dropdownDispatch('richFieldId', e.target.value)}
+              />
+              <Dropdown
+                id='allianceCenterId'
+                label='Alliance Center'
+                options={allianceCenterOptions}
+                value={localState.allianceCenterId}
+                onChange={(e) => dropdownDispatch('allianceCenterId', e.target.value)}
+              />
+            </RowWrapper>
+            <Header title='Advent wheel' />
+            <Input
+              id='empireCoins'
+              placeholder="0"
+              label="Empire coins"
+              value={localState.empireCoins}
+              onChange={(e) => handleLocalChange('empireCoins', e.target.value)}
+              onBlur={() => handleBlur('empireCoins')}
+            />
+            <Dropdown
+              id='previousEventDropdown'
+              label='Previous event score'
+              value={selectedEvent}
+              options={previousEventDropdownOptions}
+              onChange={(e) => setSelectedEvent(e.target.value)}
+            />
+          </div>
+          <div className='calculator-output'>
+            <Header title="Score" />
+            <RowWrapper>
+              <Output label="Total daily score" value={localState.totalDailyScore} />
+              <Output label='Spins' value={localState.score.spins} />
+            </RowWrapper>
+            <GridWrapper columns={2}>
+              <Output label='Gathering total' value={localState.score.gathering} />
+              {localState.troops.map((troop, index) => (
+                <Output key={index} label={troop.name} value={troop.score} />
+              ))}
+            </GridWrapper>
+            <PreviousEventScore score={selectedScore} />
+          </div>
         </div>
+        <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay} />
+        <Modal
+          isOpen={showModal}
+          title="Reset Calculator"
+          description="Reset all values back to 0? This action can not be undone."
+          onCancel={() => setShowModal(false)}
+          onConfirm={resetCalculator} />
       </div>
-      <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay} />
-      <Modal
-        isOpen={showModal}
-        title="Reset Calculator"
-        description="Reset all values back to 0? This action can not be undone."
-        onCancel={() => setShowModal(false)}
-        onConfirm={resetCalculator} />
-    </CalculatorContainer>
+    </SectionContainer>
   )
 }
 

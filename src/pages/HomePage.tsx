@@ -45,7 +45,8 @@ const HomePage = () => {
       </div>
       <div
         key={activeDay}
-        className="transition-opacity opacity-0 animate-fade-in">
+        // className="transition-opacity opacity-0 animate-fade-in"
+        >
         {conditionallyRenderedDay()}
       </div>
     </div>

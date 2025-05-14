@@ -58,3 +58,4 @@
 - [x] Apply state types on reset object in reset state reducer 
 - [x] Fix duplicate form IDs on day five (likely troop types)
 - [ ] Add same fade in effect on all pages
+- [ ] Rename CalculatorContainer and -Header to Section-
