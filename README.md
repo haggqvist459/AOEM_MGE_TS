@@ -44,11 +44,11 @@
 
 #### Misc:
 - [x] Persist list using localStorage
-- [ ] PWA for offline support
+- [x] PWA for offline support
 - [x] Custom font locally available 
 - [x] Local SVG code for icons in separate components
 - [x] Theme variables for colours
-- [ ] Custom icon & splash screen
+- [x] Custom icon & splash screen
 - [x] Re-name Header to NavBar
 - [x] Re-name SubHeader to Header
 - [x] Create SubHeader component for the h3 element with 17px font size
