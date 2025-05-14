@@ -28,8 +28,8 @@
 - [x] Disclaimers 
 
 #### Error Page: 
-- [ ] Custom error page with theme styling
-- [ ] Link to home page
+- [x] Custom error page with theme styling
+- [x] Link to home page
 
 #### Nav Bar: 
 - [x] Custom button with transitions 
@@ -57,3 +57,4 @@
 - [x] Apply city and imperial titles for troop training 
 - [x] Apply state types on reset object in reset state reducer 
 - [x] Fix duplicate form IDs on day five (likely troop types)
+- [ ] Add same fade in effect on all pages

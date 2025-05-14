@@ -9,6 +9,7 @@ const HomePage = () => {
 
   const [activeDay, setActiveDay] = useState<DayKey>(DAY_KEYS.DAY_ONE)
 
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [activeDay]);
@@ -21,7 +22,7 @@ const HomePage = () => {
 
   const conditionallyRenderedDay = () => {
     switch (activeDay) {
-      case DAY_KEYS.DAY_ONE: return <DayOneCalc activeDay={activeDay} setActiveDay={setActiveDay} />
+      case DAY_KEYS.DAY_ONE: return <DayOneCalc activeDay={activeDay} setActiveDay={setActiveDay}/>
       case DAY_KEYS.DAY_TWO: return <DayTwoCalc activeDay={activeDay} setActiveDay={setActiveDay} />
       case DAY_KEYS.DAY_THREE: return <DayThreeCalc activeDay={activeDay} setActiveDay={setActiveDay} />
       case DAY_KEYS.DAY_FOUR: return <DayFourCalc activeDay={activeDay} setActiveDay={setActiveDay} />
