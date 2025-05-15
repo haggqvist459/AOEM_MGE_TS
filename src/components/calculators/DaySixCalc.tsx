@@ -51,7 +51,6 @@ const DaySixCalc = ({ activeDay, setActiveDay }: Props) => {
 
   return (
     <SectionContainer>
-      <div key={DAY_KEYS.DAY_SIX}>
         <SectionHeader title='Day Six' handleClick={() => setShowModal(prev => !prev)} />
         <div className='flex flex-col md:flex-row'>
           <div className='calculator-input'>
@@ -140,7 +139,6 @@ const DaySixCalc = ({ activeDay, setActiveDay }: Props) => {
           description="Reset all values back to 0? This action can not be undone."
           onCancel={() => setShowModal(false)}
           onConfirm={resetCalculator} />
-      </div>
     </SectionContainer>
   )
 }

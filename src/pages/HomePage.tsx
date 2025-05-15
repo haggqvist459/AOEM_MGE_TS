@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { DAY_KEYS, DAY_TITLES } from '@/utils';
 import { DayKey } from '@/types';
+import { SwipeWrapper } from '@/components';
 import { DayOneCalc, DayThreeCalc, DayTwoCalc, DayFourCalc, DayFiveCalc, DaySixCalc, DaySevenCalc } from '@/components/calculators';
 
 
@@ -8,6 +9,20 @@ import { DayOneCalc, DayThreeCalc, DayTwoCalc, DayFourCalc, DayFiveCalc, DaySixC
 const HomePage = () => {
 
   const [activeDay, setActiveDay] = useState<DayKey>(DAY_KEYS.DAY_ONE)
+
+  const [prevDay, setPrevDay] = useState<DayKey>(activeDay);
+  const [direction, setDirection] = useState<"left" | "right">("right");
+
+  useEffect(() => {
+    if (prevDay === activeDay) return;
+
+    const dayKeys = Object.values(DAY_KEYS);
+    const prevIndex = dayKeys.indexOf(prevDay);
+    const newIndex = dayKeys.indexOf(activeDay);
+
+    setDirection(newIndex > prevIndex ? "left" : "right");
+    setPrevDay(activeDay);
+  }, [activeDay]);
 
 
   useEffect(() => {
@@ -43,12 +58,9 @@ const HomePage = () => {
         </div>
 
       </div>
-      <div
-        key={activeDay}
-      // className="transition-opacity opacity-0 animate-fade-in"
-      >
-        {conditionallyRenderedDay()}
-      </div>
+        <SwipeWrapper key={activeDay} >
+          {conditionallyRenderedDay()}
+        </SwipeWrapper>
     </div>
   )
 }
