@@ -22,7 +22,7 @@ const HomePage = () => {
 
   const conditionallyRenderedDay = () => {
     switch (activeDay) {
-      case DAY_KEYS.DAY_ONE: return <DayOneCalc activeDay={activeDay} setActiveDay={setActiveDay}/>
+      case DAY_KEYS.DAY_ONE: return <DayOneCalc activeDay={activeDay} setActiveDay={setActiveDay} />
       case DAY_KEYS.DAY_TWO: return <DayTwoCalc activeDay={activeDay} setActiveDay={setActiveDay} />
       case DAY_KEYS.DAY_THREE: return <DayThreeCalc activeDay={activeDay} setActiveDay={setActiveDay} />
       case DAY_KEYS.DAY_FOUR: return <DayFourCalc activeDay={activeDay} setActiveDay={setActiveDay} />
@@ -39,14 +39,14 @@ const HomePage = () => {
         <p className='text-blue-50 text-base min-w-max font-semibold'>Jump to: </p>
         <div className='flex space-x-2 overflow-x-auto whitespace-nowrap'>
           {menuOptions}
-          <div className="pointer-events-none absolute top-0 bottom-0 right-0 w-10 bg-gradient-to-l from-primary/80 to-transparent md:hidden"/>
+          <div className="pointer-events-none absolute top-0 bottom-0 right-0 w-10 bg-gradient-to-l from-primary/80 to-transparent md:hidden" />
         </div>
-        
+
       </div>
       <div
         key={activeDay}
-        // className="transition-opacity opacity-0 animate-fade-in"
-        >
+      // className="transition-opacity opacity-0 animate-fade-in"
+      >
         {conditionallyRenderedDay()}
       </div>
     </div>

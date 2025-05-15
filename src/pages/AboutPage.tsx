@@ -2,8 +2,7 @@ import { SectionContainer, SectionHeader, Header } from "@/components";
 
 const AboutPage = () => {
   return (
-    <SectionContainer>
-      <div key={'about'}>
+      <SectionContainer>
         <SectionHeader title="About This Site" showTrash={false} />
         <div className='w-full md:w-1/2 mx-auto flex flex-col text-center pb-3'>
           <Header title="The Calculators" />
@@ -35,8 +34,7 @@ const AboutPage = () => {
             All trademarks and game content belong to their respective owners.
           </p>
         </div>
-      </div>
-    </SectionContainer>
+      </SectionContainer>
   )
 }
 

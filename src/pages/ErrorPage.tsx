@@ -7,8 +7,7 @@ const ErrorPage = () => {
 
 
   return (
-    <SectionContainer>
-      <div key={'error'}>
+      <SectionContainer>
         <SectionHeader title='Error Page' showTrash={false} />
         <div className='flex flex-col items-center'>
           <span className='w-1/3 text-center mb-5 text-lg'>
@@ -22,8 +21,7 @@ const ErrorPage = () => {
             </span>
           </NavLink>
         </div>
-      </div>
-    </SectionContainer>
+      </SectionContainer>
   )
 }
 
