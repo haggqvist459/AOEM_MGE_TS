@@ -1,79 +1,67 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 
-type Props = {
+type SliderProps = {
+  activeKey: string;
+  direction: 'left' | 'right';
   children: React.ReactElement;
-  direction: "left" | "right";
 };
 
-const SwipeWrapper = ({ children, direction }: Props) => {
-
-  const [displayed, setDisplayed] = useState(children);
-  const [animatingOut, setAnimatingOut] = useState(false);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-
-  console.log("CHILD KEY:", children.key);
-
-  const prevKeyRef = useRef<string | null | undefined>(null);
+const SwipeWrapper = ({ activeKey, direction, children }: SliderProps) => {
+  const [visibleChild, setVisibleChild] = useState(children);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [exitingChild, setExitingChild] = useState<React.ReactElement | null>(null);
+  const previousKeyRef = useRef(activeKey);
 
   useEffect(() => {
-    const prevKey = prevKeyRef.current;
+    const keyChanged = children.key !== previousKeyRef.current;
+    if (!keyChanged) return;
 
-    if (prevKey === children.key) return;
-
-    setAnimatingOut(true);
+    setExitingChild(visibleChild);
+    setIsAnimating(true);
 
     const timeout = setTimeout(() => {
-      setDisplayed(children);
-      setEntering(true); // new
-      prevKeyRef.current = children.key; // <-- update ref *after* animation
-      setAnimatingOut(false);
-    }, 300);
+      setExitingChild(null);
+      setVisibleChild(children);
+      previousKeyRef.current = activeKey;
+      setIsAnimating(false);
+    }, 300); // must match Tailwind animation duration
 
     return () => clearTimeout(timeout);
-  }, [children.key]);
+  }, [activeKey, children]);
 
-  useEffect(() => {
-    if (!wrapperRef.current) return;
-    console.log("WRAPPER CLASS (on animatingOut change):", wrapperRef.current.className);
-  }, [animatingOut]);
-
-  console.log("ANIMATION STATE:", animatingOut, direction);
-
-
-  const [entering, setEntering] = useState(false);
-  useEffect(() => {
-    if (!entering) return;
-    const timer = setTimeout(() => setEntering(false), 300);
-    return () => clearTimeout(timer);
-  }, [entering]);
+  console.log('Slider visibleChild:', visibleChild);
+  console.log({
+    visibleKey: visibleChild.key,
+    exitingKey: exitingChild?.key,
+    isAnimating
+  });
 
   return (
-    <div className="relative w-full overflow-hidden h-full">
+    <div className="relative w-full h-full overflow-hidden">
+      {exitingChild && (
+        <div
+          key={`exit-${exitingChild.key}`}
+          className={`absolute inset-0 z-10 transition-transform duration-300 ${direction === 'right' ? '-translate-x-full' : 'translate-x-full'
+            }`}
+        >
+          {exitingChild}
+        </div>
+      )}
+
       <div
-        ref={wrapperRef}
-        className={`w-full transition-transform duration-300 ${animatingOut
-          ? direction === "right"
-            ? "-translate-x-full"
-            : "translate-x-full"
-          : "translate-x-0"
+        key={`enter-${visibleChild.key}`}
+        className={`absolute inset-0 z-20 transition-transform duration-300 ${isAnimating
+            ? direction === 'right'
+              ? 'translate-x-full animate-slide-in-from-right'
+              : '-translate-x-full animate-slide-in-from-left'
+            : 'translate-x-0'
           }`}
+        style={{ pointerEvents: isAnimating ? 'none' : 'auto' }}
       >
-        <div className="w-full">{displayed}</div>
+        {visibleChild}
       </div>
     </div>
-  )
+  );
 };
 
 export default SwipeWrapper;
-
-/*
-
-
-
-
-
-
-
-
-
-*/

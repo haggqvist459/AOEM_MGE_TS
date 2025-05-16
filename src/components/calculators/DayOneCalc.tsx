@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useDailyCalculator, usePreviousEventScores } from '@/hooks';
 import { resetStateDayOne, updateFieldDayOne, calculateDailyScoreDayOne, DayOneStateData } from '@/redux'
 import { DAY_KEYS, TRIBE_LEVEL_MULTIPLIERS } from '@/utils';
@@ -12,6 +12,13 @@ type Props = {
 }
 
 const DayOneCalc = ({ activeDay, setActiveDay }: Props) => {
+
+  useEffect(() => {
+  console.log('MOUNT Day One');
+  return () => {
+    console.log('UNMOUNT Day One');
+  };
+}, []);
 
   const {
     localState,

@@ -5,4 +5,5 @@ export { default as GridWrapper } from './GridWrapper';
 export { default as NavBar } from './NavBar'
 export { default as RowWrapper } from './RowWrapper';
 export { default as SectionContainer } from './SectionContainer';
+export { default as SlideWrapper } from './SlideWrapper';
 export { default as SwipeWrapper } from './SwipeWrapper';

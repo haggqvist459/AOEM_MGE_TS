@@ -53,7 +53,7 @@ textarea {
   }
 
   .main-header {
-    @apply  text-lg lg:text-xl font-semibold text-primary 
+    @apply text-lg lg:text-xl font-semibold text-primary
   }
 
   .sub-header {
@@ -71,7 +71,7 @@ textarea {
   .dropdown-text {
     @apply border rounded border-neutral-600 text-neutral-800 w-full px-1 appearance-none shadow-sm
   }
- 
+
   .score-text {
     @apply text-base text-neutral-800 border rounded border-transparent
   }
@@ -89,6 +89,35 @@ textarea {
   }
 }
 
+@keyframes slide-in-from-right {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes slide-in-from-left {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
 
 @layer utilities {
 
@@ -118,17 +147,16 @@ textarea {
     -webkit-appearance: textfield;
     appearance: textfield;
   }
-}
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
+  .animate-slide-in-from-right {
+    animation: slide-in-from-right 300ms ease-out forwards;
   }
-  to {
-    opacity: 1;
-  }
-}
 
-.animate-fade-in {
-  animation: fade-in 500ms ease-in-out forwards;
+  .animate-slide-in-from-left {
+    animation: slide-in-from-left 300ms ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 500ms ease-in-out forwards;
+  }
 }

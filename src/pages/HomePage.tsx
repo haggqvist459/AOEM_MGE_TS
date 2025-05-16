@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { DAY_KEYS, DAY_TITLES } from '@/utils';
 import { DayKey } from '@/types';
-import { SwipeWrapper } from '@/components';
+import { SlideWrapper } from '@/components';
 import { DayOneCalc, DayThreeCalc, DayTwoCalc, DayFourCalc, DayFiveCalc, DaySixCalc, DaySevenCalc } from '@/components/calculators';
 
 
@@ -10,24 +10,11 @@ const HomePage = () => {
 
   const [activeDay, setActiveDay] = useState<DayKey>(DAY_KEYS.DAY_ONE)
 
-  const [prevDay, setPrevDay] = useState<DayKey>(activeDay);
-  const [direction, setDirection] = useState<"left" | "right">("right");
-
-  useEffect(() => {
-    if (prevDay === activeDay) return;
-
-    const dayKeys = Object.values(DAY_KEYS);
-    const prevIndex = dayKeys.indexOf(prevDay);
-    const newIndex = dayKeys.indexOf(activeDay);
-
-    setDirection(newIndex > prevIndex ? "right" : "left");
-    setPrevDay(activeDay);
-  }, [activeDay]);
-
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [activeDay]);
+
 
   const menuOptions = Object.values(DAY_KEYS).map((key) => (
     <button key={key} onClick={() => setActiveDay(key)} className='text-blue-50 font-semibold text-base hover:font-bold'>
@@ -35,18 +22,15 @@ const HomePage = () => {
     </button>
   ))
 
-  const conditionallyRenderedDay = () => {
-    switch (activeDay) {
-      case DAY_KEYS.DAY_ONE: return <DayOneCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay}/>
-      case DAY_KEYS.DAY_TWO: return <DayTwoCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay}/>
-      case DAY_KEYS.DAY_THREE: return <DayThreeCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay}/>
-      case DAY_KEYS.DAY_FOUR: return <DayFourCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay}/>
-      case DAY_KEYS.DAY_FIVE: return <DayFiveCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay}/>
-      case DAY_KEYS.DAY_SIX: return <DaySixCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay}/>
-      case DAY_KEYS.DAY_SEVEN: return <DaySevenCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay}/>
-      default: return <DayOneCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay}/>
-    }
-  }
+  const daySlides = [
+    { key: DAY_KEYS.DAY_ONE, component:<DayOneCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay} />},
+    { key: DAY_KEYS.DAY_TWO, component: <DayTwoCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay} />},
+    { key: DAY_KEYS.DAY_THREE, component: <DayThreeCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay} />},
+    { key: DAY_KEYS.DAY_FOUR, component: <DayFourCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay} /> },
+    { key: DAY_KEYS.DAY_FIVE, component: <DayFiveCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay} /> },
+    { key: DAY_KEYS.DAY_SIX, component: <DaySixCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay} /> },
+    { key: DAY_KEYS.DAY_SEVEN, component: <DaySevenCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay} /> },
+  ];
 
   return (
     <div>
@@ -58,9 +42,8 @@ const HomePage = () => {
         </div>
 
       </div>
-        <SwipeWrapper key={activeDay} direction={direction} >
-          {conditionallyRenderedDay()}
-        </SwipeWrapper>
+      <SlideWrapper activeKey={activeDay} slides={daySlides}>
+      </SlideWrapper>
     </div>
   )
 }
