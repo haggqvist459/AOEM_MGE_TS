@@ -20,7 +20,7 @@ const HomePage = () => {
     const prevIndex = dayKeys.indexOf(prevDay);
     const newIndex = dayKeys.indexOf(activeDay);
 
-    setDirection(newIndex > prevIndex ? "left" : "right");
+    setDirection(newIndex > prevIndex ? "right" : "left");
     setPrevDay(activeDay);
   }, [activeDay]);
 
@@ -37,14 +37,14 @@ const HomePage = () => {
 
   const conditionallyRenderedDay = () => {
     switch (activeDay) {
-      case DAY_KEYS.DAY_ONE: return <DayOneCalc activeDay={activeDay} setActiveDay={setActiveDay} />
-      case DAY_KEYS.DAY_TWO: return <DayTwoCalc activeDay={activeDay} setActiveDay={setActiveDay} />
-      case DAY_KEYS.DAY_THREE: return <DayThreeCalc activeDay={activeDay} setActiveDay={setActiveDay} />
-      case DAY_KEYS.DAY_FOUR: return <DayFourCalc activeDay={activeDay} setActiveDay={setActiveDay} />
-      case DAY_KEYS.DAY_FIVE: return <DayFiveCalc activeDay={activeDay} setActiveDay={setActiveDay} />
-      case DAY_KEYS.DAY_SIX: return <DaySixCalc activeDay={activeDay} setActiveDay={setActiveDay} />
-      case DAY_KEYS.DAY_SEVEN: return <DaySevenCalc activeDay={activeDay} setActiveDay={setActiveDay} />
-      default: return <DayOneCalc activeDay={activeDay} setActiveDay={setActiveDay} />
+      case DAY_KEYS.DAY_ONE: return <DayOneCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay}/>
+      case DAY_KEYS.DAY_TWO: return <DayTwoCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay}/>
+      case DAY_KEYS.DAY_THREE: return <DayThreeCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay}/>
+      case DAY_KEYS.DAY_FOUR: return <DayFourCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay}/>
+      case DAY_KEYS.DAY_FIVE: return <DayFiveCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay}/>
+      case DAY_KEYS.DAY_SIX: return <DaySixCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay}/>
+      case DAY_KEYS.DAY_SEVEN: return <DaySevenCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay}/>
+      default: return <DayOneCalc activeDay={activeDay} setActiveDay={setActiveDay} key={activeDay}/>
     }
   }
 
@@ -58,7 +58,7 @@ const HomePage = () => {
         </div>
 
       </div>
-        <SwipeWrapper key={activeDay} >
+        <SwipeWrapper key={activeDay} direction={direction} >
           {conditionallyRenderedDay()}
         </SwipeWrapper>
     </div>
