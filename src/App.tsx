@@ -7,14 +7,14 @@ import { AboutPage, AdminPage, HomePage, PreviousEventScorePage, TotalScorePage,
 
 
 const App = () => {
-  
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path={ROUTES.HOME} element={<MainLayout />}>
           <Route index element={<HomePage />} />
-          <Route path={ROUTES.ABOUT} element={<AboutPage />}/>
-          <Route path={ROUTES.ADMIN} element={<AdminPage />}/>
+          <Route path={ROUTES.ABOUT} element={<AboutPage />} />
+          <Route path={ROUTES.ADMIN} element={<AdminPage />} />
           <Route path={ROUTES.PREVIOUS_SCORE} element={<PreviousEventScorePage />} />
           <Route path={ROUTES.TOTAL_SCORE} element={<TotalScorePage />} />
           <Route path={ROUTES.ERROR} element={<ErrorPage />} />

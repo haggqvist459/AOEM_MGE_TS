@@ -146,3 +146,133 @@ const SwipeWrapper = ({ children, direction }: Props) => {
 export default SwipeWrapper;
 
 */
+
+
+/* 
+19th May
+import { useRef, useEffect } from 'react';
+
+type Slide = {
+  key: string;
+  component: React.ReactElement;
+};
+
+type Props = {
+  activeKey: string;
+  slides: Slide[];
+};
+
+const SlideWrapper = ({ activeKey, slides }: Props) => {
+  const prevKeyRef = useRef<string>(activeKey);
+
+  const prevIndex = slides.findIndex(s => s.key === prevKeyRef.current);
+  const currentIndex = slides.findIndex(s => s.key === activeKey);
+  const direction: 'left' | 'right' = currentIndex > prevIndex ? 'right' : 'left';
+
+  const activeSlide = slides[currentIndex];
+
+  useEffect(() => {
+    prevKeyRef.current = activeKey;
+  }, [activeKey]);
+
+  // Update prevKey after render
+  // prevKeyRef.current = activeKey;
+
+  console.log('SlideWrapper render:', {
+    activeKey,
+    prevKey: prevKeyRef.current,
+    direction,
+    activeComponent: activeSlide?.key,
+  });
+
+  return (
+    <div className="relative w-full min-h-screen overflow-hidden">
+      <div
+        key={activeSlide.key}
+        className={`absolute inset-0 transition-transform duration-300 ${direction === 'right'
+          ? 'translate-x-full animate-slide-in-from-right'
+          : '-translate-x-full animate-slide-in-from-left'
+          }`}
+      >
+        {activeSlide.component}
+      </div>
+    </div>
+  );
+};
+
+export default SlideWrapper;
+
+*/
+
+
+/*
+WORKS
+
+import { useRef, useEffect, useState } from 'react';
+
+type Slide = {
+  key: string;
+  component: React.ReactElement;
+};
+
+type Props = {
+  activeKey: string;
+  slides: Slide[];
+};
+
+const SlideWrapper = ({ activeKey, slides }: Props) => {
+  const [prevKey, setPrevKey] = useState<string | null>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const prevIndex = slides.findIndex(s => s.key === prevKey);
+  const currentIndex = slides.findIndex(s => s.key === activeKey);
+  const direction: 'left' | 'right' = currentIndex > prevIndex ? 'right' : 'left';
+
+  useEffect(() => {
+    if (activeKey !== prevKey) {
+      setIsAnimating(true);
+      setPrevKey(prev => (prev === activeKey ? null : prevKey)); // Don't update if already in sync
+    }
+  }, [activeKey]);
+
+  // Animation end handler
+  const handleAnimationEnd = () => {
+    setIsAnimating(false);
+    setPrevKey(activeKey); // Finalize
+  };
+
+  const activeSlide = slides[currentIndex];
+  const previousSlide = prevKey !== null ? slides[prevIndex] : null;
+
+  return (
+    <div className="relative w-full min-h-screen overflow-hidden">
+      {isAnimating && previousSlide && (
+        <div
+          key={previousSlide.key}
+          className={`absolute inset-0 transition-transform duration-300
+            ${direction === 'right' ? '-translate-x-0 animate-slide-out-to-left' : 'translate-x-0 animate-slide-out-to-right'}
+          `}
+        >
+          {previousSlide.component}
+        </div>
+      )}
+      <div
+        key={activeSlide.key}
+        className={`absolute inset-0 transition-transform duration-300
+          ${isAnimating
+            ? direction === 'right'
+              ? 'translate-x-full animate-slide-in-from-right'
+              : '-translate-x-full animate-slide-in-from-left'
+            : 'translate-x-0'
+          }
+        `}
+        onAnimationEnd={handleAnimationEnd}
+      >
+        {activeSlide.component}
+      </div>
+    </div>
+  );
+};
+
+export default SlideWrapper;
+*/
