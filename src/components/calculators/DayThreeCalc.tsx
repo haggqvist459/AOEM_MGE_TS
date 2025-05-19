@@ -141,7 +141,7 @@ const DayThreeCalc = ({ activeDay, setActiveDay }: Props) => {
               <button
                 disabled={localState.troops.length >= 5}
                 className="add-button"
-                onClick={() => handleAddtroop()}>Add troop</button>
+                onClick={() => handleAddtroop()}>Add Troop</button>
             </div>
             <RowWrapper>
               <Dropdown
