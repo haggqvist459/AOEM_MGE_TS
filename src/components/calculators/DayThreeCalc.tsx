@@ -34,7 +34,7 @@ const DayThreeCalc = ({ activeDay, setActiveDay }: Props) => {
     selectedEvent,
     setSelectedEvent,
     selectedScore,
-  } = usePreviousEventScores(DAY_KEYS.DAY_ONE)
+  } = usePreviousEventScores(activeDay)
 
   const dispatch = useAppDispatch()
   const [showModal, setShowModal] = useState(false)
@@ -106,10 +106,10 @@ const DayThreeCalc = ({ activeDay, setActiveDay }: Props) => {
   }
 
 
-  const handleRemovetroop = (id: string) => {
+  const handleRemoveTroop = (id: string) => {
     dispatch(removeTroop(id))
   }
-  const handleAddtroop = () => {
+  const handleAddTroop = () => {
     if (localState.troops.length >= 5) return;
 
     dispatch(addTroop())
@@ -134,14 +134,14 @@ const DayThreeCalc = ({ activeDay, setActiveDay }: Props) => {
                 onChange={handlelocalTroopChange}
                 onBlur={handleTroopBlur}
                 onInstantDispatch={handleTroopInstantDispatch}
-                onDelete={handleRemovetroop}
+                onDelete={handleRemoveTroop}
               />
             ))}
             <div className="w-full flex items-center">
               <button
                 disabled={localState.troops.length >= 5}
                 className="add-button"
-                onClick={() => handleAddtroop()}>Add Troop</button>
+                onClick={() => handleAddTroop()}>Add Troop</button>
             </div>
             <RowWrapper>
               <Dropdown

@@ -3,7 +3,9 @@ export {
   updateField as updateFieldDayFive,
   calculateDailyScore as calculateDailyScoreDayFive,
   resetState as resetStateDayFive,
-  updateTroopTypeField
+  updateTroopTypeField,
+  addTroopType,
+  removeTroopType
 } from './dayFiveSlice';
 
 

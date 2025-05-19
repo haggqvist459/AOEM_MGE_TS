@@ -57,5 +57,8 @@
 - [x] Apply city and imperial titles for troop training 
 - [x] Apply state types on reset object in reset state reducer 
 - [x] Fix duplicate form IDs on day five (likely troop types)
-- [ ] Add same fade in effect on all pages
-- [ ] Rename CalculatorContainer and -Header to Section-
+- [x] Add same fade in effect on all pages
+- [x] Rename CalculatorContainer and -Header to Section-
+- [x] Add sliding effects to calculators 
+- [ ] Re-work Day 5 to similar style as Day 3
+- [ ] Update day three gathering title, set it to 'Gathering Troops' or similar

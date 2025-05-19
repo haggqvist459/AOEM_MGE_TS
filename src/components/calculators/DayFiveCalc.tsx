@@ -4,11 +4,12 @@ import { TROOP_TIER_MULTIPLIERS, DAY_KEYS } from '@/utils';
 import { TimeData, DayKey } from '@/types';
 import {
   updateFieldDayFive, calculateDailyScoreDayFive, resetStateDayFive,
-  DayFiveStateData, TroopType, TroopTypeData, useAppDispatch, updateTroopTypeField,
+  DayFiveStateData, useAppDispatch, updateTroopTypeField,
+  TroopEntry, addTroopType, removeTroopType
 } from '@/redux'
 import {
   SectionHeader, SectionContainer, CalculatorButtons, ExpandableSection,
-  Modal, Input, Output, Header, TimeSelector, InfoButton, RowWrapper, Troop, PreviousEventScore, ToggleButton
+  Modal, Input, Output, Header, TimeSelector, InfoButton, RowWrapper, TroopType, PreviousEventScore, ToggleButton
 } from '@/components';
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown'
 
@@ -29,7 +30,7 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
     handleInstantDispatch,
     setLocalState
   } = useDailyCalculator<DayFiveStateData>({
-    selector: state => state.dayFive,
+    selector: state => state[activeDay],
     updateField: updateFieldDayFive,
     calculateScore: () => calculateDailyScoreDayFive(),
     resetState: resetStateDayFive,
@@ -42,7 +43,7 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
     selectedEvent,
     setSelectedEvent,
     selectedScore,
-  } = usePreviousEventScores(DAY_KEYS.DAY_ONE)
+  } = usePreviousEventScores(activeDay)
 
   const previousEventDropdownOptions = [
     { label: 'Daily average', value: 'daily-average' },
@@ -51,8 +52,17 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
 
   const [showModal, setShowModal] = useState(false)
 
-  const trainingDropdownOptions = mapToDropdownOptions(TROOP_TIER_MULTIPLIERS)
-  const [trainingExpanded, setTrainingExpanded] = useState(false)
+  const handleAddTroopType = () => {
+    if (localState.troops.length >= 8) return;
+
+    console.log("handleAddTroopType, dispatching")
+    dispatch(addTroopType())
+  }
+
+  const handleRemoveTroopType = (id: string) => {
+    dispatch(removeTroopType(id))
+  }
+
 
   const dispatch = useAppDispatch();
 
@@ -61,7 +71,7 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
     setShowModal(false);
   }
 
-  const handleTroopLocalChange = (troopType: TroopType, field: keyof TroopTypeData, value: string, unit?: keyof TimeData) => {
+  const handleTroopLocalChange = (troopType: TroopTypeLabel, field: keyof TroopTypeData, value: string, unit?: keyof TimeData) => {
     setLocalState?.((prev: typeof localState) => ({
       ...prev,
       troops: {
@@ -97,112 +107,75 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
 
   return (
     <SectionContainer>
-        <SectionHeader title='Day Five' handleClick={() => setShowModal(true)} />
-        <div className='flex flex-col md:flex-row'>
-          <div className='calculator-input'>
-            <Header title='Speed-up' />
-            <TimeSelector
-              id={'initialTrainingSpeedup'}
-              timeValue={localState.initialTrainingSpeedup}
-              title='Training'
-              field='initialTrainingSpeedup'
-              onChange={handleLocalChange}
-              onBlur={handleBlur}
+      <SectionHeader title='Day Five' handleClick={() => setShowModal(true)} />
+      <div className='flex flex-col md:flex-row'>
+        <div className='calculator-input'>
+          <div className='flex space-x-1'>
+            <Header title='Promotion' />
+            <InfoButton message='Input numbers from your Stable, Archery Range. Set up as many troop types for score calculation as needed. Speed-ups will be evenly split. Troop types with empty fields will be ignored. Promotion is prioritised over training.' />
+          </div>
+          {localState.troops.map((troop: TroopEntry, index: number) => (
+            <TroopType
+              key={index}
+              troopTypeData={troop}
+              onBlur={() => { }}
+              onChange={() => { }}
+              onInstantDispatch={() => { }}
+              onDelete={handleAddTroopType}
             />
-            <div className='flex space-x-1'>
-              <Header title='Promotion' />
-              <InfoButton message='Input numbers from your Stable, Archery Range etc. Speed-ups will be evenly split. Troop types with empty fields will be ignored, and leftover speed-ups will be allocated for training' />
+          ))}
+          <div className="w-full flex items-center">
+            <button
+              disabled={localState.troops.length >= 8}
+              className="add-button"
+              onClick={() => handleAddTroopType()}>Add Troop</button>
+          </div>
+          <Header title='Speed-up' />
+          <TimeSelector
+            id={'initialTrainingSpeedup'}
+            timeValue={localState.initialTrainingSpeedup}
+            title='Training'
+            field='initialTrainingSpeedup'
+            onChange={handleLocalChange}
+            onBlur={handleBlur}
+          />
+          <RowWrapper>
+            <div>
+              <Header title='Imperial Title' headerType='sub-header' />
+              <ToggleButton isToggled={localState.hasImperialTitle} onToggle={() => handleInstantDispatch('hasImperialTitle')} />
             </div>
-            {(Object.entries(localState.troops) as [TroopType, TroopTypeData][]).map(([troopType, troopData]) => (
-              <Troop
-                key={troopType}
-                troopType={troopType}
-                troopTypeData={troopData}
-                onChange={handleTroopLocalChange}
-                onBlur={handleTroopBlur}
-                onInstantDispatch={handleTroopInstantDispatch}
-              />
-            ))}
-            <ExpandableSection title='Training' isExpanded={trainingExpanded} toggleExpansion={() => setTrainingExpanded(prev => !prev)}>
-              <RowWrapper>
-                <Dropdown
-                  id='troopTraining'
-                  label='Target tier'
-                  value={localState.trainedTroopTier}
-                  options={trainingDropdownOptions}
-                  onChange={(e) => handleInstantDispatch('trainedTroopTier', e.target.value)}
-                />
-                <Input
-                  id='trainedTroopsPerBatch'
-                  placeholder='0'
-                  label='Troops per batch'
-                  value={localState.trainedTroopsPerBatch}
-                  onChange={(e) => handleLocalChange('trainedTroopsPerBatch', e.target.value)}
-                  onBlur={() => handleBlur('trainedTroopsPerBatch')}
-                />
-              </RowWrapper>
-              <TimeSelector
-                id={'trainedTroopsTrainingTime'}
-                title='Training time'
-                timeValue={localState.trainedTroopsTrainingTime}
-                field='trainedTroopsTrainingTime'
-                onChange={handleLocalChange}
-                onBlur={handleBlur}
-                showSeconds={true}
-              />
-            </ExpandableSection>
-            <RowWrapper>
-              <div>
-                <Header title='Imperial Title' headerType='sub-header' />
-                <ToggleButton isToggled={localState.hasImperialTitle} onToggle={() => handleInstantDispatch('hasImperialTitle')} />
-              </div>
-              <div>
-                <Header title='City Title' headerType='sub-header' />
-                <ToggleButton isToggled={localState.hasCityTitle} onToggle={() => handleInstantDispatch('hasCityTitle')} />
-              </div>
-            </RowWrapper>
-            <Dropdown
-              id='previousEventDropdown'
-              label='Previous event score'
-              value={selectedEvent}
-              options={previousEventDropdownOptions}
-              onChange={(e) => setSelectedEvent(e.target.value)}
-            />
-          </div>
-          <div className='calculator-output'>
-            <Header title="Score" />
-            <Output label="Total daily score" value={localState.totalDailyScore} />
-            <RowWrapper>
-              <Output label="Promotion" value={localState.score.promotion} />
-              <Output label="Training" value={localState.score.training} />
-            </RowWrapper>
-            <Header title='Troop data' />
-            <RowWrapper>
-              <Output label='Archer score' value={localState.troops['Archers'].troopTotalScore} />
-              <Output label='Cavalry score ' value={localState.troops['Cavalry'].troopTotalScore} />
-            </RowWrapper>
-            <RowWrapper>
-              <Output label='Archer Batches' value={localState.troops['Archers'].maxPromotableBatches} />
-              <Output label='Cavalry Batches' value={localState.troops['Cavalry'].maxPromotableBatches} />
-            </RowWrapper>
-            <RowWrapper>
-              <Output label='Pikemen score' value={localState.troops['Pikemen'].troopTotalScore} />
-              <Output label='Swordsmen score' value={localState.troops['Swordsmen'].troopTotalScore} />
-            </RowWrapper>
-            <RowWrapper>
-              <Output label='Pikemen Batches' value={localState.troops['Pikemen'].maxPromotableBatches} />
-              <Output label='Swordsmen Batches' value={localState.troops['Swordsmen'].maxPromotableBatches} />
-            </RowWrapper>
-            <PreviousEventScore score={selectedScore} />
-          </div>
+            <div>
+              <Header title='City Title' headerType='sub-header' />
+              <ToggleButton isToggled={localState.hasCityTitle} onToggle={() => handleInstantDispatch('hasCityTitle')} />
+            </div>
+          </RowWrapper>
+          <Dropdown
+            id='previousEventDropdown'
+            label='Previous event score'
+            value={selectedEvent}
+            options={previousEventDropdownOptions}
+            onChange={(e) => setSelectedEvent(e.target.value)}
+          />
         </div>
-        <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay} />
-        <Modal
-          isOpen={showModal}
-          title="Reset Calculator"
-          description="Reset all values back to 0? This action can not be undone."
-          onCancel={() => setShowModal(false)}
-          onConfirm={resetCalculator} />
+        <div className='calculator-output'>
+          <Header title="Score" />
+          <Output label="Total daily score" value={localState.totalDailyScore} />
+          <RowWrapper>
+            <Output label="Promotion" value={localState.score.promotion} />
+            <Output label="Training" value={localState.score.training} />
+          </RowWrapper>
+          <Header title='Troop data' />
+
+          <PreviousEventScore score={selectedScore} />
+        </div>
+      </div>
+      <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay} />
+      <Modal
+        isOpen={showModal}
+        title="Reset Calculator"
+        description="Reset all values back to 0? This action can not be undone."
+        onCancel={() => setShowModal(false)}
+        onConfirm={resetCalculator} />
     </SectionContainer>
   )
 }

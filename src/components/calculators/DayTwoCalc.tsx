@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useDailyCalculator, usePreviousEventScores } from "@/hooks";
 import { resetStateDayTwo, updateFieldDayTwo, calculateDailyScoreDayTwo, DayTwoStateData } from '@/redux'
 import { DAY_KEYS } from '@/utils'
@@ -18,13 +18,6 @@ type Props = {
 
 const DayTwoCalc = ({ activeDay, setActiveDay }: Props) => {
 
-  useEffect(() => {
-    console.log('MOUNT Day Two');
-    return () => {
-      console.log('UNMOUNT Day Two');
-    };
-  }, []);
-
   const {
     localState,
     handleLocalChange,
@@ -42,7 +35,7 @@ const DayTwoCalc = ({ activeDay, setActiveDay }: Props) => {
     selectedEvent,
     setSelectedEvent,
     selectedScore,
-  } = usePreviousEventScores(DAY_KEYS.DAY_TWO)
+  } = usePreviousEventScores(activeDay)
 
   const [showModal, setShowModal] = useState(false)
   const previousEventDropdownOptions = [

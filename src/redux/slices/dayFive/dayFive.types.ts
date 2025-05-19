@@ -1,31 +1,48 @@
 import { TimeData } from "@/types";
-import { TROOP_TIER_MULTIPLIERS, TROOP_TYPES } from "@/utils";
+import { TROOP_TIER_MULTIPLIERS } from "@/utils";
 
 export type TierValue = typeof TROOP_TIER_MULTIPLIERS[keyof typeof TROOP_TIER_MULTIPLIERS]
-export type TroopType = keyof typeof TROOP_TYPES
+export const TROOP_TYPE_LABELS = ['Archers', 'Cavalry', 'Pikemen', 'Swordsmen'] as const;
+export type TroopTypeLabel = typeof TROOP_TYPE_LABELS[number];
+export type TroopEntry = PromotedTroopEntry | TrainedTroopEntry;
+export type TroopKind = 'Promotion' | 'Training'
+
+export interface PromotedTroopEntry {
+  kind: 'Promotion';
+  id: string
+  type: TroopTypeLabel
+  baseTier: TierValue;
+  targetTier: TierValue;
+  availableTroops: string;
+  troopsPerBatch: string;
+  promotionTime: TimeData;
+  troopTotalScore: number;
+  maxBatches: number;
+}
+
+export interface TrainedTroopEntry {
+  kind: 'Training';
+  id: string
+  type: TroopTypeLabel
+  targetTier: TierValue;
+  troopsPerBatch: string;
+  trainingTime: TimeData;
+  troopTotalScore: number;
+  maxBatches: number;
+}
+
 
 export type UpdateTroopTypePayload = {
-  troopType: TroopType
-  field: keyof TroopTypeData
+  troopType: TroopTypeLabel
+  field: keyof TroopEntry
   value: string | TimeData
   unit?: keyof TimeData
 }
 
-export type TroopTypeData = {
-  baseTier: TierValue
-  targetTier: TierValue
-  availableTroops: string
-  troopsPerBatch: string
-  promotionTime: TimeData
-  troopTotalScore: number
-  maxPromotableBatches: number
-}
 
 export type DayFiveStateData = {
-  troops: Record<TroopType, TroopTypeData>
-  trainedTroopsTrainingTime: TimeData
-  trainedTroopsPerBatch: string
-  trainedTroopTier: TierValue
+  troops: TroopEntry[]
+  nextTroopTypeId: number
   initialTrainingSpeedup: TimeData
   remainingTrainingSpeedup: TimeData
   hasImperialTitle: boolean,

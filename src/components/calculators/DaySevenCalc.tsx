@@ -32,7 +32,7 @@ const DaySevenCalc = ({ activeDay, setActiveDay }: Props) => {
     selectedEvent,
     setSelectedEvent,
     selectedScore,
-  } = usePreviousEventScores(DAY_KEYS.DAY_ONE)
+  } = usePreviousEventScores(activeDay)
 
   const [expandedSection, setExpandedSection] = useState({
     tribe: false,

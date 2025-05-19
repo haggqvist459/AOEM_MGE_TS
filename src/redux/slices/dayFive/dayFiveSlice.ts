@@ -1,38 +1,34 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { DayFiveStateData, TroopType, TroopTypeData, UpdateTroopTypePayload, calculatePromotionScore, calculateTrainingScore } from "../dayFive";
+import { calculatePromotionScore, calculateTrainingScore } from "../dayFive";
+import { DayFiveStateData, TroopTypeLabel, UpdateTroopTypePayload, PromotedTroopEntry, TrainedTroopEntry, TroopEntry, TroopKind } from '../dayFive'
 import { saveData, loadData, toNumber, updateFieldDelegated, toSeconds, TROOP_TIER_MULTIPLIERS } from "@/utils";
-import { DAY_KEYS, TROOP_TYPES } from "@/utils";
+import { DAY_KEYS } from "@/utils";
 import { TimeData } from "@/types";
 
 const targetTierDefault = TROOP_TIER_MULTIPLIERS['Tier 7'];
 const baseTierDefault = TROOP_TIER_MULTIPLIERS['Tier 6'];
 
 const initialState: DayFiveStateData = loadData<DayFiveStateData>(DAY_KEYS.DAY_FIVE) ?? {
-  troops: Object.keys(TROOP_TYPES).reduce((acc, troop) => {
-    acc[troop as TroopType] = {
-      targetTier: targetTierDefault,
-      baseTier: baseTierDefault,
-      availableTroops: '',
-      troopsPerBatch: '',
+  troops: [
+    {
+      id: '1',
+      kind: 'Promotion',
+      type: 'Cavalry',
       promotionTime: {
         days: '',
         hours: '',
         minutes: '',
-        seconds: '',
+        seconds: ''
       },
-      troopTotalScore: 0,
-      maxPromotableBatches: 0,
-    };
-    return acc;
-  }, {} as Record<TroopType, TroopTypeData>),
-  trainedTroopsPerBatch: '',
-  trainedTroopsTrainingTime: {
-    days: '',
-    hours: '',
-    minutes: '',
-    seconds: '',
-  },
-  trainedTroopTier: targetTierDefault,
+      baseTier: baseTierDefault,
+      targetTier: targetTierDefault,
+      availableTroops: '',
+      troopsPerBatch: '',
+      maxBatches: 0,
+      troopTotalScore: 0
+    }
+  ],
+  nextTroopTypeId: 2,
   hasCityTitle: false,
   hasImperialTitle: false,
   initialTrainingSpeedup: {
@@ -66,6 +62,39 @@ const dayFiveSlice = createSlice({
         (state.troops[troopType][field] as any) = value
       }
     },
+    addTroopType: (state) => {
+      if (state.troops.length >= 8) return
+
+      console.log("addTroopType, triggered")
+
+      const newTroopType: TroopEntry = {
+        id: state.nextTroopTypeId.toString(),
+        kind: 'Promotion',
+        type: 'Cavalry',
+        promotionTime: {
+          days: '',
+          hours: '',
+          minutes: '',
+          seconds: ''
+        },
+        baseTier: baseTierDefault,
+        targetTier: targetTierDefault,
+        availableTroops: '',
+        troopsPerBatch: '',
+        maxBatches: 0,
+        troopTotalScore: 0
+      };
+
+      state.troops.push(newTroopType);
+      state.nextTroopTypeId += 1;
+
+    },
+    removeTroopType: (state, action: PayloadAction<string>) => {
+      const id = action.payload;
+
+      state.troops = state.troops.filter(troop => troop.id !== id);
+
+    },
     calculateDailyScore: (state) => {
       let trainingSpeedupSeconds = toSeconds(state.initialTrainingSpeedup)
       let remainingTrainingSpeedup = 0
@@ -92,31 +121,26 @@ const dayFiveSlice = createSlice({
     },
     resetState: () => {
       const reset: DayFiveStateData = {
-        troops: Object.keys(TROOP_TYPES).reduce((acc, troop) => {
-          acc[troop as TroopType] = {
-            targetTier: targetTierDefault,
-            baseTier: baseTierDefault,
-            availableTroops: '',
-            troopsPerBatch: '',
+        troops: [
+          {
+            id: '1',
+            kind: 'Promotion',
+            type: 'Cavalry',
             promotionTime: {
               days: '',
               hours: '',
               minutes: '',
-              seconds: '',
+              seconds: ''
             },
-            troopTotalScore: 0,
-            maxPromotableBatches: 0,
-          };
-          return acc;
-        }, {} as Record<TroopType, TroopTypeData>),
-        trainedTroopsPerBatch: '',
-        trainedTroopsTrainingTime: {
-          days: '',
-          hours: '',
-          minutes: '',
-          seconds: '',
-        },
-        trainedTroopTier: targetTierDefault,
+            baseTier: baseTierDefault,
+            targetTier: targetTierDefault,
+            availableTroops: '',
+            troopsPerBatch: '',
+            maxBatches: 0,
+            troopTotalScore: 0
+          }
+        ],
+        nextTroopTypeId: 2,
         hasCityTitle: false,
         hasImperialTitle: false,
         initialTrainingSpeedup: {
@@ -142,5 +166,5 @@ const dayFiveSlice = createSlice({
   }
 })
 
-export const { updateField, calculateDailyScore, resetState, updateTroopTypeField } = dayFiveSlice.actions;
+export const { updateField, calculateDailyScore, resetState, updateTroopTypeField, addTroopType, removeTroopType } = dayFiveSlice.actions;
 export default dayFiveSlice.reducer;

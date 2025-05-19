@@ -31,7 +31,7 @@ const DayFourCalc = ({ activeDay, setActiveDay }: Props) => {
     selectedEvent,
     setSelectedEvent,
     selectedScore,
-  } = usePreviousEventScores(DAY_KEYS.DAY_ONE)
+  } = usePreviousEventScores(activeDay)
 
   const previousEventDropdownOptions = [
     { label: 'Daily average', value: 'daily-average' },

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useDailyCalculator, usePreviousEventScores } from '@/hooks';
 import { resetStateDayOne, updateFieldDayOne, calculateDailyScoreDayOne, DayOneStateData } from '@/redux'
 import { DAY_KEYS, TRIBE_LEVEL_MULTIPLIERS } from '@/utils';
@@ -13,13 +13,6 @@ type Props = {
 
 const DayOneCalc = ({ activeDay, setActiveDay }: Props) => {
 
-  useEffect(() => {
-  console.log('MOUNT Day One');
-  return () => {
-    console.log('UNMOUNT Day One');
-  };
-}, []);
-
   const {
     localState,
     handleLocalChange,
@@ -27,7 +20,7 @@ const DayOneCalc = ({ activeDay, setActiveDay }: Props) => {
     reset,
     handleInstantDispatch,
   } = useDailyCalculator<DayOneStateData>({
-    selector: (state) => state.dayOne,
+    selector: (state) => state[activeDay],
     updateField: updateFieldDayOne,
     calculateScore: () => calculateDailyScoreDayOne(),
     resetState: resetStateDayOne,
@@ -39,7 +32,7 @@ const DayOneCalc = ({ activeDay, setActiveDay }: Props) => {
     selectedEvent,
     setSelectedEvent,
     selectedScore,
-  } = usePreviousEventScores(DAY_KEYS.DAY_ONE)
+  } = usePreviousEventScores(activeDay)
 
   const tribeDropdownOptions = mapToDropdownOptions(TRIBE_LEVEL_MULTIPLIERS)
   const previousEventDropdownOptions = [

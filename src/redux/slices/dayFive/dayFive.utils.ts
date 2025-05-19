@@ -1,5 +1,5 @@
 import { toNumber, toSeconds } from "@/utils";
-import { TroopTypeData } from "@/redux";
+import { TroopEntry } from "@/redux";
 
 
 export const calculateTrainingScore = (
@@ -24,7 +24,7 @@ export const calculateTrainingScore = (
 
 
 export const calculatePromotionScore = (
-  troops: TroopTypeData[],
+  troops: TroopEntry[],
   availableTrainingSpeedup: number,
   hasCityTitle: boolean,
   hasImperialTitle: boolean
@@ -62,13 +62,13 @@ export const calculatePromotionScore = (
 }
 
 // Reset the relevant values for each troop type before any calculation
-const resetValues = (troop: TroopTypeData) => {
+const resetValues = (troop: TroopEntry) => {
   troop.maxPromotableBatches = 0,
     troop.troopTotalScore = 0
 }
 
 // Only calculate score for the highest target tier 
-const removeLowTierTroops = (troops: TroopTypeData[]): TroopTypeData[] => {
+const removeLowTierTroops = (troops: TroopEntry[]): TroopEntry[] => {
   const highestTier = Math.max(...troops.map(troop => toNumber(troop.targetTier)))
   return troops.filter(troop => toNumber(troop.targetTier) === highestTier)
 }
@@ -76,7 +76,7 @@ const removeLowTierTroops = (troops: TroopTypeData[]): TroopTypeData[] => {
 
 // Calculate the maximum promotable batches for each troop given the available speedup, return any remaining speedup
 const calculatePromotableBatches = (
-  troops: TroopTypeData[],
+  troops: TroopEntry[],
   availableTrainingSpeedup: number,
   hasCityTitle: boolean,
   hasImperialTitle: boolean

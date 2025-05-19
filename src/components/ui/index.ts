@@ -16,7 +16,7 @@ export { default as PreviousEventScore } from './PreviousEventScore';
 export { default as SectionHeader } from './SectionHeader';
 export { default as TimeSelector } from './TimeSelector';
 export { default as ToggleButton } from './ToggleButton';
-export { default as Troop } from './Troop';
+export { default as TroopType } from './TroopType';
 
 
 
