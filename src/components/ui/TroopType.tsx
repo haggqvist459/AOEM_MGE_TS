@@ -45,7 +45,7 @@ const TroopType = ({
           label='Troop type'
           options={troopTypeOptions}
           value={troopTypeData.type}
-          onChange={(e) => onInstantDispatch(troopTypeData.id, 'kind', e.target.value)}
+          onChange={(e) => onInstantDispatch(troopTypeData.id, 'type', e.target.value)}
         />
       </RowWrapper>
       {troopTypeData.kind === 'Promotion' &&
@@ -68,7 +68,7 @@ const TroopType = ({
           </RowWrapper>
           <RowWrapper>
             <Input
-              id={`${troopTypeData.id}-troopsPerBatch`}
+              id={`${troopTypeData.id}-PromotionTroopsPerBatch`}
               placeholder='0'
               label='Troops per batch'
               value={troopTypeData.troopsPerBatch}
@@ -90,16 +90,39 @@ const TroopType = ({
             showSeconds={true}
             timeValue={troopTypeData.promotionTime}
             field='promotionTime'
-            onChange={() => { }}
-            onBlur={() => { }}
+            onChange={(field, value, unit) => onChange(troopTypeData.id, field as keyof TroopEntry, value, unit)}
+            onBlur={(field, unit) => onBlur(troopTypeData.id, field as keyof TroopEntry, unit)}
           />
         </div>
       }
       {troopTypeData.kind === 'Training' &&
         <div>
-          {/* targetTier */}
-          {/* troopsPerBatch */}
-
+          <RowWrapper>
+            <Dropdown
+              id={`${troopTypeData.id}-trainingTargetTier`}
+              label='Target tier'
+              options={troopTierOptions}
+              value={troopTypeData.targetTier}
+              onChange={(e) => onInstantDispatch(troopTypeData.id, 'targetTier', e.target.value)}
+            />
+            <Input
+              id={`${troopTypeData.id}-trainingTroopsPerBatch`}
+              placeholder='0'
+              label='Troops per batch'
+              value={troopTypeData.troopsPerBatch}
+              onChange={(e) => onChange(troopTypeData.id, 'troopsPerBatch', e.target.value)}
+              onBlur={() => onBlur(troopTypeData.id, 'troopsPerBatch')}
+            />
+          </RowWrapper>
+          <TimeSelector
+            id={`${troopTypeData.id}-promotionTime`}
+            title='Promotion Time'
+            showSeconds={true}
+            timeValue={troopTypeData.trainingTime}
+            field='promotionTime'
+            onChange={(field, value, unit) => onChange(troopTypeData.id, field as keyof TroopEntry, value, unit)}
+            onBlur={(field, unit) => onBlur(troopTypeData.id, field as keyof TroopEntry, unit)}
+          />
           {/* trainingTime */}
         </div>}
 

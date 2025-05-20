@@ -58,6 +58,13 @@ const dayFiveSlice = createSlice({
       const troop = state.troops.find(t => t.id === id)
       if (!troop) return
 
+      if (field === 'kind'){
+        if (value === 'Promotion'){
+          
+        } else if (value === 'Training') {
+
+        }
+      }
       if (unit) {
         if (typeof troop[field] === 'object' && troop[field] !== null) {
           (troop[field] as TimeData)[unit] = value as string;

@@ -103,12 +103,12 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
     }
 
     dispatch(updateTroopTypeField({ id, field, value, unit }));
-    dispatch(calculateDailyScoreDayFive());
+    // dispatch(calculateDailyScoreDayFive());
   }
 
   const handleTroopInstantDispatch = (id: string, field: keyof TroopEntry, value: string) => {
     dispatch(updateTroopTypeField({ id, field, value }))
-    dispatch(calculateDailyScoreDayFive())
+    // dispatch(calculateDailyScoreDayFive())
   }
 
 
