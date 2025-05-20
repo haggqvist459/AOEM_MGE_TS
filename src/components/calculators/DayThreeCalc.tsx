@@ -22,7 +22,7 @@ const DayThreeCalc = ({ activeDay, setActiveDay }: Props) => {
     reset,
     setLocalState,
   } = useDailyCalculator<DayThreeStateData>({
-    selector: state => state.dayThree,
+    selector: state => state[DAY_KEYS.DAY_THREE],
     updateField: updateFieldDayThree,
     calculateScore: (field) => calculateDailyScoreDayThree(field),
     resetState: resetStateDayThree,
@@ -34,7 +34,7 @@ const DayThreeCalc = ({ activeDay, setActiveDay }: Props) => {
     selectedEvent,
     setSelectedEvent,
     selectedScore,
-  } = usePreviousEventScores(activeDay)
+  } = usePreviousEventScores(DAY_KEYS.DAY_THREE)
 
   const dispatch = useAppDispatch()
   const [showModal, setShowModal] = useState(false)

@@ -1,17 +1,18 @@
 import { useState } from 'react'
 import { useDailyCalculator, usePreviousEventScores } from "@/hooks";
-import { TROOP_TIER_MULTIPLIERS, DAY_KEYS } from '@/utils';
 import { TimeData, DayKey } from '@/types';
+import { DAY_KEYS } from '@/utils';
 import {
   updateFieldDayFive, calculateDailyScoreDayFive, resetStateDayFive,
   DayFiveStateData, useAppDispatch, updateTroopTypeField,
-  TroopEntry, addTroopType, removeTroopType
+  TroopEntry, addTroopType, removeTroopType,
 } from '@/redux'
 import {
-  SectionHeader, SectionContainer, CalculatorButtons, ExpandableSection,
-  Modal, Input, Output, Header, TimeSelector, InfoButton, RowWrapper, TroopType, PreviousEventScore, ToggleButton
+  SectionHeader, SectionContainer, CalculatorButtons,
+  Modal, Output, Header, TimeSelector, InfoButton, RowWrapper, TroopType, PreviousEventScore, ToggleButton
 } from '@/components';
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown'
+
 
 
 
@@ -30,7 +31,7 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
     handleInstantDispatch,
     setLocalState
   } = useDailyCalculator<DayFiveStateData>({
-    selector: state => state[activeDay],
+    selector: state => state[DAY_KEYS.DAY_FIVE],
     updateField: updateFieldDayFive,
     calculateScore: () => calculateDailyScoreDayFive(),
     resetState: resetStateDayFive,
@@ -43,7 +44,7 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
     selectedEvent,
     setSelectedEvent,
     selectedScore,
-  } = usePreviousEventScores(activeDay)
+  } = usePreviousEventScores(DAY_KEYS.DAY_FIVE)
 
   const previousEventDropdownOptions = [
     { label: 'Daily average', value: 'daily-average' },
@@ -70,37 +71,43 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
     reset()
     setShowModal(false);
   }
-
-  const handleTroopLocalChange = (troopType: TroopTypeLabel, field: keyof TroopTypeData, value: string, unit?: keyof TimeData) => {
+  const handleTroopLocalChange = (id: string, field: keyof TroopEntry, value: string, unit?: keyof TimeData) => {
     setLocalState?.((prev: typeof localState) => ({
       ...prev,
-      troops: {
-        ...prev.troops,
-        [troopType]: {
-          ...prev.troops[troopType],
-          [field]: unit
-            ? {
-              ...(prev.troops[troopType][field] as TimeData),
-              [unit]: value,
-            }
-            : value,
-        },
-      },
+      troops: prev.troops.map(troop =>
+        troop.id === id
+          ? {
+            ...troop,
+            [field]: unit
+              ? (
+                typeof troop[field] === "object" && troop[field] !== null
+                  ? { ...(troop[field] as TimeData), [unit]: value }
+                  : troop[field]
+              )
+              : value,
+          }
+          : troop
+      ),
     }))
   }
 
-  const handleTroopBlur = (troopType: TroopType, field: keyof TroopTypeData, unit?: keyof TimeData) => {
-    const value = unit
-      ? (localState.troops[troopType][field] as TimeData)[unit]
-      : localState.troops[troopType][field]
+  const handleTroopBlur = (id: string, field: keyof TroopEntry, unit?: keyof TimeData) => {
+    const troop = localState.troops.find(t => t.id === id);
+    if (!troop) return;
+    let value: string | TimeData;
 
+    if (unit && typeof troop[field] === 'object' && troop[field] !== null) {
+      value = (troop[field] as TimeData)[unit] as string;
+    } else {
+      value = troop[field] as string | TimeData;
+    }
 
-    dispatch(updateTroopTypeField({ troopType, field, value: value as string | TimeData, unit }))
-    dispatch(calculateDailyScoreDayFive())
+    dispatch(updateTroopTypeField({ id, field, value, unit }));
+    dispatch(calculateDailyScoreDayFive());
   }
 
-  const handleTroopInstantDispatch = (troopType: TroopType, field: keyof TroopTypeData, value: string) => {
-    dispatch(updateTroopTypeField({ troopType, field, value }))
+  const handleTroopInstantDispatch = (id: string, field: keyof TroopEntry, value: string) => {
+    dispatch(updateTroopTypeField({ id, field, value }))
     dispatch(calculateDailyScoreDayFive())
   }
 
@@ -118,10 +125,10 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
             <TroopType
               key={index}
               troopTypeData={troop}
-              onBlur={() => { }}
-              onChange={() => { }}
-              onInstantDispatch={() => { }}
-              onDelete={handleAddTroopType}
+              onBlur={handleTroopBlur}
+              onChange={handleTroopLocalChange}
+              onInstantDispatch={handleTroopInstantDispatch}
+              onDelete={handleRemoveTroopType}
             />
           ))}
           <div className="w-full flex items-center">
@@ -165,7 +172,9 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
             <Output label="Training" value={localState.score.training} />
           </RowWrapper>
           <Header title='Troop data' />
-
+          {localState.troops.map((troop: TroopEntry, index: number) => (
+            <Output key={index} label={troop.type} value={0} />
+          ))}
           <PreviousEventScore score={selectedScore} />
         </div>
       </div>

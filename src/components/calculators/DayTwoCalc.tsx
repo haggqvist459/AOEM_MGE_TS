@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useDailyCalculator, usePreviousEventScores } from "@/hooks";
 import { resetStateDayTwo, updateFieldDayTwo, calculateDailyScoreDayTwo, DayTwoStateData } from '@/redux'
-import { DAY_KEYS } from '@/utils'
 import { DayKey } from '@/types';
+import { DAY_KEYS } from '@/utils';
 import {
   SectionContainer, SectionHeader, Header, Input, Output,
   RowWrapper, InfoButton, TimeSelector, Modal, CalculatorButtons,
@@ -24,7 +24,7 @@ const DayTwoCalc = ({ activeDay, setActiveDay }: Props) => {
     handleBlur,
     reset,
   } = useDailyCalculator<DayTwoStateData>({
-    selector: (state) => state.dayTwo,
+    selector: (state) => state[DAY_KEYS.DAY_TWO],
     updateField: updateFieldDayTwo,
     calculateScore: (field) => calculateDailyScoreDayTwo(field),
     resetState: resetStateDayTwo,
@@ -35,7 +35,7 @@ const DayTwoCalc = ({ activeDay, setActiveDay }: Props) => {
     selectedEvent,
     setSelectedEvent,
     selectedScore,
-  } = usePreviousEventScores(activeDay)
+  } = usePreviousEventScores(DAY_KEYS.DAY_TWO)
 
   const [showModal, setShowModal] = useState(false)
   const previousEventDropdownOptions = [

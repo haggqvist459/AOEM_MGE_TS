@@ -54,12 +54,18 @@ const dayFiveSlice = createSlice({
   reducers: {
     updateField: (state, action) => updateFieldDelegated(state, action),
     updateTroopTypeField: (state, action: PayloadAction<UpdateTroopTypePayload>) => {
-      const { troopType, field, value, unit } = action.payload
+      const { id, field, value, unit } = action.payload
+      const troop = state.troops.find(t => t.id === id)
+      if (!troop) return
 
       if (unit) {
-        (state.troops[troopType][field] as TimeData)[unit] = value as string
+        if (typeof troop[field] === 'object' && troop[field] !== null) {
+          (troop[field] as TimeData)[unit] = value as string;
+        }
       } else {
-        (state.troops[troopType][field] as any) = value
+        if (typeof troop[field] === 'string') {
+          (troop[field] as string) = value as string;
+        }
       }
     },
     addTroopType: (state) => {

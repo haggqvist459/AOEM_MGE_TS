@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { TroopEntry, TroopTypeLabel, TROOP_TYPE_LABELS } from '@/redux'
+import { TroopEntry, TROOP_TYPE_LABELS } from '@/redux'
 import { TROOP_TIER_MULTIPLIERS } from '@/utils'
 import { TimeData } from '@/types'
 import { ExpandableSection, RowWrapper, Input, TimeSelector } from '@/components'
@@ -9,9 +9,9 @@ import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown'
 
 type Props = {
   troopTypeData: TroopEntry,
-  onChange: (troopType: TroopTypeLabel, field: keyof TroopEntry, value: string, unit?: keyof TimeData | undefined) => void
-  onBlur: (troopType: TroopTypeLabel, field: keyof TroopEntry, unit?: keyof TimeData | undefined) => void
-  onInstantDispatch: (troopType: TroopTypeLabel, field: keyof TroopEntry, value: string) => void
+  onChange: (id: string, field: keyof TroopEntry, value: string, unit?: keyof TimeData | undefined) => void
+  onBlur: (id: string, field: keyof TroopEntry, unit?: keyof TimeData | undefined) => void
+  onInstantDispatch: (id: string, field: keyof TroopEntry, value: string) => void
   onDelete: (id: string) => void
 }
 const TroopType = ({
@@ -38,14 +38,14 @@ const TroopType = ({
           label='Action'
           options={troopKindOptions}
           value={troopTypeData.kind}
-          onChange={() => { }}
+          onChange={(e) => onInstantDispatch(troopTypeData.id, 'kind', e.target.value)}
         />
         <Dropdown
           id={`${troopTypeData.id}-troopTypeDropdown`}
           label='Troop type'
           options={troopTypeOptions}
           value={troopTypeData.type}
-          onChange={() => { }}
+          onChange={(e) => onInstantDispatch(troopTypeData.id, 'kind', e.target.value)}
         />
       </RowWrapper>
       {troopTypeData.kind === 'Promotion' &&
@@ -56,14 +56,14 @@ const TroopType = ({
               label='Base tier'
               options={troopTierOptions}
               value={troopTypeData.baseTier}
-              onChange={() => { }}
+              onChange={(e) => onInstantDispatch(troopTypeData.id, 'baseTier' as keyof TroopEntry, e.target.value)}
             />
             <Dropdown
               id={`${troopTypeData.id}-promotionTargetTier`}
               label='Target tier'
               options={troopTierOptions}
               value={troopTypeData.targetTier}
-              onChange={() => { }}
+              onChange={(e) => onInstantDispatch(troopTypeData.id, 'targetTier', e.target.value)}
             />
           </RowWrapper>
           <RowWrapper>
@@ -72,28 +72,29 @@ const TroopType = ({
               placeholder='0'
               label='Troops per batch'
               value={troopTypeData.troopsPerBatch}
-              onChange={() => { }}
-              onBlur={() => { }}
+              onChange={(e) => onChange(troopTypeData.id, 'troopsPerBatch', e.target.value)}
+              onBlur={() => onBlur(troopTypeData.id, 'troopsPerBatch')}
             />
             <Input
               id={`${troopTypeData.id}-availableTroops`}
               placeholder='0'
               label='Available troops'
               value={troopTypeData.availableTroops}
-              onChange={() => { }}
-              onBlur={() => { }}
+              onChange={(e) => onChange(troopTypeData.id, 'availableTroops' as keyof TroopEntry, e.target.value)}
+              onBlur={() => onBlur(troopTypeData.id, 'availableTroops' as keyof TroopEntry)}
             />
           </RowWrapper>
-          <TimeSelector 
+          <TimeSelector
             id={`${troopTypeData.id}-promotionTime`}
             title='Promotion Time'
             showSeconds={true}
             timeValue={troopTypeData.promotionTime}
             field='promotionTime'
-            onChange={() => {}}
-            onBlur={() => {}}
+            onChange={() => { }}
+            onBlur={() => { }}
           />
-        </div>}
+        </div>
+      }
       {troopTypeData.kind === 'Training' &&
         <div>
           {/* targetTier */}
@@ -111,50 +112,6 @@ const TroopType = ({
 export default TroopType;
 
 /*
-      <ExpandableSection title={troopType} isExpanded={isExpanded} toggleExpansion={() => setIsExpanded(prev => !prev)} >
-        <RowWrapper>
-          <Dropdown
-            id={`${troopType}-baseTier`}
-            label='Base tier'
-            value={troopTypeData.baseTier}
-            options={dropdownOptions}
-            onChange={(e) => onInstantDispatch(troopType, 'baseTier', e.target.value)}
-          />
-          <Dropdown
-            id={`${troopType}-targetTier`}
-            label='Target tier'
-            value={troopTypeData.targetTier}
-            options={dropdownOptions}
-            onChange={(e) => onInstantDispatch(troopType, 'targetTier', e.target.value)}
-          />
-        </RowWrapper>
-        <RowWrapper>
-          <Input
-            id={`${troopType}-troopsPerBatch`}
-            label='Troops per batch'
-            placeholder='0'
-            value={troopTypeData.troopsPerBatch}
-            onChange={(e) => onChange(troopType, 'troopsPerBatch', e.target.value)}
-            onBlur={() => onBlur(troopType, 'troopsPerBatch')}
-          />
-          <Input
-            id={`${troopType}-availableTroops`}
-            label='Available troops'
-            placeholder='0'
-            value={troopTypeData.availableTroops}
-            onChange={(e) => onChange(troopType, 'availableTroops', e.target.value)}
-            onBlur={() => onBlur(troopType, 'availableTroops')}
-          />
-        </RowWrapper>
-        <TimeSelector
-          id={`${troopType}-promotionTime`}
-          title='Promotion time'
-          timeValue={troopTypeData.promotionTime}
-          field='promotionTime'
-          onChange={(field, value, unit) => onChange(troopType, field as keyof TroopTypeData, value, unit)}
-          onBlur={(field, unit) => onBlur(troopType, field as keyof TroopTypeData, unit)}
-          showSeconds={true}
-        />
-      </ExpandableSection>
+
 
 */

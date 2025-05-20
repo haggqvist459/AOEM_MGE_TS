@@ -1,8 +1,8 @@
 import { TimeData } from "@/types";
 import { TROOP_TIER_MULTIPLIERS } from "@/utils";
 
-export type TierValue = typeof TROOP_TIER_MULTIPLIERS[keyof typeof TROOP_TIER_MULTIPLIERS]
 export const TROOP_TYPE_LABELS = ['Archers', 'Cavalry', 'Pikemen', 'Swordsmen'] as const;
+export type TierValue = typeof TROOP_TIER_MULTIPLIERS[keyof typeof TROOP_TIER_MULTIPLIERS]
 export type TroopTypeLabel = typeof TROOP_TYPE_LABELS[number];
 export type TroopEntry = PromotedTroopEntry | TrainedTroopEntry;
 export type TroopKind = 'Promotion' | 'Training'
@@ -33,10 +33,10 @@ export interface TrainedTroopEntry {
 
 
 export type UpdateTroopTypePayload = {
-  troopType: TroopTypeLabel
+  id: string
   field: keyof TroopEntry
-  value: string | TimeData
   unit?: keyof TimeData
+  value: string | TimeData | number
 }
 
 

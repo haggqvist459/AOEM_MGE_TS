@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { calculateDailyScoreDayFour, updateFieldDayFour, resetStateDayFour, DayFourStateData } from "@/redux";
 import { useDailyCalculator, usePreviousEventScores } from '@/hooks';
-import { DAY_KEYS } from '@/utils';
 import { DayKey } from '@/types';
+import { DAY_KEYS } from '@/utils';
 import { SectionContainer, SectionHeader, CalculatorButtons, Header, RowWrapper, Input, Output, Modal, InfoButton, TimeSelector, PreviousEventScore } from "@/components";
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown';
 
@@ -20,7 +20,7 @@ const DayFourCalc = ({ activeDay, setActiveDay }: Props) => {
     handleBlur,
     reset,
   } = useDailyCalculator<DayFourStateData>({
-    selector: state => state.dayFour,
+    selector: state => state[DAY_KEYS.DAY_FOUR],
     updateField: updateFieldDayFour,
     calculateScore: (field) => calculateDailyScoreDayFour(field),
     resetState: resetStateDayFour,
@@ -31,7 +31,7 @@ const DayFourCalc = ({ activeDay, setActiveDay }: Props) => {
     selectedEvent,
     setSelectedEvent,
     selectedScore,
-  } = usePreviousEventScores(activeDay)
+  } = usePreviousEventScores(DAY_KEYS.DAY_FOUR)
 
   const previousEventDropdownOptions = [
     { label: 'Daily average', value: 'daily-average' },
