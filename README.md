@@ -62,3 +62,4 @@
 - [x] Add sliding effects to calculators 
 - [ ] Re-work Day 5 to similar style as Day 3
 - [ ] Update day three gathering title, set it to 'Gathering Troops' or similar
+- [ ] Re-evaluate index files, remove exports for internal functions.

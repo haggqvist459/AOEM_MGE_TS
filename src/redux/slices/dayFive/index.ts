@@ -11,3 +11,5 @@ export {
 
 export * from './dayFive.types';
 export * from './dayFive.utils'
+export * from './promotionScore.utils';
+export * from './trainingScore.utils';

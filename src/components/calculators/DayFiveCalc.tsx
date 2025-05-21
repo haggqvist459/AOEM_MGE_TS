@@ -8,7 +8,7 @@ import {
   TroopEntry, addTroopType, removeTroopType,
 } from '@/redux'
 import {
-  SectionHeader, SectionContainer, CalculatorButtons,
+  SectionHeader, SectionContainer, CalculatorButtons, ExpandableSection,
   Modal, Output, Header, TimeSelector, InfoButton, RowWrapper, TroopType, PreviousEventScore, ToggleButton
 } from '@/components';
 import { Dropdown, mapToDropdownOptions } from '@/components/ui/dropdown'
@@ -52,6 +52,7 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
   ]
 
   const [showModal, setShowModal] = useState(false)
+  const [troopDataExpanded, setTroopDataExpanded] = useState(false)
 
   const handleAddTroopType = () => {
     if (localState.troops.length >= 8) return;
@@ -103,12 +104,12 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
     }
 
     dispatch(updateTroopTypeField({ id, field, value, unit }));
-    // dispatch(calculateDailyScoreDayFive());
+    dispatch(calculateDailyScoreDayFive());
   }
 
   const handleTroopInstantDispatch = (id: string, field: keyof TroopEntry, value: string) => {
     dispatch(updateTroopTypeField({ id, field, value }))
-    // dispatch(calculateDailyScoreDayFive())
+    dispatch(calculateDailyScoreDayFive())
   }
 
 
@@ -171,11 +172,23 @@ const DayFiveCalc = ({ activeDay, setActiveDay }: Props) => {
             <Output label="Promotion" value={localState.score.promotion} />
             <Output label="Training" value={localState.score.training} />
           </RowWrapper>
-          <Header title='Troop data' />
-          {localState.troops.map((troop: TroopEntry, index: number) => (
-            <Output key={index} label={troop.type} value={0} />
-          ))}
           <PreviousEventScore score={selectedScore} />
+          <ExpandableSection 
+            maxHeight={80 * localState.troops.length}
+            title='Troop data' 
+            titleSize='main-header' 
+            isExpanded={troopDataExpanded} 
+            toggleExpansion={() => setTroopDataExpanded(prev => !prev)}>
+            {localState.troops.map((troop: TroopEntry, index: number) => (
+              <div key={index}>
+                <Header title={`${troop.kind}, ${troop.type}`} headerType='sub-header' />
+                <RowWrapper>
+                  <Output label='Troop score' value={troop.troopTotalScore} />
+                  <Output label='Batches' value={troop.maxBatches} />
+                </RowWrapper>
+              </div>
+            ))}
+          </ExpandableSection>
         </div>
       </div>
       <CalculatorButtons activeDay={activeDay} setActiveDay={setActiveDay} />

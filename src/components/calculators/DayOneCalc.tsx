@@ -36,12 +36,6 @@ const DayOneCalc = ({ activeDay, setActiveDay }: Props) => {
   } = usePreviousEventScores(DAY_KEYS.DAY_ONE)
 
 
-
-  useEffect(() => {
-    console.log('localState dayOne: ', localState)
-  }, []);
-
-
   const tribeDropdownOptions = mapToDropdownOptions(TRIBE_LEVEL_MULTIPLIERS)
   const previousEventDropdownOptions = [
     { label: 'Daily average', value: 'daily-average' },

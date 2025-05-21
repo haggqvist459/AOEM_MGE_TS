@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { calculatePromotionScore, calculateTrainingScore } from "../dayFive";
-import { DayFiveStateData, TroopTypeLabel, UpdateTroopTypePayload, PromotedTroopEntry, TrainedTroopEntry, TroopEntry, TroopKind } from '../dayFive'
-import { saveData, loadData, toNumber, updateFieldDelegated, toSeconds, TROOP_TIER_MULTIPLIERS } from "@/utils";
+import { DayFiveStateData, UpdateTroopTypePayload, PromotedTroopEntry, TrainedTroopEntry, TroopEntry } from '../dayFive'
+import { saveData, loadData, updateFieldDelegated, toSeconds, TROOP_TIER_MULTIPLIERS } from "@/utils";
 import { DAY_KEYS } from "@/utils";
 import { TimeData } from "@/types";
 
@@ -58,11 +58,37 @@ const dayFiveSlice = createSlice({
       const troop = state.troops.find(t => t.id === id)
       if (!troop) return
 
-      if (field === 'kind'){
-        if (value === 'Promotion'){
-          
-        } else if (value === 'Training') {
+      if (field === 'kind') {
+        const troopIndex = state.troops.findIndex(t => t.id === id);
+        if (troopIndex === -1) return;
 
+        if (value === 'Promotion') {
+          // Create new PromotedTroopEntry with same id/type/targetTier as before, others defaulted
+          const newEntry: PromotedTroopEntry = {
+            id: troop.id,
+            kind: 'Promotion',
+            type: troop.type,
+            baseTier: baseTierDefault,
+            targetTier: troop.targetTier,
+            promotionTime: { days: '', hours: '', minutes: '', seconds: '' },
+            availableTroops: '',
+            troopsPerBatch: '',
+            maxBatches: 0,
+            troopTotalScore: 0,
+          };
+          state.troops[troopIndex] = newEntry;
+        } else if (value === 'Training') {
+          const newEntry: TrainedTroopEntry = {
+            id: troop.id,
+            kind: 'Training',
+            type: troop.type,
+            targetTier: troop.targetTier,
+            trainingTime: { days: '', hours: '', minutes: '', seconds: '' },
+            troopsPerBatch: '',
+            maxBatches: 0,
+            troopTotalScore: 0,
+          };
+          state.troops[troopIndex] = newEntry;
         }
       }
       if (unit) {
@@ -109,25 +135,28 @@ const dayFiveSlice = createSlice({
 
     },
     calculateDailyScore: (state) => {
-      let trainingSpeedupSeconds = toSeconds(state.initialTrainingSpeedup)
-      let remainingTrainingSpeedup = 0
+      // console.log("calculateDailyScore start")
+
       // Only calculate the score if there is speed up
-      if (trainingSpeedupSeconds >= 0) {
-        remainingTrainingSpeedup = calculatePromotionScore(Object.values(state.troops), trainingSpeedupSeconds, state.hasCityTitle, state.hasImperialTitle)
+      if (toSeconds(state.initialTrainingSpeedup) > 0) {
+        const promotedTroops = state.troops.filter(troop => troop.kind === 'Promotion');
+        calculatePromotionScore(promotedTroops, state.initialTrainingSpeedup, state.remainingTrainingSpeedup, state.hasCityTitle, state.hasImperialTitle)
       }
 
-      state.score.promotion = 0;
-      Object.values(state.troops).forEach(troop => {
-        state.score.promotion += troop.troopTotalScore
-      })
+      state.score.promotion = state.troops
+        .filter(troop => troop.kind === 'Promotion')
+        .reduce((sum, troop) => sum + troop.troopTotalScore, 0)
 
 
       // If there's remaining training speedup after promotion, calculate training score
-      state.score.training = 0
-      const trainingTimeSeconds = toSeconds(state.trainedTroopsTrainingTime)
-      if (trainingTimeSeconds > 0 && remainingTrainingSpeedup > trainingTimeSeconds) {
-        state.score.training = calculateTrainingScore(trainingTimeSeconds, remainingTrainingSpeedup, toNumber(state.trainedTroopsPerBatch), toNumber(state.trainedTroopTier), state.hasCityTitle, state.hasImperialTitle)
+      if (toSeconds(state.remainingTrainingSpeedup) > 0) {
+        const trainedTroops = state.troops.filter(troop => troop.kind === 'Training')
+        calculateTrainingScore(trainedTroops, state.hasCityTitle, state.hasImperialTitle, state.remainingTrainingSpeedup )
       }
+
+      state.score.training = state.troops
+      .filter(troop => troop.kind === 'Training')
+      .reduce((sum, troop) => sum + troop.troopTotalScore, 0)
 
       state.totalDailyScore = Object.values(state.score)
         .reduce((total, score) => total + (score || 0), 0);

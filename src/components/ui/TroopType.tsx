@@ -31,7 +31,7 @@ const TroopType = ({
   const troopTypeOptions = TROOP_TYPE_LABELS.map(label => ({ label, value: label }));
 
   return (
-    <ExpandableSection title={troopTypeData.type} isExpanded={isExpanded} toggleExpansion={() => setIsExpanded(prev => !prev)} >
+    <ExpandableSection title={`${troopTypeData.type}, ${troopTypeData.kind}`} isExpanded={isExpanded} toggleExpansion={() => setIsExpanded(prev => !prev)} >
       <RowWrapper>
         <Dropdown
           id={`${troopTypeData.id}-troopKindDropdown`}
@@ -115,15 +115,14 @@ const TroopType = ({
             />
           </RowWrapper>
           <TimeSelector
-            id={`${troopTypeData.id}-promotionTime`}
-            title='Promotion Time'
+            id={`${troopTypeData.id}-Training Time`}
+            title='Training Time'
             showSeconds={true}
             timeValue={troopTypeData.trainingTime}
-            field='promotionTime'
+            field='trainingTime'
             onChange={(field, value, unit) => onChange(troopTypeData.id, field as keyof TroopEntry, value, unit)}
             onBlur={(field, unit) => onBlur(troopTypeData.id, field as keyof TroopEntry, unit)}
           />
-          {/* trainingTime */}
         </div>}
 
 
