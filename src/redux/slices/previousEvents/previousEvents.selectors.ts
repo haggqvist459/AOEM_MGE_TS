@@ -56,7 +56,30 @@ export const selectPreviousScoreAverages = createSelector(
 
 export const selectTotalScoreAverages = createSelector(
   [(state: RootState) => state[SCORE_KEYS.PREVIOUS_EVENT_SCORE].previousEvents],
-  (events) => {
+  (events: PreviousEventScoreData[]) => {
+    const validFirst = events
+      .map(event => toNumber(event.totalScore.first))
+      .filter(score => score > 0);
+
+    const validTenth = events
+      .map(event => toNumber(event.totalScore.tenth))
+      .filter(score => score > 0);
+
+    const average = (scores: number[]) =>
+      scores.length > 0
+        ? scores.reduce((sum, score) => sum + score, 0) / scores.length
+        : 0;
+
+    return {
+      first: average(validFirst),
+      tenth: average(validTenth),
+    } satisfies PreviousEventNumericData;
+  }
+);
+
+export const selectTotalScoreAveragesOld = createSelector(
+  [(state: RootState) => state[SCORE_KEYS.PREVIOUS_EVENT_SCORE].previousEvents],
+  (events: PreviousEventScoreData[]) => {
 
     let eventTotalsFirst: number[] = [];
     let eventTotalsTenth: number[] = [];

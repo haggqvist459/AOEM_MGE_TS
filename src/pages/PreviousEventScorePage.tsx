@@ -24,7 +24,11 @@ const PreviousEventScorePage = () => {
         first: '',
         tenth: ''
       }
-    }))
+    })),
+    totalScore: {
+      first: '',
+      tenth: ''
+    }
   })
 
   useEffect(() => {
@@ -33,16 +37,32 @@ const PreviousEventScorePage = () => {
   }, [previousEventData])
 
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>, index: number, field: 'first' | 'tenth'): void => {
-    const updatedDays = [...newEvent.days];
-    updatedDays[index] = {
-      ...updatedDays[index],
-      score: {
-        ...updatedDays[index].score,
-        [field]: e.target.value,
-      },
-    };
-    setNewEvent({ ...newEvent, days: updatedDays });
+  const onChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    indexOrKey: number | 'totalScore',
+    field: 'first' | 'tenth'
+  ): void => {
+    const value = event.target.value;
+
+    if (indexOrKey === 'totalScore') {
+      setNewEvent(prev => ({
+        ...prev,
+        totalScore: {
+          ...prev.totalScore,
+          [field]: value,
+        },
+      }));
+    } else {
+      const updatedDays = [...newEvent.days];
+      updatedDays[indexOrKey] = {
+        ...updatedDays[indexOrKey],
+        score: {
+          ...updatedDays[indexOrKey].score,
+          [field]: value,
+        },
+      };
+      setNewEvent(prev => ({ ...prev, days: updatedDays }));
+    }
   };
 
   const onConfirm = (): void => {
@@ -56,7 +76,11 @@ const PreviousEventScorePage = () => {
           first: '',
           tenth: ''
         }
-      }))
+      })),
+      totalScore: {
+        first: '',
+        tenth: ''
+      }
     })
   }
 
@@ -79,23 +103,42 @@ const PreviousEventScorePage = () => {
               e.preventDefault()
               onConfirm()
             }}>
-              <div className="md:px-1">
+              <div className="flex flex-col">
                 <Header title="Create Event" />
+                <Input
+                  inputType="text"
+                  id="startDate"
+                  label="Starting date "
+                  placeholder="E.g. June 2nd"
+                  value={newEvent.name}
+                  onChange={(e) => setNewEvent({ ...newEvent, name: e.target.value })}
+                />
               </div>
               <GridWrapper>
-                <div className="md:pl-1">
-                  <Input
-                    inputType="text"
-                    id="startDate"
-                    label='Start date'
-                    placeholder="e.g. April 28"
-                    value={newEvent.name}
-                    onChange={(e) => setNewEvent({ ...newEvent, name: e.target.value })}
-                  />
-                </div>
                 {/* Map the days in the newEvent object */}
+                <div>
+                  <Header title={'Total Score'} headerType="sub-header" />
+                  <RowWrapper>
+                    <Input
+                      id={`totalScore-first`}
+                      label={'First'}
+                      placeholder="0"
+                      value={newEvent.totalScore.first}
+                      required={false}
+                      onChange={(e) => onChange(e, 'totalScore', 'first')}
+                    />
+                    <Input
+                      id={`totalScore-tenth`}
+                      label={'Tenth'}
+                      placeholder="0"
+                      value={newEvent.totalScore.tenth}
+                      required={false}
+                      onChange={(e) => onChange(e, 'totalScore', 'tenth')}
+                    />
+                  </RowWrapper>
+                </div>
                 {newEvent.days.map((dayData, index) => (
-                  <div key={index} className={`border-transparent border-b ${index % 2 !== 0 ? 'md:pl-1' : 'md:pr-1'}`}>
+                  <div key={index} className={`border-transparent border-b ${index % 2 !== 0 ? '' : ''}`}>
                     <Header title={DAY_TITLES[dayData.day]} headerType="sub-header" />
                     <RowWrapper>
                       <Input
@@ -107,7 +150,6 @@ const PreviousEventScorePage = () => {
                         onChange={(e) => onChange(e, index, 'first')}
                       />
                       <Input
-                        key={index}
                         id={`${index}-${dayData.day}-tenth`}
                         label={'Tenth'}
                         placeholder="0"

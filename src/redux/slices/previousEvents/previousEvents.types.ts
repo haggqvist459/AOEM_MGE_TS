@@ -17,13 +17,21 @@ export type DayDataPayload = {
 
 export type CreateEventPayload = {
   name: string
-  days: DayData[]
+  days: DayData[],
+  totalScore: {
+    first: string,
+    tenth: string
+  }
 }
 
 export type PreviousEventScoreData = {
   name: string
   id: string
   days: DayData[]
+  totalScore: {
+    first: string,
+    tenth: string
+  } 
 }
 
 export type PreviousEventStateData = {

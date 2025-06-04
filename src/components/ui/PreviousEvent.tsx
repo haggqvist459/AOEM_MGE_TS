@@ -29,8 +29,8 @@ const PreviousEvent = ({
           <div className='md:px-1'>
             <Header title='Total Score' headerType='sub-header' />
             <RowWrapper>
-              <Output label='First' value={totalScoreFirst} />
-              <Output label='Tenth' value={totalScoreTenth} />
+              <Output label='First' value={toNumber(previousEvent.totalScore.first)} />
+              <Output label='Tenth' value={toNumber(previousEvent.totalScore.tenth)} />
             </RowWrapper>
           </div>
         </div>

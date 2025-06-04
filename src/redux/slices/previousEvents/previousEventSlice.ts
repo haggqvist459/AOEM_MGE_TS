@@ -28,11 +28,12 @@ const previousEventSlice = createSlice({
 
     },
     createEvent: (state, action: PayloadAction<CreateEventPayload>) => {
-      const { name, days } = action.payload
+      const { name, days, totalScore } = action.payload
       state.previousEvents.push({
         id: uuidv4(),
         name,
-        days
+        days,
+        totalScore
       })
     },
     deleteEvent: (state, action: PayloadAction<string>) => {
