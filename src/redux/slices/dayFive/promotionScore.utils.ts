@@ -24,6 +24,7 @@ export const calculatePromotionScore = (
     return troopsPerBatch > 0 && availableTroops > 0 && promotionTimeSeconds > 0
   });
 
+  if (validTroops.length === 0) return;
 
   let remainingTrainingSpeedupSeconds = calculatePromotableBatches(validTroops, availableTrainingSpeedup, hasCityTitle, hasImperialTitle);
   updateTimeData(remainingTrainingSpeedup, fromSeconds(remainingTrainingSpeedupSeconds))

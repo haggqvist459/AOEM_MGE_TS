@@ -25,6 +25,8 @@ export const calculateTrainingScore = (
     return troopsPerBatch > 0 && trainingTimeSeconds > 0
   });
 
+  if (validTroops.length === 0) return;
+
   // console.log("calculateTrainingScore validTroops: ", JSON.parse(JSON.stringify(validTroops)))
 
   let remainingTrainingSpeedupSeconds = calculateTrainableBatches(validTroops, remainingSpeedup, hasCityTitle, hasImperialTitle)
@@ -41,15 +43,6 @@ const calculateTrainableBatches = (
   hasCityTitle: boolean,
   hasImperialTitle: boolean
 ): number => {
-
-  // logical AND chain to check for all required fields before calculation
-  const requiredFieldsPresent = troops.every(troop =>
-    troop.targetTier &&
-    troop.troopsPerBatch &&
-    toSeconds(troop.trainingTime) > 0
-  )
-  // if not all fields are present, return the speedup
-  if (!requiredFieldsPresent) return availableTrainingSpeedup;
 
   // console.log("calculateTrainableBatches start")
   const maxTier = troops.reduce(
