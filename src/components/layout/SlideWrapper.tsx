@@ -25,7 +25,6 @@ const SlideWrapper = ({ activeKey, slides }: Props) => {
       setDirection(nextIndex > prevIndex ? 'right' : 'left');
       setPhase('exiting');
     }
-    // eslint-disable-next-line
   }, [activeKey]);
 
   // Handle exit animation end: show entering component
@@ -63,9 +62,7 @@ const SlideWrapper = ({ activeKey, slides }: Props) => {
       className="relative w-full overflow-x-hidden min-h-screen"
     >
       <div
-        key={slide?.key}
-        className={` transition-transform duration-300 ${animationClass}`}
-        style={{ overflowY: 'auto', height: '100%', minHeight: 0 }}
+        className={`${animationClass}`}
         onAnimationEnd={
           phase === 'exiting'
             ? handleExitAnimationEnd

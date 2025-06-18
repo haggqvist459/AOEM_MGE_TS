@@ -42,6 +42,15 @@ const calculateTrainableBatches = (
   hasImperialTitle: boolean
 ): number => {
 
+  // logical AND chain to check for all required fields before calculation
+  const requiredFieldsPresent = troops.every(troop =>
+    troop.targetTier &&
+    troop.troopsPerBatch &&
+    toSeconds(troop.trainingTime) > 0
+  )
+  // if not all fields are present, return the speedup
+  if (!requiredFieldsPresent) return availableTrainingSpeedup;
+
   // console.log("calculateTrainableBatches start")
   const maxTier = troops.reduce(
     (max, troop) => toNumber(troop.targetTier) > toNumber(max) ? troop.targetTier : max,
