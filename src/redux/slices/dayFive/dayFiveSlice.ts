@@ -151,12 +151,15 @@ const dayFiveSlice = createSlice({
       // If there's remaining training speedup after promotion, calculate training score
       if (toSeconds(state.remainingTrainingSpeedup) > 0) {
         const trainedTroops = state.troops.filter(troop => troop.kind === 'Training')
-        calculateTrainingScore(trainedTroops, state.hasCityTitle, state.hasImperialTitle, state.remainingTrainingSpeedup )
+        console.log('trainedTroops: ', trainedTroops)
+        if (trainedTroops.length > 0) {
+          calculateTrainingScore(trainedTroops, state.hasCityTitle, state.hasImperialTitle, state.remainingTrainingSpeedup)
+        }
       }
 
       state.score.training = state.troops
-      .filter(troop => troop.kind === 'Training')
-      .reduce((sum, troop) => sum + troop.troopTotalScore, 0)
+        .filter(troop => troop.kind === 'Training')
+        .reduce((sum, troop) => sum + troop.troopTotalScore, 0)
 
       state.totalDailyScore = Object.values(state.score)
         .reduce((total, score) => total + (score || 0), 0);

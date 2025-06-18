@@ -33,6 +33,7 @@ export const calculatePromotionScore = (
     const scorePerTroop = toNumber(troop.targetTier) - toNumber(troop.baseTier)
     const totalTroopsPromoted = troop.maxBatches * toNumber(troop.troopsPerBatch)
     troop.troopTotalScore = scorePerTroop * totalTroopsPromoted
+    console.log("troop score: ", troop.troopTotalScore)
   })
 
 }
@@ -49,26 +50,26 @@ const calculatePromotableBatches = (
   let promotableTroops = troops.slice()
 
   // Distribute the speedup across the troops in a round-robin manner, want evenly promoted troops
- while (promotableTroops.length > 0) { // As long as there are promotable troops left in the array
-  promotableTroops = promotableTroops.filter(troop => { 
-    let promotionTime = toSeconds(troop.promotionTime) 
-    promotionTime *= getTrainingReductionMultiplier(hasCityTitle, hasImperialTitle) 
-    const troopsPerBatch = toNumber(troop.troopsPerBatch)
-    const availableTroops = toNumber(troop.availableTroops)
+  while (promotableTroops.length > 0) { // As long as there are promotable troops left in the array
+    promotableTroops = promotableTroops.filter(troop => {
+      let promotionTime = toSeconds(troop.promotionTime)
+      promotionTime *= getTrainingReductionMultiplier(hasCityTitle, hasImperialTitle)
+      const troopsPerBatch = toNumber(troop.troopsPerBatch)
+      const availableTroops = toNumber(troop.availableTroops)
 
-    const hasTroopsLeft = troop.maxBatches < Math.floor(availableTroops / troopsPerBatch) 
-    const hasSpeedupLeft = promotionTime > 0 && remainingSpeedup >= promotionTime 
+      const hasTroopsLeft = troop.maxBatches < Math.floor(availableTroops / troopsPerBatch)
+      const hasSpeedupLeft = promotionTime > 0 && remainingSpeedup >= promotionTime
 
-    if (hasTroopsLeft && hasSpeedupLeft) { 
-      troop.maxBatches++ 
-      remainingSpeedup -= promotionTime 
-      return true // ...keep this troop in the promotable array for the next round
-    }
+      if (hasTroopsLeft && hasSpeedupLeft) {
+        troop.maxBatches++
+        remainingSpeedup -= promotionTime
+        return true // ...keep this troop in the promotable array for the next round
+      }
 
-    // If not enough troops or speedup, remove this troop from the promotable array
-    return hasTroopsLeft && hasSpeedupLeft 
-  })
-}
+      // If not enough troops or speedup, remove this troop from the promotable array
+      return hasTroopsLeft && hasSpeedupLeft
+    })
+  }
 
   return remainingSpeedup
 }
